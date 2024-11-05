@@ -1,0 +1,19 @@
+.menuPrincipal{
+    background-color: #1E90A0;;
+}
+::ng-deep .btn-menu {
+ background-color: #1E90A0 !important;
+ color: #FFF !important;
+ 
+}
+ 
+span{
+    color: #FFF !important;
+}
+ 
+/* Estilos adicionais para garantir a cor branca */
+::ng-deep .mat-mdc-menu-item .mat-mdc-menu-submenu-icon polygon {
+    color: #FFF !important;
+}
+ 
+ 
