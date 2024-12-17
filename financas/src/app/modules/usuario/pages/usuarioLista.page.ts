@@ -38,12 +38,12 @@ export class UsuarioListaPage {
 
   idElemento: any = 0;
   formFiltro: FormGroup;
-  ppaFiltro: any[] = [];
-  ppaFiltroTodos: any[] = [];
-  numeroFiltroLOA: any[] = [];
-  numeroFiltroTodosLOA: any[] = [];
-  numeroFiltroInstrumento: any[] = [];
-  numeroFiltroInstrumentoTodos: any[] = [];
+  usuarioFiltro: any[] = [];
+  usuarioFiltroTodos: any[] = [];
+
+  emailFiltro: any[] = [];
+  emailFiltroTodos: any[] = [];
+
 
   resultadoFiltro: any[] = [];
   result: any;
@@ -119,12 +119,10 @@ export class UsuarioListaPage {
   private criarForm(): FormGroup {
     return this.formBuilder.group(
       {
-        numeroPPA: [null, []],
-        idnumeroPPA: [null, []],
-        numeroLOA: [null, []],
-        idnumeroLOA: [null, []],
-        numeroInstrumento: [null, []],
-        idNumeroInstrumento: [null, []],
+        usuario: [null, []],
+        idUsuario: [null, []],
+        email: [null, []],
+        idEmail: [null, []]
 
       },
       { updateOn: "change" }
@@ -142,7 +140,7 @@ export class UsuarioListaPage {
   atualizarRegistros() {
 
     this.tabControl.registros = ELEMENT_DATA;
-    this.ppaFiltro = ELEMENT_DATA;
+    this.usuarioFiltro = ELEMENT_DATA;
 
     // this.service.obterPorMunicipio(this.idElemento).subscribe(result => {
 
@@ -227,72 +225,50 @@ export class UsuarioListaPage {
   ngOnInit(): void { }
 
 
-  aplicarFiltroNumeroPPA(pPPA: any): void {
+  aplicarFiltroUsuario(pUsuario: any): void {
 
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do ppa digitado pelo usuário
-    this.ppaFiltro = this.ppaFiltroTodos.filter(f => {
+    this.usuarioFiltro = this.usuarioFiltroTodos.filter(f => {
 
-      const ppaString = `${f.anoInicial} - ${f.anoFinal} (${f.lei})`;
-      return ppaString.includes(pPPA);
+      const usuarioString = `${f.nome} - ${f.email}`;
+      return usuarioString.includes(pUsuario);
 
     });
 
   }
 
-  aplicarFiltroNumeroLOA(pNumero: any): void {
+  aplicarFiltroEmail(pEmail: any): void {
 
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
-    this.numeroFiltroLOA = this.numeroFiltroTodosLOA.filter(f => {
-      const numeroLoaString = `${f.anoPublicacao}(${(f.numero)})`
-      return numeroLoaString.includes(pNumero.toString());
-
-    });
-  }
-
-  aplicarFiltroNumeroInstrumento(pNumero: any): void {
-
-    // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário
-    this.numeroFiltroInstrumento = this.numeroFiltroInstrumentoTodos.filter(f => {
-
-      const numeroString = `${f.instrumento}`
-      return numeroString.includes(pNumero.toString());
+    this.emailFiltro = this.emailFiltroTodos.filter(f => {
+      const emailString = `${f.email}`
+      return emailString.includes(pEmail.toString());
 
     });
   }
 
   aplicarFiltro(): void {
     this.resultadoFiltro = this.registro;
-    const lNumeroPPA = this.formFiltro.controls['numeroPPA'].value;
-    const lNumeroLOA = this.formFiltro.controls['numeroLOA'].value;
-    const lNumeroInstrumento = this.formFiltro.controls['numeroInstrumento'].value;
+    const lUsuario = this.formFiltro.controls['usuario'].value;
+    const lEmail = this.formFiltro.controls['email'].value;
 
-    if (lNumeroPPA != undefined && lNumeroPPA != '' && lNumeroPPA != null) {
+    if (lUsuario != undefined && lUsuario != '' && lUsuario != null) {
 
-      const ppaString = `${lNumeroPPA.anoInicial} - ${lNumeroPPA.anoFinal} (${lNumeroPPA.lei})`;
+      const usuarioString = `${lUsuario.nome} - ${lUsuario.email}`;
 
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
-        const registroPPAString = `${f.loa.ldo.ppa.anoInicial} - ${f.loa.ldo.ppa.anoFinal} (${f.loa.ldo.ppa.lei})`;
-        return registroPPAString.includes(ppaString);
+        const registroUsuarioString = `${f.nome} - ${f.email}`;
+        return registroUsuarioString.includes(usuarioString);
       });
 
     }
 
-    if (lNumeroLOA != undefined && lNumeroLOA != '' && lNumeroLOA != null) {
-      const loaString = `${lNumeroLOA.anoPublicacao} (${lNumeroLOA.numero})`;
+    if (lEmail != undefined && lEmail != '' && lEmail != null) {
+      const emailString = `${lEmail.email}`;
 
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
-        const registroNumeroLOAString = `${new Date(f.dataPublicacao).getFullYear()} (${f.loa.numero})`
-        return registroNumeroLOAString.includes(loaString);
-      });
-
-    }
-
-    if (lNumeroInstrumento != undefined && lNumeroInstrumento != '' && lNumeroInstrumento != null) {
-      const ldoString = `${lNumeroInstrumento.instrumento}`;
-
-      this.resultadoFiltro = this.resultadoFiltro.filter(f => {
-        const registroNumeroInstrumentoString = `${f.instrumento}`
-        return registroNumeroInstrumentoString.includes(ldoString);
+        const registroEmailString = `${(f.email)}`
+        return registroEmailString.includes(emailString);
       });
 
     }
@@ -301,16 +277,12 @@ export class UsuarioListaPage {
 
   }
 
-  obterNumeroPPA(pEntidade: any): any {
-    return pEntidade ? `${pEntidade.anoInicial} - ${pEntidade.anoFinal} (${pEntidade.lei})` : '';
+  obterUsuario(pUsuario: any): any {
+    return pUsuario ? `${pUsuario.nome} - ${pUsuario.email}`  : '';
   }
 
-  obterNumeroLOA(pEntidade: any): any {
-    return pEntidade ? `(${pEntidade.anoPublicacao}) ${pEntidade.numero}` : undefined;
-  }
-
-  obterNumeroInstrumento(pEntidade: any): any {
-    return pEntidade ? `${pEntidade.instrumento}` : undefined;
+  obterEmail(pEmail: any): any {
+    return pEmail ? `${pEmail.email}` : undefined;
   }
 
   public retiraCaracteresEspeciais(pTermo: any): string {
