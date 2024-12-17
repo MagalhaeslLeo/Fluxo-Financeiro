@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {MatTableDataSource, } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTabControl } from 'src/app/core/matTabControl';
+import { Utils } from 'src/app/core/utils';
 //import { Router } from '@angular/router';
 
 export interface PeriodicElement {
@@ -79,7 +80,7 @@ export class UsuarioListaPage {
 
   //CONSTRUTOR: Recursos usados para a Manipulação e Obtenção de Dados
   constructor(
-    //protected utils: Utils,
+    protected utils: Utils,
     //protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
@@ -99,15 +100,14 @@ export class UsuarioListaPage {
     //   //this.utils.irParaHome();
     // }
 
-    // Tratamento Auto-Complete
-    // this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['numeroPPA'],
-    //   this.formFiltro.controls['idnumeroPPA'], this.aplicarFiltroNumeroPPA.bind(this), 0);
+     //Tratamento Auto-Complete
+     this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['usuario'],
+       this.formFiltro.controls['idUsuario'], this.aplicarFiltroUsuario.bind(this), 0);
 
-    // this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['numeroLOA'],
-    //   this.formFiltro.controls['idnumeroLOA'], this.aplicarFiltroNumeroLOA.bind(this), 0);
+     this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['email'],
+       this.formFiltro.controls['idEmail'], this.aplicarFiltroEmail.bind(this), 0);
 
-    // this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['numeroInstrumento'],
-    //   this.formFiltro.controls['idNumeroInstrumento'], this.aplicarFiltroNumeroInstrumento.bind(this), 0);
+    
   }
 
   /// FIM ///
@@ -141,6 +141,9 @@ export class UsuarioListaPage {
 
     this.tabControl.registros = ELEMENT_DATA;
     this.usuarioFiltro = ELEMENT_DATA;
+    this._registros = this.usuarioFiltro;
+    this.emailFiltroTodos = ELEMENT_DATA;
+    this.usuarioFiltroTodos = this.usuarioFiltro;
 
     // this.service.obterPorMunicipio(this.idElemento).subscribe(result => {
 
@@ -241,8 +244,9 @@ export class UsuarioListaPage {
 
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.emailFiltro = this.emailFiltroTodos.filter(f => {
+      
       const emailString = `${f.email}`
-      return emailString.includes(pEmail.toString());
+      return emailString.includes(pEmail);
 
     });
   }
@@ -282,7 +286,7 @@ export class UsuarioListaPage {
   }
 
   obterEmail(pEmail: any): any {
-    return pEmail ? `${pEmail.email}` : undefined;
+    return pEmail ? `${pEmail.email}` : '';
   }
 
   public retiraCaracteresEspeciais(pTermo: any): string {

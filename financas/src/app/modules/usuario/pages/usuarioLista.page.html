@@ -32,11 +32,11 @@
       <div class="col-6  processo">
         <mat-form-field class="custom-select">
           <mat-label> E-mail do Usuário </mat-label>
-          <input formControlName="email" type="text" matInput [matAutocomplete]="autoResp">
-          <mat-autocomplete autoActiveFirstOption #autoResp="matAutocomplete" [displayWith]="obterEmail"
+          <input formControlName="email" type="text" matInput [matAutocomplete]="autoResp1">
+          <mat-autocomplete autoActiveFirstOption #autoResp1="matAutocomplete" [displayWith]="obterEmail"
             (optionSelected)="aplicarFiltro()">
             <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
-            <mat-option *ngFor="let item of usuarioFiltro" [value]="item">
+            <mat-option *ngFor="let item of emailFiltro" [value]="item">
               {{item?.nome}} - {{item?.email}}
             </mat-option>
           </mat-autocomplete>

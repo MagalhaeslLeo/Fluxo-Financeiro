@@ -274,7 +274,11 @@ export class Utils {
      * Exemplo:  no construtor, this.utils.tratarAutoCompleteEntidade(this.form.controls["entidade"], this.form.controls["idEntidade"], this.atualizarNomesAuto.bind(this));
 
     */
-    public tratarAutoCompleteEntidade(pFormControlEntidade: AbstractControl, pFormControlIdEntidade: AbstractControl, pFuncaoPreenchimento: any, pTamanhoMinimo: number = 4, pDebounceTime: number = 500) {
+    public tratarAutoCompleteEntidade(
+         pFormControlEntidade: AbstractControl,
+         pFormControlIdEntidade: AbstractControl,
+         pFuncaoPreenchimento: any, pTamanhoMinimo: number = 4,
+         pDebounceTime: number = 500) {
         //Inicia o id com o id da entidade recebida.
         if (pFormControlEntidade.value) {
             pFormControlIdEntidade.setValue(pFormControlEntidade.value.id);
