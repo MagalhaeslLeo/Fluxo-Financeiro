@@ -1,65 +1,130 @@
 <div>
-    <mat-toolbar class="d-flex justify-content-between container-fluid menuPrincipal">
-      <div class="d-flex header-section align-items-center">
-        <a [routerLink]="['/','home']">
-          <img src="" class="logo" matTooltip="">
-        </a>
-       
-   
-          <button mat-mini-fab class="btn-menu" [matMenuTriggerFor]="miniMenu" matTooltip="menu principal">
-            <mat-icon>menu</mat-icon>
-          </button>
-           
-        <mat-menu #miniMenu="matMenu" class="btn-menu">
-          <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="Despesa">
-            <span>Teste 01</span>
-          </button>
-   
-          <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="Receita">
-            <span>Teste 02</span>
-          </button>
-   
-          <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="menuControleAcesso">
-            <span>Controle Acesso</span>
-          </button>
-   
-        </mat-menu>
-        <mat-menu class="btn-menu" #Despesa="matMenu">
-         
-          <button mat-menu-item [routerLink]="['/','despesa','lista']">
-            <span>T1</span>
-          </button>
-   
-        </mat-menu>
-   
-        <mat-menu class="btn-menu" #Receita="matMenu">
-          <button mat-menu-item [routerLink]="['/','receita','lista']">
-            <span>T2</span>
-          </button>
-   
-        </mat-menu>
-   
-        <mat-menu class="btn-menu" #menuControleAcesso="matMenu">
-            <button mat-menu-item [routerLink]="['/','usuario','lista']">
-              <span>usuario</span>
-            </button>
-   
-            <mat-divider></mat-divider>
-            <button mat-menu-item [routerLink]="['/','permissao','lista']">
-              <span>permissão</span>
-            </button>
-        </mat-menu>
-      </div>
-   
-    </mat-toolbar>
-   
-   
-    <div class="container-fluid">
-      <div [class.desenv-style]="" class="row">
-        <div class="col-12">
-          <router-outlet></router-outlet>
+  <mat-toolbar class="d-flex container-fluid menuPrincipal">
+    <div class="d-flex header-section align-items-center">
+      <a [routerLink]="['/','home']">
+        <img src="" class="logo" matTooltip="">
+      </a>
+
+
+      <button mat-mini-fab class="btn-menu" [matMenuTriggerFor]="miniMenu" matTooltip="menu principal">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <mat-menu #miniMenu="matMenu" class="btn-menu">
+        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="Despesa">
+          <span>Teste 01</span>
+        </button>
+
+        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="Receita">
+          <span>Teste 02</span>
+        </button>
+
+        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="menuControleAcesso">
+          <span>Controle Acesso</span>
+        </button>
+
+      </mat-menu>
+      <mat-menu class="btn-menu" #Despesa="matMenu">
+
+        <button mat-menu-item [routerLink]="['/','despesa','lista']">
+          <span>T1</span>
+        </button>
+
+      </mat-menu>
+
+      <mat-menu class="btn-menu" #Receita="matMenu">
+        <button mat-menu-item [routerLink]="['/','receita','lista']">
+          <span>T2</span>
+        </button>
+
+      </mat-menu>
+
+      <mat-menu class="btn-menu" #menuControleAcesso="matMenu">
+        <button mat-menu-item [routerLink]="['/','usuario','lista']">
+          <span>usuario</span>
+        </button>
+
+        <mat-divider></mat-divider>
+        <button mat-menu-item [routerLink]="['/','permissao','lista']">
+          <span>permissão</span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <!-- <div *ngIf="!administrador">
+      <mat-form-field id="select-unidade" floatLabel="always">
+        <mat-label>Selecionar Unidade</mat-label>
+        <mat-select [(value)]="idElemento" placeholder="Unidade" (selectionChange)="selecionarElemento($event.value)">
+          <mat-option [value]=0>&lt;&lt;Todas&gt;&gt;</mat-option>
+          <mat-option *ngFor="let item of elementos" [value]="item?.id">
+            {{item?.pessoa.nome}}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+    </div>
+    
+    <div *ngIf="administrador">
+      <form [formGroup]="form">
+        <mat-form-field id="select-unidade" floatLabel="always">
+          <mat-label>Selecionar Unidade</mat-label>
+          <input formControlName="elementoOrganizacional" type="text" matInput [matAutocomplete]="autoResp">
+          <mat-icon matSuffix class="p-0">arrow_drop_down_circle</mat-icon>
+
+          <mat-autocomplete autoActiveFirstOption #autoResp="matAutocomplete" [displayWith]="obterNomeElemento"
+            (optionSelected)="selecionarElementoAuto($event.option.value)">
+            <mat-option [value]=0>&lt;&lt;Todas&gt;&gt;</mat-option>
+            <mat-option *ngFor="let item of elementosFiltrados" [value]="item">
+              {{item?.nomeElemento}}
+            </mat-option>
+
+          </mat-autocomplete>
+        </mat-form-field>
+
+      </form>
+    </div> -->
+
+    <!-- <span class="spacer"></span> -->
+    <div class=" header-section">
+
+      <span class="saudacao">Oi, {{user.firstName}}</span>
+      <button class="btn-user" mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon class="icon-menu">account_circle</mat-icon>
+        <mat-icon class="icon-menu">expand_more</mat-icon>
+      </button>
+
+      <mat-menu class="icon-menu" #userMenu="matMenu" xPosition="before">
+
+        <div>
+          <div>
+            <p>login: {{user.username}}
+            <p>email: {{user.email}}
+          </div>
         </div>
+
+      </mat-menu>
+
+      <p>
+        <mat-toolbar class="mat-fab-custom">
+          <span>Sair</span>
+          <button mat-icon-button (click)="logoff()">
+            <mat-icon class="icon-menu">login</mat-icon>
+          </button>
+
+        </mat-toolbar>
+      </p>
+
+    </div>
+
+  </mat-toolbar>
+
+
+  <div class="container-fluid">
+    <div [class.desenv-style]="" class="row">
+      <div class="col-12">
+        <router-outlet></router-outlet>
       </div>
     </div>
-   
   </div>
+
+</div>

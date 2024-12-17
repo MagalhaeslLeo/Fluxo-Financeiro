@@ -9,13 +9,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
-
-
-
-
-
-
-
+import { User } from './core/user';
+import { Utils } from './core/utils';
+import { ServiceBase } from './core/serviceBase';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -29,9 +27,19 @@ import {MatButtonModule} from '@angular/material/button';
     MatIconModule,
     MatMenuModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    HttpClientModule,
+    MatDialogModule
+  
   ],
-  providers: [],
+  providers: [
+
+    User,
+    Utils,
+    ServiceBase,
+    { provide: MatDialogRef, useValue: {} },
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,36 @@
+<div class="cabecalho mat-toolbar">
+    <div class="row cabecalho-itens">
+        <div class="col-5">
+            <button *ngIf="exibeInserir" mat-icon-button class="cursor-pointer material-icons" (click)="inserirClick()"
+                matTooltip="Inserir um novo registro">add</button>
+
+            <button *ngIf="exibeAlterar" mat-icon-button class="material-icons cursor-pointer" (click)="alterarClick()"
+                matTooltip="Alterar o registro selecionado">edit</button>
+
+            <button *ngIf="exibeExcluir" mat-icon-button class="cursor-pointer material-icons" (click)="excluirClick()"
+                matTooltip="Excluir o registro selecionado">delete_outline</button>
+
+            <button *ngIf="exibeMenuOpcoes" class="cursor-pointer material-icons" mat-icon-button
+                [matMenuTriggerFor]="menu" matTooltip="Mais opções">more_vert</button>
+
+            <button *ngIf="exibeAtualizar" mat-icon-button class="material-icons cursor-pointer"
+                (click)="atualizarClick()" matTooltip="Atualizar as informações">refresh</button>
+
+            <ng-content select="[secao=botoesExtras]"></ng-content>
+
+        </div>
+
+        <div class="col-5">
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <ng-content select="[secao=menuOpcoes]"></ng-content>
+            </mat-menu>
+        </div>
+
+        <div class="col-2 qtdRegistros">
+
+            <span>{{textoRegistros}}</span>
+            <span *ngIf="selection && selection.selected && selection.selected.length > 0">,{{ textoSelecionados }}</span>
+
+        </div>
+    </div>
+</div>
