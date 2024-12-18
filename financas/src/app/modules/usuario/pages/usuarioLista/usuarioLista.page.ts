@@ -192,7 +192,7 @@ export class UsuarioListaPage {
   //Acao a ser executada quando o usuário solicita a inclusão de um novo registro
   inserir() {
     // Navega para a rela de cadastro no modo de inclusão(sem id)
-    this.router.navigate(['usuario', 'det']);
+    this.router.navigate(['usuario', 'cad']);
   }
 
   // Acao a ser executada quando o usuario solicita alteracao do registro selecionado

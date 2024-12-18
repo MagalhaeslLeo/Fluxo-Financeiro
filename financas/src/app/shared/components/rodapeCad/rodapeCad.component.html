@@ -1,0 +1,16 @@
+<div class="row rodape">
+    <div class="col">
+            <button mat-raised-button type="button" color="primary" matTooltip="Acione para confirmar a operação." [disabled]="cadForm?.pristine" (click)="confirmarClick()">
+                Confirmar
+            </button>
+
+            <button *ngIf="!isRoute" mat-raised-button type="button" color="primary" matTooltip="Acione para cancelar a operação." (click)="cancelarClick()">
+                Cancelar
+            </button>
+        
+            <button *ngIf="isRoute" mat-raised-button type="button" color="primary" matTooltip="Acione para cancelar a operação." (click)="cancelarRouteClick()">
+                Cancelar
+            </button>
+        
+    </div>
+</div>

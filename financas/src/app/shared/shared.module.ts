@@ -18,9 +18,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
-import { CabecalhoTabelaComponent } from './shared/components/cabacalhoTabelacompartihada/cabecalhoTabela.component';
-import { TabelaCrudComponent } from './shared/components/tabelaCompartihada/tabelaCrud.component';
-import { SafeHtmlPipe } from './core/aafeHtmlPipe';
+import { CabecalhoTabelaComponent } from './components/cabacalhoTabelacompartihada/cabecalhoTabela.component';
+import { TabelaCrudComponent } from './components/tabelaCompartihada/tabelaCrud.component';
+import { SafeHtmlPipe } from '../core/aafeHtmlPipe';
+import { ValidacaoCampoComponent } from './components/validacaoCampo/validacaoCampo.component';
+import { RodapeCadComponent } from './components/rodapeCad/rodapeCad.component';
 
 @NgModule({
     imports: [
@@ -50,6 +52,8 @@ import { SafeHtmlPipe } from './core/aafeHtmlPipe';
     declarations: [
         CabecalhoTabelaComponent,
         TabelaCrudComponent,
+        ValidacaoCampoComponent,
+        RodapeCadComponent,
         SafeHtmlPipe
         
         
@@ -57,6 +61,8 @@ import { SafeHtmlPipe } from './core/aafeHtmlPipe';
     exports: [
         CabecalhoTabelaComponent,
         TabelaCrudComponent,
+        ValidacaoCampoComponent,
+        RodapeCadComponent
         
     ],
     providers: [
