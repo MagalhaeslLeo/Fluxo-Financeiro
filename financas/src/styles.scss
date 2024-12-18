@@ -123,4 +123,8 @@ $verde-terciario: #01707e;
   color:#1E90A0 !important;
 }
 
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text{
+  color:#01707e !important;
+}
+
 

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
 import { Utils } from 'src/app/core/utils';
 //import { Router } from '@angular/router';
@@ -71,7 +72,7 @@ export class UsuarioListaPage {
   
   constructor(
     protected utils: Utils, /// 
-    //protected router: Router,
+    protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
     //protected service: AtoAlteracaoOrcamentariaService
@@ -191,7 +192,7 @@ export class UsuarioListaPage {
   //Acao a ser executada quando o usuário solicita a inclusão de um novo registro
   inserir() {
     // Navega para a rela de cadastro no modo de inclusão(sem id)
-    //this.router.navigate(['atoAlteracaoOrcamentaria', 'det']);
+    this.router.navigate(['usuario', 'det']);
   }
 
   // Acao a ser executada quando o usuario solicita alteracao do registro selecionado
