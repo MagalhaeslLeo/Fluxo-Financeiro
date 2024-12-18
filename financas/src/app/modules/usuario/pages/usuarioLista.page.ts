@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {MatTableDataSource, } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTabControl } from 'src/app/core/matTabControl';
 import { Utils } from 'src/app/core/utils';
 //import { Router } from '@angular/router';
 
+//DADOS PARA TESTES (MOCKADOS)
 export interface PeriodicElement {
   nome: string;
   email: string;
@@ -19,23 +19,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {nome: 'bill gates', email: 'bt@teste.com'},
 ];
 
-/**
- * @title Table with filtering
- */
+
 @Component({
   styleUrls: ['./usuarioLista.page.scss'],
   templateUrl: './usuarioLista.page.html'
 })
 export class UsuarioListaPage {
-  // displayedColumns: string[] = ['nome', 'email'];
-  // dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  // applyFilter(event: Event) {
-  //   //const filterValue = (event.target as HTMLInputElement).value;
-  //   //this.dataSource.filter = filterValue.trim().toLowerCase();
-  // }
-
-  //Preparação dos atributos Inicias Objetos e variáveis
+  // ÁREA - OBJETOS, VARIÁVEIS E CONFIGURAÇÕES  ////
 
   idElemento: any = 0;
   formFiltro: FormGroup;
@@ -44,7 +35,7 @@ export class UsuarioListaPage {
 
   emailFiltro: any[] = [];
   emailFiltroTodos: any[] = [];
-
+  permissao: any;
 
   resultadoFiltro: any[] = [];
   result: any;
@@ -54,33 +45,32 @@ export class UsuarioListaPage {
 
   //Configuração das colunas a serem exibidas na tabela de acordo com os dados retornados
   private colunasConfig = [
+
     {
       atributo: 'nome',
       titulo: 'Nome do Usuario',
-      innerHTML: (reg: any) => `${(reg.nome)}`
+      innerHTML: (registro: any) => `${(registro.nome)}`
     },
+
     {
       atributo: 'email',
       titulo: 'Email do Usuário',
-      innerHTML: (reg: any) => `${reg.email}`
+      innerHTML: (registro: any) => `${registro.email}`
 
-    },
-    // {
-    //   atributo: 'numeroInstrumento',
-    //   titulo: 'N° do Instrumento de Alteração Orçamentária',
-    //   innerHTML: (reg: any) => `${reg.instrumento}`
-    // },
-
+    }
+    
   ];
 
   //Componente que controla o comportamento da matTable
   tabControl: MatTabControl = new MatTabControl(this.colunasConfig);
 
-  /// FIM ///
+  /// FIM = ÁREA - OBJETOS, VARIÁVEIS E CONFIGURAÇÕES ///
 
-  //CONSTRUTOR: Recursos usados para a Manipulação e Obtenção de Dados
+ 
+  ///  CONSTRUTOR ///
+  
   constructor(
-    protected utils: Utils,
+    protected utils: Utils, /// 
     //protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
@@ -110,9 +100,11 @@ export class UsuarioListaPage {
     
   }
 
-  /// FIM ///
+  /// FIM CONSTRUTOR ///
 
-  // ÁREA fORMULÁRIO
+
+
+  /// ÁREA fORMULÁRIO ///
 
   //Cria e retorna o Formgroup que será utilizado pela tela
 
@@ -133,9 +125,11 @@ export class UsuarioListaPage {
   get registros(): any[] {
     return this._registros;
   }
-  /// FIM ///
+  /// FIM ÁREA fORMULÁRIO ///
 
-  // ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... 
+
+
+  /// ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... ///
 
   atualizarRegistros() {
 
@@ -215,9 +209,11 @@ export class UsuarioListaPage {
     // });
   }
 
-  /// FIM /// 
+  /// FIM - ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... /// 
 
-  //ÁREA DE REGRAS E PROCESSAMENTOS
+ 
+ 
+  /// ÁREA DE REGRAS E PROCESSAMENTOS /// 
 
   showMsg() {
     // this.utils.exibirWarning(
@@ -303,7 +299,7 @@ export class UsuarioListaPage {
     return this._registros;
   }
 
-  /// FIM ///
+  /// FIM - ÁREA DE REGRAS E PROCESSAMENTOS ///
 
 }
 
