@@ -136,6 +136,7 @@ export class UsuarioListaPage {
 
     this.tabControl.registros = ELEMENT_DATA;
     this.usuarioFiltro = ELEMENT_DATA;
+    this.emailFiltro = ELEMENT_DATA;
     this._registros = this.usuarioFiltro;
     this.emailFiltroTodos = ELEMENT_DATA;
     this.usuarioFiltroTodos = this.usuarioFiltro;
@@ -198,7 +199,7 @@ export class UsuarioListaPage {
   // Acao a ser executada quando o usuario solicita alteracao do registro selecionado
   alterar(pRegistro: any) {
     // Navega para a tela de cadastro no modo de alteracao(com id)
-    //this.router.navigate(['atoAlteracaoOrcamentaria', 'det', pRegistro.id]);
+    this.router.navigate(['usuario', 'cad', pRegistro.id]);
   }
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado

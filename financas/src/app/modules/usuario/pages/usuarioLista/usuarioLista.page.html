@@ -18,7 +18,7 @@
             (optionSelected)="aplicarFiltro()">
             <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
             <mat-option *ngFor="let item of usuarioFiltro" [value]="item">
-              {{item?.nome}} - {{item?.email}}
+              {{item?.nome}}
             </mat-option>
           </mat-autocomplete>
           <span class="dropdown-icon">
@@ -37,7 +37,7 @@
             (optionSelected)="aplicarFiltro()">
             <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
             <mat-option *ngFor="let item of emailFiltro" [value]="item">
-              {{item?.nome}} - {{item?.email}}
+              {{item?.email}}
             </mat-option>
           </mat-autocomplete>
           <span class="dropdown-icon">
