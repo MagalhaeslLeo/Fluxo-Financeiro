@@ -13,7 +13,14 @@ import { User } from './core/user';
 import { Utils } from './core/utils';
 import { ServiceBase } from './core/serviceBase';
 import { HttpClientModule } from '@angular/common/http';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -29,7 +36,14 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
     MatDividerModule,
     MatButtonModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   
   ],
   providers: [

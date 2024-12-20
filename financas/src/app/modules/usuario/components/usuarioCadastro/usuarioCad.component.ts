@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
 
 @Component({
-    selector: "usuarioCad",
+    selector: "usuarioCadComponent",
     templateUrl: './usuarioCad.component.html',
     styleUrls: ['./usuarioCad.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,10 +33,12 @@ export class UsuarioCadComponent implements OnInit {
     private criarForm(): FormGroup {
         return this.formBuilder.group(
             {
-                usuario: [null, []],
-                idUsuario: [null, []],
-                email: [null, []],
-                idEmail: [null, []],
+                usuario: [null, Validators.required],
+                idUsuario: [null, Validators.required],
+                email: [null, Validators.required],
+                idEmail: [null, Validators.required],
+                dataInclusao: [null, Validators.required],
+                idDataIclusao: [null, Validators.required]
             },
             { updateOn: "change" }
         );
@@ -45,13 +47,21 @@ export class UsuarioCadComponent implements OnInit {
     private criarMensagensValidacao(): {[key:string]: any}{
         return {
             'usuario': [
-                {type: 'required',
-                 msg: 'Preenchimento obrigatório'
+                {
+                    type: 'required',
+                    msg: 'Preenchimento obrigatório'
                 }
             ],
             'email': [
-                {type: 'required',
-                 msg: 'Preenchimento obrigatório'
+                {
+                    type: 'required',
+                    msg: 'Preenchimento obrigatório'
+                }
+            ],
+            'dataInclusao':[
+                {
+                    type: 'required',
+                    msg: 'Preenchimento obrigatório'
                 }
             ]
         }
