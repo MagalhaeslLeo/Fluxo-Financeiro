@@ -4,14 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>financas_negocios</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Entidade\" />
-    <Folder Include="Interface\" />
-    <Folder Include="Mapeamento\" />
-    <Folder Include="Negocio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\financas-dominio\financas-dominio.csproj" />
   </ItemGroup>
 
 </Project>

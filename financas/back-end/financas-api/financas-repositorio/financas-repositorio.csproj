@@ -4,13 +4,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>financas_repositorio</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Contexto\" />
-    <Folder Include="Mapeamento\" />
-    <Folder Include="Repositorio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\financas-dominio\financas-dominio.csproj" />
   </ItemGroup>
 
 </Project>
