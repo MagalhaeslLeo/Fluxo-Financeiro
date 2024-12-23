@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>financas_negocios</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entidade\" />
+    <Folder Include="Interface\" />
+    <Folder Include="Mapeamento\" />
+    <Folder Include="Negocio\" />
+  </ItemGroup>
+
+</Project>
