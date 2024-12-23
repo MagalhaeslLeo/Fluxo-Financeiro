@@ -74,16 +74,16 @@ app.UseAuthorization();
 
 // Servir arquivos estбticos
 app.UseStaticFiles();
-app.UseSpaStaticFiles();
+//app.UseSpaStaticFiles();
 
-// Configurar o pipeline do SPA (se houver)
-//app.UseSpa(spa =>
-//{
-//    spa.Options.SourcePath = Path.Combine(Directory.GetCurrentDirectory(), "/Frontend/GerenciadorFinanceiro-UI");
+//Configurar o pipeline do SPA (se houver)
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Fluxo-Financeiro/financas/front-end");
 
-//    // Se estiver em desenvolvimento, use o proxy para o servidor do SPA
-//    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // URL do servidor de desenvolvimento do SPA (exemplo com Angular)
-//});
+    // Se estiver em desenvolvimento, use o proxy para o servidor do SPA
+    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // URL do servidor de desenvolvimento do SPA (exemplo com Angular)
+});
 
 // Mapear os controladores da API
 app.MapControllers();
