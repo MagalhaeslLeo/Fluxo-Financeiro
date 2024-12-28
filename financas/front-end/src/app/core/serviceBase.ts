@@ -10,7 +10,7 @@ export class ServiceBase{
         'Content-type' : 'application/json'
     });
     
-    private url = 'https://api'
+    private url = 'https://localhost:44331/api'
 
     constructor(private http: HttpClient){}
     //Área de metódos

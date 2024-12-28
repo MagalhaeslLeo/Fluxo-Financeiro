@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
 import { Utils } from 'src/app/core/utils';
+import { ElementoOrganizacionalService } from 'src/app/services/elementoOrganizacional.service';
 //import { Router } from '@angular/router';
 
 //DADOS PARA TESTES (MOCKADOS)
@@ -75,7 +76,7 @@ export class UsuarioListaPage {
     protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
-    //protected service: AtoAlteracaoOrcamentariaService
+    protected service: ElementoOrganizacionalService
   ) {
     this.formFiltro = this.criarForm();
     this.atualizarRegistros();
@@ -134,60 +135,26 @@ export class UsuarioListaPage {
 
   atualizarRegistros() {
 
-    this.tabControl.registros = ELEMENT_DATA;
-    this.usuarioFiltro = ELEMENT_DATA;
-    this.emailFiltro = ELEMENT_DATA;
-    this._registros = this.usuarioFiltro;
-    this.emailFiltroTodos = ELEMENT_DATA;
-    this.usuarioFiltroTodos = this.usuarioFiltro;
+    // this.tabControl.registros = ELEMENT_DATA;
+    // this.usuarioFiltro = ELEMENT_DATA;
+    // this.emailFiltro = ELEMENT_DATA;
+    // this._registros = this.usuarioFiltro;
+    // this.emailFiltroTodos = ELEMENT_DATA;
+    // this.usuarioFiltroTodos = this.usuarioFiltro;
 
-    // this.service.obterPorMunicipio(this.idElemento).subscribe(result => {
+     this.service.ObterTodos().subscribe(result => {
 
-    
-    //   // Atributo que contem o registro a ser exibido pelo formulario.
-    //   this._registros = result;
+  
+       // Atributo que contem o registro a ser exibido pelo formulario.
+       this._registros = result;
 
 
 
-    //   // Inicia o controle da matTable indicando as colunas a serem exibidas e a lista de registros  
-    //   this.tabControl.registros = result;
+       // Inicia o controle da matTable indicando as colunas a serem exibidas e a lista de registros  
+       this.tabControl.registros = result;
 
-    //   this.resultadoFiltro = result;
-
-    //   this.ppaFiltro = result;
-    //   this.ppaFiltro = Array.from(this.ppaFiltro.map(m => m.loa.ldo.ppa).reduce((acc, current) => {
-    //     if (!acc.has(current.id)) { acc.set(current.id, current) } return acc;
-    //   }, new Map()).values());
-
-    //   this.ppaFiltro = this.ppaFiltro;
-    //   this.ppaFiltroTodos = this.ppaFiltro;
-
-    //   this.numeroFiltroLOA = result;
-    //   this.numeroFiltroLOA = result.map((item: any) => {
-    //     const anoPublicacao = new Date(item.loa.dataPublicacao).getFullYear();
-    //     return {
-    //       numero: item.loa.numero,
-    //       anoPublicacao: anoPublicacao,
-    //       id: item.id
-    //     };
-    //   });
-
-    //   this.numeroFiltroLOA = Array.from(this.numeroFiltroLOA.map(m => m).reduce((acc, current) => {
-    //     if (!acc.has(current.id)) { acc.set(current.id, current) } return acc;
-    //   }, new Map()).values());
-
-    //   this.numeroFiltroLOA = this.numeroFiltroLOA;
-    //   this.numeroFiltroTodosLOA = this.numeroFiltroLOA;
-
-    //   this.numeroFiltroInstrumento = result;
-    //   this.numeroFiltroInstrumento = Array.from(this.numeroFiltroInstrumento.map(m => m).reduce((acc, current) => {
-    //     if (!acc.has(current.id)) { acc.set(current.id, current) } return acc;
-    //   }, new Map()).values());
-
-    //   this.numeroFiltroInstrumento = this.numeroFiltroInstrumento;
-    //   this.numeroFiltroInstrumentoTodos = this.numeroFiltroInstrumento;
-
-    // });
+       this.resultadoFiltro = result;
+     });
   }
 
   //Acao a ser executada quando o usuário solicita a inclusão de um novo registro

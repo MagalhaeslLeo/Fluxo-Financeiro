@@ -40,10 +40,6 @@ namespace financas_repositorio.Repositorio
         {
             try
             {
-                if (entidade.Id == Guid.Empty)
-                {
-                    entidade.Id = Guid.NewGuid();
-                }
                 dbSet.Add(entidade);
             }
             catch (Exception exception)
@@ -56,10 +52,6 @@ namespace financas_repositorio.Repositorio
         {
             try
             {
-                if (entidade.Id == Guid.Empty)
-                {
-                    entidade.Id = Guid.NewGuid();
-                }
 
                 dbSet.Add(entidade);
                 await contexto.SaveChangesAsync();
@@ -95,11 +87,11 @@ namespace financas_repositorio.Repositorio
             return entidade;
         }
 
-        public async Task<T> ObterPorID(Guid Id)
+        public async Task<T> ObterPorID(int Id)
         {
             try
             {
-                return await dbSet.SingleOrDefaultAsync(e => e.Id == Id);
+                return await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(Id));
             }
             catch (Exception exception)
             {

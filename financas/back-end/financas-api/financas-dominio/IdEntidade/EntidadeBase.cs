@@ -8,8 +8,8 @@ namespace financas_dominio.IdEntidade
 {
     public class EntidadeBase
     {
-        public Guid Id { get; set; }
-
+        public int Id { get; set; }
+        public DateTime DataCriacao { get; set; }
         public bool Deletado { get; set; }
     }
 }

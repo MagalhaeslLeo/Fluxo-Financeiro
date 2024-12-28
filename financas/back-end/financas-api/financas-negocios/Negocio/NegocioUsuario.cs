@@ -11,25 +11,21 @@ using System.Threading.Tasks;
 
 namespace financas_negocios.Negocio
 {
-    internal class NegocioUsuario : INegocioUsuario
+    public class NegocioUsuario : INegocioUsuario
     {
-        protected readonly IMapper _mapper;
-        protected readonly IRepositorioUsuario _repositorioUsuario;
+        protected readonly IMapper map;
+        protected readonly IRepositorioUsuario repositorio;
         public NegocioUsuario(IMapper mapper, IRepositorioUsuario repositorioUsuario)
         {
-            mapper = _mapper;
-            repositorioUsuario = _repositorioUsuario;
+            map = mapper;
+            repositorio = repositorioUsuario;
         }
         public async Task AdicionarSalvar(UsuarioVO usuarioVO)
         {
             try
             {
-                var usuarioMap = _mapper.Map<Usuario>(usuarioVO);
-                if(usuarioMap.Id.Equals(Guid.Empty))
-                {
-                    usuarioMap.Id= Guid.NewGuid();
-                }
-                await _repositorioUsuario.AdicionarSalvar(usuarioMap);
+                var usuarioMap = map.Map<Usuario>(usuarioVO);
+                await repositorio.AdicionarSalvar(usuarioMap);
             }
             catch (Exception ex)
             {
@@ -41,11 +37,11 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var usuarioMap = _mapper.Map<Usuario>(usuarioVO);
+                var usuarioMap = map.Map<Usuario>(usuarioVO);
 
-                var usuarioEntidade = await _repositorioUsuario.Atualizar(usuarioMap);
+                var usuarioEntidade = await repositorio.Atualizar(usuarioMap);
 
-                var usuarioRetorno = _mapper.Map<UsuarioVO>(usuarioEntidade);
+                var usuarioRetorno = map.Map<UsuarioVO>(usuarioEntidade);
 
                 return usuarioRetorno;
 
@@ -57,13 +53,13 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<UsuarioVO> ObterPorID(Guid Id)
+        public async Task<UsuarioVO> ObterPorID(int Id)
         {
             try
             {
-                var usuario = await _repositorioUsuario.ObterPorID(Id);
+                var usuario = await repositorio.ObterPorID(Id);
 
-                var usuarioMap = _mapper.Map<UsuarioVO>(usuario);
+                var usuarioMap = map.Map<UsuarioVO>(usuario);
 
                 return usuarioMap;
             }
@@ -77,9 +73,9 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var usuario = await _repositorioUsuario.ObterTodos();
+                var usuario = await repositorio.ObterTodos();
 
-                var usuarioMap = _mapper.Map<IEnumerable<UsuarioVO>>(usuario);
+                var usuarioMap = map.Map<IEnumerable<UsuarioVO>>(usuario);
                 return usuarioMap;
             }
             catch (Exception ex)
@@ -88,20 +84,15 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task StatusDeletado(Guid Id)
+        public async Task StatusDeletado(int Id)
         {
             try
             {
-                var usuario = await _repositorioUsuario.ObterPorID(Id);
-
-                if(usuario.Id.Equals(Guid.Empty))
-                {
-                    throw new Exception("Usuário já deletado ou não existe");
-                }
+                var usuario = await repositorio.ObterPorID(Id);
 
                 usuario.Deletado = true;
 
-                await _repositorioUsuario.StatusDeletado(usuario);
+                await repositorio.StatusDeletado(usuario);
             }
             catch (Exception ex)
             {

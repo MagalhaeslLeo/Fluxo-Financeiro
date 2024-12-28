@@ -15,6 +15,10 @@ export class ElementoOrganizacionalService {
     return this.service.get("elementoOrganizacional/obterTodos");
   }
 
+  ObterTodos(): Observable<any> {
+    return this.service.get("Usuario/ObterTodos");
+  }
+
   obterPessoaPorElemento(pId: any): Observable<any> {
     return this.service.get("elementoOrganizacional/obterPessoaPorIdElemento", { idElemento: pId });
   }

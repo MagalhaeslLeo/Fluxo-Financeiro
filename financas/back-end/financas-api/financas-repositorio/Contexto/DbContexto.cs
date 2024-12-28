@@ -13,7 +13,9 @@ namespace financas_repositorio.Contexto
     {
         public DbContexto(DbContextOptions<DbContexto> options ) : base(options) { }
 
-        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<Perfil> Perfis { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

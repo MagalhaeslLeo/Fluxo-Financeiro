@@ -15,7 +15,7 @@ namespace financas_repositorio.Mapeamento
         {
 			try
 			{
-				builder.ToTable("Financa");
+				builder.ToTable("Usuario");
 			}
 			catch (Exception ex)
 			{

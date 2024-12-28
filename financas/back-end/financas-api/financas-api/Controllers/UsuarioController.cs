@@ -9,10 +9,10 @@ namespace financas_api.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        protected readonly INegocioUsuario negocio;
+        protected readonly INegocioUsuario usuarioNegocio;
         public UsuarioController(INegocioUsuario negocio)
         {
-            this.negocio = negocio;
+            this.usuarioNegocio = negocio;
         }
 
         [HttpGet("ObterTodos")]
@@ -20,7 +20,22 @@ namespace financas_api.Controllers
         {
             try
             {
-                var listaUsuario = await negocio.ObterTodos();
+                var listaUsuario = await usuarioNegocio.ObterTodos();
+                return listaUsuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        [HttpGet("teste")]
+        public async Task<UsuarioVO> teste()
+        {
+            try
+            {
+                UsuarioVO listaUsuario = new UsuarioVO();
+                listaUsuario.Nome = "TESTE";
                 return listaUsuario;
             }
             catch (Exception ex)

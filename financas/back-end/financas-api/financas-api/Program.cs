@@ -1,4 +1,8 @@
-﻿using financas_repositorio.Contexto;
+﻿using financas_dominio.Interface;
+using financas_negocios.Interface;
+using financas_negocios.Negocio;
+using financas_repositorio.Contexto;
+using financas_repositorio.Repositorio;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,12 +49,23 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 //               .AllowAnyHeader());
 //});
 builder.Services.AddCors(options =>
+
 {
-    options.AddDefaultPolicy(builder =>
-        builder.WithOrigins("http://localhost:4200")
-        .AllowAnyHeader()
-        .AllowAnyMethod());
+
+    options.AddPolicy("AllowAll", builder =>
+
+        builder.AllowAnyOrigin()
+
+               .AllowAnyMethod()
+
+               .AllowAnyHeader());
+
 });
+
+builder.Services.AddScoped<INegocioUsuario, NegocioUsuario>();
+
+builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+
 // Configurar o diretуrio estбtico do SPA (se houver um frontend SPA)
 //builder.Services.AddSpaStaticFiles(diretorio =>
 //{
@@ -64,7 +79,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configurar o CORS para usar a polнtica criada
-app.UseCors("AllowAll");
+app.UseCors();
 
 // Redirecionar requisiзхes HTTP para HTTPS
 app.UseHttpsRedirection();
@@ -77,13 +92,13 @@ app.UseStaticFiles();
 //app.UseSpaStaticFiles();
 
 //Configurar o pipeline do SPA (se houver)
-app.UseSpa(spa =>
-{
-    spa.Options.SourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Fluxo-Financeiro/financas/front-end");
+//app.UseSpa(spa =>
+//{
+//    spa.Options.SourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Fluxo-Financeiro/financas/front-end");
 
-    // Se estiver em desenvolvimento, use o proxy para o servidor do SPA
-    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // URL do servidor de desenvolvimento do SPA (exemplo com Angular)
-});
+//    // Se estiver em desenvolvimento, use o proxy para o servidor do SPA
+//    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // URL do servidor de desenvolvimento do SPA (exemplo com Angular)
+//});
 
 // Mapear os controladores da API
 app.MapControllers();
