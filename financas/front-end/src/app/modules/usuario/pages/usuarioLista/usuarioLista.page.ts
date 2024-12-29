@@ -4,23 +4,8 @@ import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
 import { Utils } from 'src/app/core/utils';
 import { ElementoOrganizacionalService } from 'src/app/services/elementoOrganizacional.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 //import { Router } from '@angular/router';
-
-//DADOS PARA TESTES (MOCKADOS)
-export interface PeriodicElement {
-  nome: string;
-  email: string;
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {nome: 'Carlos Sérgio', email: 'cs@teste.com.br'},
-  {nome: 'Leonardo Silva', email: 'leo@test.com'},
-  {nome: 'Gabriel A. Silva', email: 'gab@test.com.br'},
-  {nome: 'steven jobs', email: 'sj@test.com.br'},
-  {nome: 'bill gates', email: 'bt@teste.com'},
-];
-
 
 @Component({
   styleUrls: ['./usuarioLista.page.scss'],
@@ -76,21 +61,10 @@ export class UsuarioListaPage {
     protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
-    protected service: ElementoOrganizacionalService
+    protected service: UsuarioService
   ) {
     this.formFiltro = this.criarForm();
     this.atualizarRegistros();
-
-    // if (this.user.idElementoOrganizacional) {
-
-    //   this.idElemento = this.user.idElementoOrganizacional;
-    //   this.atualizarRegistros();
-
-    // } else {
-
-    //   this.showMsg();
-    //   //this.utils.irParaHome();
-    // }
 
      //Tratamento Auto-Complete
      this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['usuario'],
@@ -135,19 +109,17 @@ export class UsuarioListaPage {
 
   atualizarRegistros() {
 
-    // this.tabControl.registros = ELEMENT_DATA;
-    // this.usuarioFiltro = ELEMENT_DATA;
-    // this.emailFiltro = ELEMENT_DATA;
-    // this._registros = this.usuarioFiltro;
-    // this.emailFiltroTodos = ELEMENT_DATA;
-    // this.usuarioFiltroTodos = this.usuarioFiltro;
 
      this.service.ObterTodos().subscribe(result => {
 
   
        // Atributo que contem o registro a ser exibido pelo formulario.
        this._registros = result;
-
+       this.usuarioFiltro = result;
+       this.emailFiltro = result;
+       this._registros = this.usuarioFiltro;
+       this.emailFiltroTodos = this.emailFiltro;
+       this.usuarioFiltroTodos = this.usuarioFiltro;
 
 
        // Inicia o controle da matTable indicando as colunas a serem exibidas e a lista de registros  
@@ -171,11 +143,11 @@ export class UsuarioListaPage {
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado
   excluir(pRegistros: any[]) {
-    // this.service.excluir(pRegistros.map(obj => obj.id)).subscribe(result => {
-    //   this.result = result
-    //   this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
-    //   this.atualizarRegistros();
-    // });
+     this.service.Excluir(pRegistros.map(obj => obj.id)).subscribe(result => {
+       this.result = result
+       this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
+       this.atualizarRegistros();
+     });
   }
 
   /// FIM - ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... /// 
@@ -185,9 +157,9 @@ export class UsuarioListaPage {
   /// ÁREA DE REGRAS E PROCESSAMENTOS /// 
 
   showMsg() {
-    // this.utils.exibirWarning(
-    //   "Selecione um Ente Federado para prosseguir"
-    // );
+     this.utils.exibirWarning(
+       "Selecione um usuário para prosseguir"
+     );
   }
 
   ngOnInit(): void { }
@@ -198,7 +170,7 @@ export class UsuarioListaPage {
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do ppa digitado pelo usuário
     this.usuarioFiltro = this.usuarioFiltroTodos.filter(f => {
 
-      const usuarioString = `${f.nome} - ${f.email}`;
+      const usuarioString = `${f.nome}`;
       return usuarioString.includes(pUsuario);
 
     });
@@ -247,7 +219,7 @@ export class UsuarioListaPage {
   }
 
   obterUsuario(pUsuario: any): any {
-    return pUsuario ? `${pUsuario.nome} - ${pUsuario.email}`  : '';
+    return pUsuario ? `${pUsuario.nome}`  : '';
   }
 
   obterEmail(pEmail: any): any {
