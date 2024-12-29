@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+
+
+export function initializeApp(serviceBase: ServiceBase): () => Promise<void> {
+  return () => serviceBase.loadEnvironment();
+}
 
 @NgModule({
   declarations: [
@@ -52,6 +57,12 @@ import { MatNativeDateModule } from '@angular/material/core';
     Utils,
     ServiceBase,
     { provide: MatDialogRef, useValue: {} },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [ServiceBase],
+      multi:true
+    }
     
   ],
   bootstrap: [AppComponent]

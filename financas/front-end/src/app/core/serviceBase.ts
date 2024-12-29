@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 
 @Injectable()
 
@@ -10,7 +10,12 @@ export class ServiceBase{
         'Content-type' : 'application/json'
     });
     
-    private url = 'https://localhost:44331/api'
+    private url: string = '';
+
+    async loadEnvironment():Promise<void>{
+        const env = await lastValueFrom(this.http.get('/assets/env.json'));
+        this.url = (env as any).apiUrl;
+    }
 
     constructor(private http: HttpClient){}
     //Área de metódos

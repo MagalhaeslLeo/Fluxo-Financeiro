@@ -52,9 +52,9 @@ builder.Services.AddCors(options =>
 
 {
 
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("AllowAngularApp", builder =>
 
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("http://localhost:4200")
 
                .AllowAnyMethod()
 
@@ -79,7 +79,7 @@ builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 var app = builder.Build();
 
 // Configurar o CORS para usar a polнtica criada
-app.UseCors();
+app.UseCors("AllowAngularApp");
 
 // Redirecionar requisiзхes HTTP para HTTPS
 app.UseHttpsRedirection();
