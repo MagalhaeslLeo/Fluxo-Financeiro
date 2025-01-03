@@ -98,7 +98,7 @@ export class UsuarioListaPage {
   }
 
   //Retorna o registro utilizado pela tela
-  get registros(): any[] {
+  get registro(): any[] {
     return this._registros;
   }
   /// FIM ÁREA fORMULÁRIO ///
@@ -110,7 +110,7 @@ export class UsuarioListaPage {
   atualizarRegistros() {
 
 
-     this.service.ObterTodos().subscribe(result => {
+     this.service.ObterTodosUsuarios().subscribe(result => {
 
   
        // Atributo que contem o registro a ser exibido pelo formulario.
@@ -143,7 +143,7 @@ export class UsuarioListaPage {
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado
   excluir(pRegistros: any[]) {
-     this.service.Excluir(pRegistros.map(obj => obj.id)).subscribe(result => {
+     this.service.ExcluirUsuario(pRegistros.map(obj => obj.id)).subscribe(result => {
        this.result = result
        this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
        this.atualizarRegistros();
@@ -233,11 +233,6 @@ export class UsuarioListaPage {
       .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase();
 
-  }
-
-  //Retorna o registro utilizado pela tela
-  get registro(): any[] {
-    return this._registros;
   }
 
   /// FIM - ÁREA DE REGRAS E PROCESSAMENTOS ///

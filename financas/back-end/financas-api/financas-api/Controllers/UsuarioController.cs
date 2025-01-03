@@ -15,13 +15,14 @@ namespace financas_api.Controllers
             this.usuarioNegocio = negocio;
         }
 
-        [HttpGet("ObterTodos")]
-        public async Task<IEnumerable<UsuarioVO>> ObterTodos()
+        [HttpGet]
+        [Route("ObterTodosUsuarios")]
+        public async Task<IActionResult> ObterTodosUsuarios()
         {
             try
             {
                 var listaUsuario = await usuarioNegocio.ObterTodos();
-                return listaUsuario;
+                return Ok(listaUsuario);
             }
             catch (Exception ex)
             {
@@ -29,14 +30,55 @@ namespace financas_api.Controllers
             }
         }
 
-        [HttpGet("teste")]
-        public async Task<UsuarioVO> teste()
+        [HttpGet]
+        [Route("ObterUsuarioPorId")]
+        public async Task<IActionResult> ObterUsuarioPorId([FromQuery] int pIdUsuario)
         {
             try
             {
-                UsuarioVO listaUsuario = new UsuarioVO();
-                listaUsuario.Nome = "TESTE";
-                return listaUsuario;
+                var lUsuario = await usuarioNegocio.ObterPorID(pIdUsuario);
+
+                return Ok(lUsuario);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("PersistirUsuario")]
+
+        public async Task<IActionResult> PersistirUsuario([FromBody] UsuarioVO pUsuarioVo)
+        {
+            try
+            {
+                var lUsuario = new UsuarioVO();
+
+                if (pUsuarioVo.Id > 0)
+                {
+                    lUsuario = await usuarioNegocio.Atualizar(pUsuarioVo);
+                    return Ok(lUsuario);
+                }
+
+                lUsuario = await usuarioNegocio.AdicionarSalvar(pUsuarioVo);
+                return Ok(lUsuario);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("ExcluirUsuario/pIdUsuario:int")]
+
+        public async Task<IActionResult> ExcluirUsuario([FromRoute] int pIdUsuario)
+        {
+            try
+            {
+                await usuarioNegocio.StatusDeletado(pIdUsuario);
+                return Ok();
             }
             catch (Exception ex)
             {

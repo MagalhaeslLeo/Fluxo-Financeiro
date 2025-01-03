@@ -11,18 +11,18 @@ export class UsuarioService {
 
 //   @Cacheable()
 
-  ObterTodos(): Observable<any> {
-    return this.service.get("Usuario/ObterTodos");
+  ObterTodosUsuarios(): Observable<any> {
+    return this.service.get("Usuario/ObterTodosUsuarios");
   }
 
   ObterUsuarioPorId(pId: any): Observable<any> {
-    return this.service.get("Usuario/ObterUsuarioPorId", { idUsuario: pId });
+    return this.service.get("Usuario/ObterUsuarioPorId", { pIdUsuario: pId });
   }
-  Persistir(pCadVo:any): Observable<any>{
-    return this.service.post("Usuario/Persistir", pCadVo);
+  PersistirUsuario(pUsuarioVo:any): Observable<any>{
+    return this.service.post("Usuario/PersistirUsuario", pUsuarioVo);
   }
-  Excluir(pId: any): Observable<any>{
-    return this.service.delete("Usuario/Excluir", {idUsuario: pId});
+  ExcluirUsuario(pId: any): Observable<any>{
+    return this.service.delete("Usuario/ExcluirUsuario", {pIdUsuario: pId});
   } 
   
 }

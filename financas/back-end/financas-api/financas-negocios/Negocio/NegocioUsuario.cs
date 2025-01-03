@@ -20,12 +20,15 @@ namespace financas_negocios.Negocio
             map = mapper;
             repositorio = repositorioUsuario;
         }
-        public async Task AdicionarSalvar(UsuarioVO usuarioVO)
+        public async Task<UsuarioVO> AdicionarSalvar(UsuarioVO usuarioVO)
         {
             try
             {
                 var usuarioMap = map.Map<Usuario>(usuarioVO);
-                await repositorio.AdicionarSalvar(usuarioMap);
+                var usuario = await repositorio.AdicionarSalvar(usuarioMap);
+                var usuarioRetorno = map.Map<UsuarioVO>(usuario);
+
+                return usuarioRetorno;
             }
             catch (Exception ex)
             {

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
+import { UsuarioService } from "src/app/services/usuario.service";
 
 @Component({
     selector: "usuarioCadComponent",
@@ -13,6 +14,7 @@ import { Utils } from "src/app/core/utils";
 export class UsuarioCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
+    result: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
 
@@ -24,21 +26,21 @@ export class UsuarioCadComponent implements OnInit {
         protected formBuilder: FormBuilder,
         protected router: ActivatedRoute,
         protected route: Router,
-        protected utils: Utils
+        protected utils: Utils,
+        protected service: UsuarioService
     ) {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
+        this.atualizarRegistro();
     }
 
     private criarForm(): FormGroup {
         return this.formBuilder.group(
             {
-                usuario: [null, Validators.required],
-                idUsuario: [null, Validators.required],
-                email: [null, Validators.required],
-                idEmail: [null, Validators.required],
-                dataInclusao: [null, Validators.required],
-                idDataIclusao: [null, Validators.required]
+                id: [null, []],
+                nomeUsuario: [null, Validators.required],
+                emailUsuario: [null, Validators.required],
+                dataCriacao: [null, Validators.required],
             },
             { updateOn: "change" }
         );
@@ -46,19 +48,19 @@ export class UsuarioCadComponent implements OnInit {
 
     private criarMensagensValidacao(): {[key:string]: any}{
         return {
-            'usuario': [
+            'nomeUsuario': [
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
                 }
             ],
-            'email': [
+            'emailUsuario': [
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
                 }
             ],
-            'dataInclusao':[
+            'dataCriacao':[
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
@@ -72,9 +74,10 @@ export class UsuarioCadComponent implements OnInit {
     }
 
     public preencherFormCompleto(pRegistro: any): void{
-        this.form.controls["usuario"].setValue(pRegistro.nome);
-        this.form.controls["email"].setValue(pRegistro.email);
-        this.form.controls["dataInclusao"].setValue(pRegistro.dataInclusao);
+        this.form.controls["id"].setValue(pRegistro.id);
+        this.form.controls["nomeUsuario"].setValue(pRegistro.nome);
+        this.form.controls["emailUsuario"].setValue(pRegistro.email);
+        this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
     }
 
     get registro(): any[]{
@@ -90,16 +93,16 @@ export class UsuarioCadComponent implements OnInit {
         if (lIdStr) {
  
             // Chama o service para obter o registro a partir do seu ID
-            // this.service.obterPorId(parseInt(lIdStr)).subscribe((result) => {
+             this.service.ObterUsuarioPorId(parseInt(lIdStr)).subscribe((result) => {
  
-            //     //Atualiza o atributo que contem os registros
-            //     this._registros = result;              
-            //     //Preenche o form com os dados do regsitro
-            //     this.preencherFormCompleto(this._registros);
+                 //Atualiza o atributo que contem os registros
+                this._registros = result;              
+               //Preenche o form com os dados do regsitro
+                this.preencherFormCompleto(this._registros);
 
  
  
-            // });
+             });
         } else {
  
             //Nao recebeu ID, então considera uma inserção e Cria o registro vazio ou com dados default.
@@ -115,10 +118,13 @@ export class UsuarioCadComponent implements OnInit {
        
         const objUsuario = {
  
-            id: this.form.controls['id'].value,                   
-            nome: this.form.controls['usuario'].value,
-			email: this.form.controls['usuario'].value,            
-            dataPublicacao: this.form.controls['dataInclusao'].value,
+            Id: this.form.controls['id'].value ?? 0,  
+            IdPerfil: 1,
+            Senha: "123456",              
+            Nome: this.form.controls['nomeUsuario'].value,
+            Email: this.form.controls['emailUsuario'].value,            
+            DataCriacao: this.form.controls['dataCriacao'].value,
+            Deletado: false,
  
         }
  
@@ -126,15 +132,15 @@ export class UsuarioCadComponent implements OnInit {
         if (this.utils.validarForm(this.form)) {
  
             //Chama o service para a persistencia, passando os dados do FORM como parametro
-            // this.service.persistir(objUsuario).subscribe((result) => {
-            //     this.result = result;
-            //     this._registro = result;
-            //     this.utils.exibirSucesso("Registro salvo com sucesso.");
-            //     this.form.markAsPristine();
-            //     this.cdr.detectChanges();
-            //     this.route.navigate(["usuario", "cad", result.id]);
+             this.service.PersistirUsuario(objUsuario).subscribe((result) => {
+                 this.result = result;
+                 this._registros = result;
+                 this.utils.exibirSucesso("Registro salvo com sucesso.");
+                 this.form.markAsPristine();
+                 //this.cdr.detectChanges();
+                 this.route.navigate(["usuario", "cad", result.id]);
  
-            //});
+            });
  
         } else {
             //Exibe a mensagem indicando que há campos inválidos no form

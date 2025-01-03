@@ -10,10 +10,10 @@
                             <div class="col-6">
                                 <mat-form-field>
                                     <mat-label>Nome do Usuário</mat-label>
-                                    <input type="text" formControlName="usuario" matInput>
+                                    <input type="text" formControlName="nomeUsuario" matInput>
                                     <mat-error>
-                                        <validacao-campo [control]="form.controls['usuario']"
-                                            [mensagens]="msgValidacao['usuario']">
+                                        <validacao-campo [control]="form.controls['nomeUsuario']"
+                                            [mensagens]="msgValidacao['nomeUsuario']">
                                         </validacao-campo>
                                     </mat-error>
                                 </mat-form-field>
@@ -21,10 +21,10 @@
                             <div class="col-6">
                                 <mat-form-field>
                                     <mat-label>Email do Usuário</mat-label>
-                                    <input type="text" formControlName="email" matInput>
+                                    <input type="text" formControlName="emailUsuario" matInput>
                                     <mat-error>
-                                        <validacao-campo [control]="form.controls['email']"
-                                            [mensagens]="msgValidacao['email']">
+                                        <validacao-campo [control]="form.controls['emailUsuario']"
+                                            [mensagens]="msgValidacao['emailUsuario']">
                                         </validacao-campo>
                                     </mat-error>
                                 </mat-form-field>
@@ -36,13 +36,13 @@
                             <div class="col-6">
                                 <div class="col-12">
                                     <mat-form-field class="processo">
-                                        <mat-label>Data de Inclusão</mat-label>
-                                        <input matInput [matDatepicker]="dp1" formControlName="dataInclusao">                              
+                                        <mat-label>Data de Criação</mat-label>
+                                        <input matInput [matDatepicker]="dp1" formControlName="dataCriacao">                              
                                         <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
                                         <mat-datepicker #dp1></mat-datepicker>
                                         <mat-error>
-                                            <validacao-campo [control]="form.controls['dataInclusao']"
-                                                [mensagens]="msgValidacao['dataInclusao']">
+                                            <validacao-campo [control]="form.controls['dataCriacao']"
+                                                [mensagens]="msgValidacao['dataCriacao']">
                                             </validacao-campo>
                                         </mat-error>
                                     </mat-form-field>

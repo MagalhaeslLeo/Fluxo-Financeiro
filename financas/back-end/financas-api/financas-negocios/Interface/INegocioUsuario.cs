@@ -9,7 +9,7 @@ namespace financas_negocios.Interface
 {
     public interface INegocioUsuario
     {
-        Task AdicionarSalvar(UsuarioVO usuarioVO);
+        Task<UsuarioVO> AdicionarSalvar(UsuarioVO usuarioVO);
 
         Task<IEnumerable<UsuarioVO>> ObterTodos();
 
