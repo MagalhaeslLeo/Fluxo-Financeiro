@@ -70,15 +70,30 @@ namespace financas_api.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("ExcluirUsuario/pIdUsuario:int")]
+        [HttpDelete]
+        [Route("ExcluirUsuario")]
 
-        public async Task<IActionResult> ExcluirUsuario([FromRoute] int pIdUsuario)
+        public async Task<IActionResult> ExcluirUsuario(int pIdUsuario)
         {
             try
             {
                 await usuarioNegocio.StatusDeletado(pIdUsuario);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        [HttpGet]
+        [Route("ObterUsuariosComPerfil")]
+
+        public async Task<IActionResult> ObterUsuariosComPerfil() 
+        {
+            try
+            {
+                var lUsuarios = await usuarioNegocio.ObterUsuariosComPerfil();
+                return Ok(lUsuarios);
             }
             catch (Exception ex)
             {

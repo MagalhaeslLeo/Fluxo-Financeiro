@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
+import { Utils } from 'src/app/core/utils';
 
 
 
@@ -22,7 +23,8 @@ export class TabelaCrudComponent implements OnInit {
 
 
   constructor(
-    protected router: Router) {
+    protected router: Router,
+    protected utils: Utils) {
 
   }
 
@@ -45,14 +47,14 @@ export class TabelaCrudComponent implements OnInit {
   alterarEvent(pRows: any) {
     if (pRows && pRows.length>0) {
       if (pRows.length > 1) {
-       // this.utils.exibirWarning('Selecione apenas um registro para a alteração.');
+        this.utils.exibirWarning('Selecione apenas um registro para a alteração.');
       }else{
         this.alterar.emit(pRows[0]);
       }
 
       
     } else {
-     // this.utils.exibirWarning('Nenhum registro foi selecionado.');
+      this.utils.exibirWarning('Nenhum registro foi selecionado.');
     }
   }
 
@@ -64,19 +66,19 @@ export class TabelaCrudComponent implements OnInit {
         if (pRows.length > 1) {
           lMsg = 'Confirma a exclusão dos ' + pRows.length + ' registros selecionados?';
         }
-       // const lDialogConfirmacao = this.utils.abrirDialogConfirmacao(lMsg);
+        const lDialogConfirmacao = this.utils.abrirDialogConfirmacao(lMsg);
         //Com a referência após ser fechado se a exclusão for confirmada irá prosseguir para excluir o registro do banco de dados
-        // lDialogConfirmacao.afterClosed().subscribe(result => {
-        //   if (result) {
-        //     this.excluir.emit(pRows);
-        //   }
-        // })
+         lDialogConfirmacao.afterClosed().subscribe(result => {
+           if (result) {
+             this.excluir.emit(pRows);
+           }
+         })
 
       } else {
         this.excluir.emit(pRows);
       }
     } else {
-      //this.utils.exibirWarning('Nenhum registro foi selecionado.');
+      this.utils.exibirWarning('Nenhum registro foi selecionado.');
     }
 
   }

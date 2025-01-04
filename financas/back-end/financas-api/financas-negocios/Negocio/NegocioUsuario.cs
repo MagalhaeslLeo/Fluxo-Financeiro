@@ -76,10 +76,26 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var usuario = await repositorio.ObterTodos();
+                var lUsuario = await repositorio.ObterTodos();
 
-                var usuarioMap = map.Map<IEnumerable<UsuarioVO>>(usuario);
+                //var lUsuarioAtivos = lUsuario.Where(us => us.Deletado.Equals(false));
+
+                var usuarioMap = map.Map<IEnumerable<UsuarioVO>>(lUsuario);
                 return usuarioMap;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<IEnumerable<UsuarioVO>> ObterUsuariosComPerfil()
+        {
+            try
+            {
+                var lUsuariosPerfil = await repositorio.ObterUsuariosComPerfil();
+
+                return map.Map<IEnumerable<UsuarioVO>>(lUsuariosPerfil);
             }
             catch (Exception ex)
             {

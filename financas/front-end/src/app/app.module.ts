@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+ 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,12 +21,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
-
+import { ToastrModule } from 'ngx-toastr';
+import { MatInputModule } from '@angular/material/input';
+import { ServiceUtil } from './core/serviceUtil';
+ 
+ 
 export function initializeApp(serviceBase: ServiceBase): () => Promise<void> {
   return () => serviceBase.loadEnvironment();
 }
-
+ 
 @NgModule({
   declarations: [
     AppComponent
@@ -48,14 +51,28 @@ export function initializeApp(serviceBase: ServiceBase): () => Promise<void> {
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
-  
+    MatNativeDateModule,
+    MatInputModule,
+ 
+    //KeycloakAngularModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-position',
+      closeButton: true
+    }),
+ 
+    //InicioModule,
+    //PickListModule,
+    //CurrencyMaskModule,
+    //NgxMaskModule.forRoot(),
+    //MatMomentDateModule,
+ 
   ],
   providers: [
-
+ 
     User,
     Utils,
     ServiceBase,
+    ServiceUtil,
     { provide: MatDialogRef, useValue: {} },
     {
       provide: APP_INITIALIZER,
@@ -63,8 +80,9 @@ export function initializeApp(serviceBase: ServiceBase): () => Promise<void> {
       deps: [ServiceBase],
       multi:true
     }
-    
+   
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

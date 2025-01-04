@@ -19,5 +19,7 @@ namespace financas_negocios.Interface
 
         Task StatusDeletado(int Id);
 
+        Task<IEnumerable<UsuarioVO>> ObterUsuariosComPerfil();
+
     }
 }

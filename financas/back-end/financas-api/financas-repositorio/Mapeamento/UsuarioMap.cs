@@ -16,6 +16,9 @@ namespace financas_repositorio.Mapeamento
 			try
 			{
 				builder.ToTable("Usuario");
+				builder.HasQueryFilter(u => !u.Deletado);
+				builder.HasKey(u => u.Id);
+				builder.HasOne(u => u.Perfil).WithMany(p => p.Usuarios).HasForeignKey(u => u.IdPerfil);
 			}
 			catch (Exception ex)
 			{

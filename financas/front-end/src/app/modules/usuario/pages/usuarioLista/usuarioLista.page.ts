@@ -110,7 +110,7 @@ export class UsuarioListaPage {
   atualizarRegistros() {
 
 
-     this.service.ObterTodosUsuarios().subscribe(result => {
+     this.service.ObterUsuariosComPerfil().subscribe(result => {
 
   
        // Atributo que contem o registro a ser exibido pelo formulario.

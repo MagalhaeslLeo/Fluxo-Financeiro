@@ -5,5 +5,6 @@ namespace financas_dominio.Entidade
     public class Perfil : EntidadeBase
     {
         public string Descricao { get; set; }
+        public ICollection<Usuario> Usuarios { get; set; }
     }
 }

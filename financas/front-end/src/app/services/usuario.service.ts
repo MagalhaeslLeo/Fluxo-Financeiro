@@ -15,6 +15,10 @@ export class UsuarioService {
     return this.service.get("Usuario/ObterTodosUsuarios");
   }
 
+  ObterUsuariosComPerfil(): Observable<any> {
+    return this.service.get("Usuario/ObterUsuariosComPerfil");
+  }
+
   ObterUsuarioPorId(pId: any): Observable<any> {
     return this.service.get("Usuario/ObterUsuarioPorId", { pIdUsuario: pId });
   }

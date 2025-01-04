@@ -4,8 +4,8 @@ import { Injectable } from "@angular/core";
 import { AbstractControl, FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-//import * as moment from 'moment';
-//import { ToastrService } from "ngx-toastr";
+import * as moment from 'moment';
+import { ToastrService } from "ngx-toastr";
  import { debounceTime, tap } from "rxjs";
 import { AguardeDialog } from "../shared/dialogs/aguarde/aguarde.dialog";
 import { ConfirmacaoDialog } from "../shared/dialogs/confirmacao/confirmacao.dialog";
@@ -19,29 +19,29 @@ export class Utils {
     constructor(
         protected route: ActivatedRoute,
         protected router: Router,
-        //private toastr: ToastrService,
+        private toastr: ToastrService,
         public dialog: MatDialog,
         protected location: Location) {
     }
 
     //Formatada para mensagens de confirmação de operações bem sucedidas(ex.: Registro excluído com sucesso)
     exibirSucesso(msg: string) {
-        //setTimeout(() => this.toastr.success(msg, ''));
+        setTimeout(() => this.toastr.success(msg, ''));
     }
 
     //Formatada para mensagens de erro
     exibirErro(msg: string) {
-        //setTimeout(() => this.toastr.error(msg, ''));
+        setTimeout(() => this.toastr.error(msg, ''));
     }
 
     //Mensagens de alerta(ex.: sua senha expirará em 2 dias)
     exibirWarning(msg: string) {
-        //setTimeout(() => this.toastr.warning(msg, ''));
+        setTimeout(() => this.toastr.warning(msg, ''));
     }
 
     //Informações relevantes para o usuario(ex.: dois novos processos disponíveis)
     exibirInformacao(msg: string) {
-        //setTimeout(() => this.toastr.info(msg, ''));
+        setTimeout(() => this.toastr.info(msg, ''));
     }
 
     //Método que obtém a resposta dos resolvers.
@@ -53,13 +53,13 @@ export class Utils {
         return this.route.parent?.snapshot.data
     }
 
-    // formatarData(pIsoDate: string) {
-    //     if (pIsoDate != null && pIsoDate != "undefined") {
-    //         //return moment(pIsoDate, moment.ISO_8601).format('DD/MM/YYYY');
-    //     } else {
-    //         return '';
-    //     }
-    // }
+     formatarData(pIsoDate: string) {
+         if (pIsoDate != null && pIsoDate != "undefined") {
+             return moment(pIsoDate, moment.ISO_8601).format('DD/MM/YYYY');
+         } else {
+             return '';
+         }
+     }
 
     // formatarDataHora(pIsoDate: string) {
     //     if (pIsoDate != null) {
