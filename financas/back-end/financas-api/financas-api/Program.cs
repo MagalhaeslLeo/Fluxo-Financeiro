@@ -64,7 +64,13 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<INegocioUsuario, NegocioUsuario>();
 
+builder.Services.AddScoped<INegocioPerfil, NegocioPerfil>();
+
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+
+builder.Services.AddScoped<IRepositorioPerfil, RepositorioPerfil>();
+
+
 
 // Configurar o diretуrio estбtico do SPA (se houver um frontend SPA)
 //builder.Services.AddSpaStaticFiles(diretorio =>
