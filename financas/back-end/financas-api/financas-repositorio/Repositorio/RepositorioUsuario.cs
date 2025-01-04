@@ -21,6 +21,21 @@ namespace financas_repositorio.Repositorio
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task<Usuario> ObterUsuarioPorID(int id)
+        {
+            try
+            {
+                var lUsuario = await contexto.Usuarios.Include(u => u.Perfil)
+                .Where(u => !u.Deletado && u.Id == id).FirstOrDefaultAsync();
+
+                return lUsuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }
 

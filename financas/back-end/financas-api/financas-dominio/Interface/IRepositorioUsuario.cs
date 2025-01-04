@@ -10,5 +10,6 @@ namespace financas_dominio.Interface
     public interface IRepositorioUsuario : IRepositorioBase<Usuario>
     {
         Task<IEnumerable<Usuario>> ObterUsuariosComPerfil();
+        Task<Usuario> ObterUsuarioPorID(int id);
     }
 }

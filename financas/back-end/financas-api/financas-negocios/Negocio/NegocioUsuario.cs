@@ -72,6 +72,22 @@ namespace financas_negocios.Negocio
             }
         }
 
+        public async Task<UsuarioVO> ObterUsuarioPorID(int Id)
+        {
+            try
+            {
+                var usuario = await repositorio.ObterUsuarioPorID(Id);
+
+                var usuarioMap = map.Map<UsuarioVO>(usuario);
+
+                return usuarioMap;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public async Task<IEnumerable<UsuarioVO>> ObterTodos()
         {
             try

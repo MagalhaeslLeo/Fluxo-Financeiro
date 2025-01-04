@@ -10,6 +10,7 @@ namespace financas_negocios.Entidade
     public class UsuarioVO
     {
         public int Id { get; set; }
+        public DateTime DataCriacao { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }

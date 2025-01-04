@@ -21,5 +21,7 @@ namespace financas_negocios.Interface
 
         Task<IEnumerable<UsuarioVO>> ObterUsuariosComPerfil();
 
+        Task<UsuarioVO> ObterUsuarioPorID(int Id);
+
     }
 }

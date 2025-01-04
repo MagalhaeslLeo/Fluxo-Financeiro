@@ -7,7 +7,7 @@
                     <div class="container border rounded p-3 mb-3">
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <mat-form-field>
                                     <mat-label>Nome do Usuário</mat-label>
                                     <input type="text" formControlName="nomeUsuario" matInput>
@@ -18,13 +18,26 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-6">
+
+                            <div class="col-4">
                                 <mat-form-field>
                                     <mat-label>Email do Usuário</mat-label>
                                     <input type="text" formControlName="emailUsuario" matInput>
                                     <mat-error>
                                         <validacao-campo [control]="form.controls['emailUsuario']"
                                             [mensagens]="msgValidacao['emailUsuario']">
+                                        </validacao-campo>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-form-field>
+                                    <mat-label>Senha do Usuário</mat-label>
+                                    <input type="text" formControlName="senhaUsuario" matInput>
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['senhaUsuario']"
+                                            [mensagens]="msgValidacao['senhaUsuario']">
                                         </validacao-campo>
                                     </mat-error>
                                 </mat-form-field>
@@ -48,6 +61,20 @@
                                     </mat-form-field>
                                 </div>
                             </div>
+
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <mat-label>Perfil do Usuário</mat-label>
+
+                                    <mat-select formControlName="perfilUsuario">
+                                        <mat-option *ngFor="let item of listaPerfilUsuarioFiltro" [value]="item.id">
+                                            {{item.descricao}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                </mat-form-field>
+                            </div>
+
                         </div>
 
                     </div>

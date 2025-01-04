@@ -14,6 +14,7 @@ import { UsuarioService } from "src/app/services/usuario.service";
 export class UsuarioCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
+    listaPerfilUsuarioFiltro: any[] = [];
     result: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
@@ -40,6 +41,8 @@ export class UsuarioCadComponent implements OnInit {
                 id: [null, []],
                 nomeUsuario: [null, Validators.required],
                 emailUsuario: [null, Validators.required],
+                senhaUsuario: [null, Validators.required],
+                perfilUsuario: [null, Validators.required],
                 dataCriacao: [null, Validators.required],
             },
             { updateOn: "change" }
@@ -63,6 +66,18 @@ export class UsuarioCadComponent implements OnInit {
             'dataCriacao':[
                 {
                     type: 'required',
+                    msg: 'Data inválida'
+                }
+            ],
+            'senhaUsuario':[
+                {
+                    type: 'required',
+                    msg: 'Preenchimento obrigatório'
+                }
+            ],
+            'perfilUsuario':[
+                {
+                    type: 'required',
                     msg: 'Preenchimento obrigatório'
                 }
             ]
@@ -77,6 +92,7 @@ export class UsuarioCadComponent implements OnInit {
         this.form.controls["id"].setValue(pRegistro.id);
         this.form.controls["nomeUsuario"].setValue(pRegistro.nome);
         this.form.controls["emailUsuario"].setValue(pRegistro.email);
+        this.form.controls["senhaUsuario"].setValue(pRegistro.senha);
         this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
     }
 
@@ -93,10 +109,11 @@ export class UsuarioCadComponent implements OnInit {
         if (lIdStr) {
  
             // Chama o service para obter o registro a partir do seu ID
-             this.service.ObterUsuarioPorId(parseInt(lIdStr)).subscribe((result) => {
+             this.service.ObterUsuarioPorID(parseInt(lIdStr)).subscribe((result) => {
  
                  //Atualiza o atributo que contem os registros
-                this._registros = result;              
+                this._registros = result;
+                this.listaPerfilUsuarioFiltro = [result.perfil];        
                //Preenche o form com os dados do regsitro
                 this.preencherFormCompleto(this._registros);
 
@@ -106,7 +123,8 @@ export class UsuarioCadComponent implements OnInit {
         } else {
  
             //Nao recebeu ID, então considera uma inserção e Cria o registro vazio ou com dados default.
-            this._registros = {};            
+            this._registros = {};
+            this.carregarPerfilUsuario();
             //Preenche o form com os dados do registro
             this.preencherForm(this._registros);
  
@@ -149,5 +167,11 @@ export class UsuarioCadComponent implements OnInit {
     }
     cancelar(): void{
         this.route.navigate(["usuario", "lista"]);
+    }
+
+    carregarPerfilUsuario(){
+        this.service.ObterUsuariosComPerfil().subscribe(result =>{
+            this.listaPerfilUsuarioFiltro = result.perfil;
+        });
     }
 }

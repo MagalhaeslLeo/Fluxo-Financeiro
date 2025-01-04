@@ -31,8 +31,8 @@ namespace financas_api.Controllers
         }
 
         [HttpGet]
-        [Route("ObterUsuarioPorId")]
-        public async Task<IActionResult> ObterUsuarioPorId([FromQuery] int pIdUsuario)
+        [Route("ObterPorId")]
+        public async Task<IActionResult> ObterPorId([FromQuery] int pIdUsuario)
         {
             try
             {
@@ -94,6 +94,23 @@ namespace financas_api.Controllers
             {
                 var lUsuarios = await usuarioNegocio.ObterUsuariosComPerfil();
                 return Ok(lUsuarios);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("ObterUsuarioPorID")]
+
+        public async Task<IActionResult> ObterUsuarioPorID([FromQuery]int id)
+        {
+            try
+            {
+                var lUsuario = await usuarioNegocio.ObterUsuarioPorID(id);
+
+                return Ok(lUsuario);
             }
             catch (Exception ex)
             {

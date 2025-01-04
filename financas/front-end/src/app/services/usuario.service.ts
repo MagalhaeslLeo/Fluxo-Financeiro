@@ -19,12 +19,18 @@ export class UsuarioService {
     return this.service.get("Usuario/ObterUsuariosComPerfil");
   }
 
-  ObterUsuarioPorId(pId: any): Observable<any> {
-    return this.service.get("Usuario/ObterUsuarioPorId", { pIdUsuario: pId });
+  ObterPorId(pId: any): Observable<any> {
+    return this.service.get("Usuario/ObterPorId", { pIdUsuario: pId });
   }
+
+  ObterUsuarioPorID(pId: any): Observable<any> {
+    return this.service.get("Usuario/ObterUsuarioPorID", { id: pId });
+  }
+
   PersistirUsuario(pUsuarioVo:any): Observable<any>{
     return this.service.post("Usuario/PersistirUsuario", pUsuarioVo);
   }
+
   ExcluirUsuario(pId: any): Observable<any>{
     return this.service.delete("Usuario/ExcluirUsuario", {pIdUsuario: pId});
   } 
