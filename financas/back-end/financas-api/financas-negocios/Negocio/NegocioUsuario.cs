@@ -94,8 +94,9 @@ namespace financas_negocios.Negocio
             try
             {
                 var lUsuariosPerfil = await repositorio.ObterUsuariosComPerfil();
+                var lUsuariosPerfilVO = map.Map<IEnumerable<UsuarioVO>>(lUsuariosPerfil);
 
-                return map.Map<IEnumerable<UsuarioVO>>(lUsuariosPerfil);
+                return lUsuariosPerfilVO;
             }
             catch (Exception ex)
             {

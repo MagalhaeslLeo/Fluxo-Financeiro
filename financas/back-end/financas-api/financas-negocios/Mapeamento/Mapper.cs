@@ -14,6 +14,7 @@ namespace financas_negocios.Mapeamento
         public Mapper()
         {
             CreateMap<UsuarioVO, Usuario>().ReverseMap();
+            CreateMap<PerfilVO, Perfil>().ReverseMap();
         }
     }
 }
