@@ -128,7 +128,8 @@ export class UsuarioCadComponent implements OnInit {
         this.form.controls["emailUsuario"].setValue(pRegistro.email);
         this.form.controls["senhaUsuario"].setValue(pRegistro.senha);
         this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
-        
+        this.form.controls["perfilUsuario"].setValue(pRegistro.perfil.id);
+
         this.aplicaValidacaoEmailRetorno(this.form.controls['emailUsuario'].value);
     }
 
@@ -211,7 +212,8 @@ export class UsuarioCadComponent implements OnInit {
 
     carregarComboPerfilUsuario(){
         this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
-            this.listaPerfilUsuarioFiltro = result.perfil;
+            this.listaPerfilUsuarioFiltro = result;
+            this.cdr.detectChanges();
         });
     }
 }
