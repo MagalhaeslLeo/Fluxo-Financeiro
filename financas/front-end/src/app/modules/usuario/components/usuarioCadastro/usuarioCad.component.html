@@ -10,7 +10,8 @@
                             <div class="col-4">
                                 <mat-form-field>
                                     <mat-label>Nome do Usuário</mat-label>
-                                    <input type="text" formControlName="nomeUsuario" matInput>
+                                    <input type="text" formControlName="nomeUsuario" 
+                                    (input)="formatarSomenteLetras('nomeUsuario', $event)" matInput>
                                     <mat-error>
                                         <validacao-campo [control]="form.controls['nomeUsuario']"
                                             [mensagens]="msgValidacao['nomeUsuario']">
@@ -22,11 +23,13 @@
                             <div class="col-4">
                                 <mat-form-field>
                                     <mat-label>Email do Usuário</mat-label>
-                                    <input type="text" formControlName="emailUsuario" matInput>
-                                    <mat-error>
-                                        <validacao-campo [control]="form.controls['emailUsuario']"
-                                            [mensagens]="msgValidacao['emailUsuario']">
-                                        </validacao-campo>
+                                    <input type="text" formControlName="emailUsuario"
+                                    (input)="aplicarValidacaoEmail($event)" matInput>
+                                    <mat-error *ngIf="form.controls['emailUsuario'].hasError('required')">
+                                        Preenchimento obrigatório
+                                    </mat-error>
+                                    <mat-error *ngIf="form.controls['emailUsuario'].hasError('emailInvalido')">
+                                        Formato de e-mail inválido. Ex:teste&#64;teste.com
                                     </mat-error>
                                 </mat-form-field>
                             </div>

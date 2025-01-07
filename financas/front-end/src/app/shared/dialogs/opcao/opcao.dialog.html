@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  <mat-radio-group aria-labelledby="radio-group-label" [(ngModel)]="selectedOption">
+    <mat-radio-button *ngFor="let option of options" [value]="option">
+      {{option}}
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+<div mat-dialog-actions>
+  <div class="container">
+    <div class="row botoes">
+      <div class="col text-end">
+        <button mat-flat-button color="primary" (click)="confirmar()">Confirmar</button>
+        <button mat-flat-button color="primary" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

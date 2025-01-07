@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
+import { PerfilService } from "src/app/services/perfil.service";
 import { UsuarioService } from "src/app/services/usuario.service";
 
 @Component({
@@ -28,7 +29,9 @@ export class UsuarioCadComponent implements OnInit {
         protected router: ActivatedRoute,
         protected route: Router,
         protected utils: Utils,
-        protected service: UsuarioService
+        protected cdr: ChangeDetectorRef,
+        protected service: UsuarioService,
+        protected servicePerfil: PerfilService
     ) {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
@@ -84,22 +87,6 @@ export class UsuarioCadComponent implements OnInit {
         }
     }
 
-    private preencherForm(pRegistro: any): void{
-        this.form.patchValue(pRegistro);
-    }
-
-    public preencherFormCompleto(pRegistro: any): void{
-        this.form.controls["id"].setValue(pRegistro.id);
-        this.form.controls["nomeUsuario"].setValue(pRegistro.nome);
-        this.form.controls["emailUsuario"].setValue(pRegistro.email);
-        this.form.controls["senhaUsuario"].setValue(pRegistro.senha);
-        this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
-    }
-
-    get registro(): any[]{
-        return this._registros;
-    }
-
     atualizarRegistro() {
  
         //Obtem o ID do registro via parametro da rota
@@ -113,7 +100,7 @@ export class UsuarioCadComponent implements OnInit {
  
                  //Atualiza o atributo que contem os registros
                 this._registros = result;
-                this.listaPerfilUsuarioFiltro = [result.perfil];        
+                this.carregarComboPerfilUsuario();       
                //Preenche o form com os dados do regsitro
                 this.preencherFormCompleto(this._registros);
 
@@ -124,12 +111,65 @@ export class UsuarioCadComponent implements OnInit {
  
             //Nao recebeu ID, então considera uma inserção e Cria o registro vazio ou com dados default.
             this._registros = {};
-            this.carregarPerfilUsuario();
+            this.carregarComboPerfilUsuario();
             //Preenche o form com os dados do registro
             this.preencherForm(this._registros);
  
         }
     }
+
+    private preencherForm(pRegistro: any): void{
+        this.form.patchValue(pRegistro);
+    }
+
+    public preencherFormCompleto(pRegistro: any): void{
+        this.form.controls["id"].setValue(pRegistro.id);
+        this.form.controls["nomeUsuario"].setValue(pRegistro.nome);
+        this.form.controls["emailUsuario"].setValue(pRegistro.email);
+        this.form.controls["senhaUsuario"].setValue(pRegistro.senha);
+        this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
+        
+        this.aplicaValidacaoEmailRetorno(this.form.controls['emailUsuario'].value);
+    }
+
+    formatarSomenteLetras(nomeCampo: string, event:any): void{
+        const valorTexto = this.utils.formatarSomenteLetras(event);
+
+        this.form.get(nomeCampo)?.setValue(valorTexto);
+    }
+
+    aplicarValidacaoEmail(event: Event){
+        const email = this.utils.aplicaValidacaoEmailEvento(event);
+
+        if(email){
+            this.form.get('emailUsuario')?.setErrors(null);
+        }
+        else{
+            this.form.get('emailUsuario')?.setErrors({'emailInvalido': true});
+        }
+    }
+
+    aplicaValidacaoEmailRetorno(valorEmailRetornado: string){
+ 
+        const emailPattern = this.utils.aplicaValidacaoEmailRetorno(valorEmailRetornado);
+ 
+        // Valida o e-mail retornado da api
+        if(emailPattern){
+            this.form.get('emailUsuario')?.setErrors(null);  // Remove erros se o formato for válido
+            this.cdr.detectChanges();
+        } else {
+            this.form.get('emailUsuario')?.setErrors({ 'emailInvalido': true });  // Marca como inválido se não for válido
+            this.cdr.detectChanges();
+        }
+ 
+        this.cdr.detectChanges();
+ 
+    }
+
+    get registro(): any[]{
+        return this._registros;
+    }
+
 
     confirmar() {
  
@@ -137,8 +177,8 @@ export class UsuarioCadComponent implements OnInit {
         const objUsuario = {
  
             Id: this.form.controls['id'].value ?? 0,  
-            IdPerfil: 1,
-            Senha: "123456",              
+            IdPerfil:this.form.controls['perfilUsuario'].value,
+            Senha: this.form.controls['senhaUsuario'].value,              
             Nome: this.form.controls['nomeUsuario'].value,
             Email: this.form.controls['emailUsuario'].value,            
             DataCriacao: this.form.controls['dataCriacao'].value,
@@ -169,8 +209,8 @@ export class UsuarioCadComponent implements OnInit {
         this.route.navigate(["usuario", "lista"]);
     }
 
-    carregarPerfilUsuario(){
-        this.service.ObterUsuariosComPerfil().subscribe(result =>{
+    carregarComboPerfilUsuario(){
+        this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
             this.listaPerfilUsuarioFiltro = result.perfil;
         });
     }

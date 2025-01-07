@@ -1,60 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'ngx-toastr/toastr';
 @import 'theme.scss';
-
+@import 'material.scss';
+ 
 .toast-position{
   top: 40px;
   bottom: 30px;
   right: 10px;
   //background-color: $verde-primario;
 }
-
-.mat-mdc-dialog-container .mdc-dialog__surface {
-  background-color: #0fd2f0 !important;
-}
-
+ 
+// .mat-mdc-dialog-container .mdc-dialog__surface {
+//   background-color: #0fd2f0 !important;
+// }
+ 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+ 
 html{
-  --mdc-filled-text-field-focus-active-indicator-color:#1E90A0;
+  --mdc-filled-text-field-focus-active-indicator-color:$verde-primario;
 }
-
-
+ 
+ 
 //Cores padrão
 $verde-primario: #1E90A0;
 $verde-secundario: #024952;
 $verde-terciario: #01707e;
-
+ 
 .titulo-filtro-pesquisa{
     color: $verde-primario;
 }
-
+ 
 #titulo-filtro{
     margin-top: 1rem;
-    color: #1E90A0;
+    color: $verde-primario;
 }
-
+ 
 .cabecalho-itens{
     display: flex;
-    color:#1E90A0;  
+    color:$verde-primario;  
     align-items: center;
     justify-content: space-between;
  }
-
+ 
  .filtro-select {
   display: flex;
-
+ 
  }
-
+ 
  //Cor do checkbox marcado
-.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background, 
-.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background, 
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
 .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background
 {
   border-color:$verde-terciario !important;
   background:$verde-primario!important;
-  
+ 
   svg{
     color: #fff !important;
   }
@@ -62,12 +63,12 @@ $verde-terciario: #01707e;
     --mdc-checkbox-selected-focus-state-layer-color: none !important;
   }
 }
-
-
+ 
+ 
 .custom-select {
   position: relative;
 }
-
+ 
 .custom-select .dropdown-icon {
   position: absolute;
   top: 50%;
@@ -76,22 +77,22 @@ $verde-terciario: #01707e;
   /* Adiciona o cursor de link */
   transform: translateY(-50%);
   font-size: 23px;
-  color:#1E90A0;
+  color:$verde-primario;
 }
-
+ 
 .custom-select .dropdown-icon svg {
   height: 1em;
   fill: currentColor;
 }
-
+ 
 .custom-select mat-form-field {
   width: 100%;
 }
-
+ 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: #e0ede9 !important;
 }
-
+ 
 .mdc-text-field {
   border-top-left-radius: 14px !important;
   border-top-right-radius: 14px !important;
@@ -105,17 +106,17 @@ $verde-terciario: #01707e;
   overflow: hidden;
   will-change: opacity, transform, color;
 }
-
+ 
 .mat-mdc-form-field {
   font-size: 1rem !important;
   width: 100% !important;
 }
-
+ 
 .titulo-tabela-h1{
   font-size:2rem !important;
-  color:#1E90A0;
+  color:$verde-primario;
 }
-
+ 
 .mat-h1, .mat-headline-5, .mat-typography .mat-h1, .mat-typography .mat-headline-5, .mat-typography h1 {
   font-size: 24px;
   font-weight: 400;
@@ -124,26 +125,26 @@ $verde-terciario: #01707e;
   letter-spacing: normal;
   margin: 0 0 0px;
 }
-
+ 
 #titulo-filtro {
   margin-top: 1rem;
-  color: #1E90A0;
+  color: $verde-primario;
   margin-left: 6px;
   font-size: 1.6rem;
 }
-
+ 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
   border-bottom-color:#14CD846B !important;
 }
-
+ 
 .mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label, .mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label--float-above {
-  color:#1E90A0 !important;
+  color:$verde-primario !important;
 }
-
+ 
 .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text{
   color:#01707e !important;
 }
-
+ 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
   color:#025050 !important;
 }
@@ -151,23 +152,32 @@ $verde-terciario: #01707e;
 .mat-mdc-option{
   color:#025050 !important;
 }
-
+ 
 .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
-  color:#1E90A0 !important;
+  color:$verde-primario !important;
 }
-
+ 
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
-  --mdc-tab-indicator-active-indicator-color: #1E90A0 !important;
-  --mat-tab-header-active-label-text-color: #1E90A0 !important;
-  --mat-tab-header-active-ripple-color: #1E90A0 !important;
-  --mat-tab-header-inactive-ripple-color: #1E90A0 !important;
-  --mat-tab-header-active-focus-label-text-color: #1E90A0 !important;
-  --mat-tab-header-active-hover-label-text-color: #1E90A0 !important;
-  --mat-tab-header-active-focus-indicator-color: #1E90A0 !important;
-  --mat-tab-header-active-hover-indicator-color: #1E90A0 !important;
+  --mdc-tab-indicator-active-indicator-color:      $verde-primario !important;
+  --mat-tab-header-active-label-text-color:        $verde-primario !important;
+  --mat-tab-header-active-ripple-color:            $verde-primario !important;
+  --mat-tab-header-inactive-ripple-color:          $verde-primario !important;
+  --mat-tab-header-active-focus-label-text-color:  $verde-primario !important;
+  --mat-tab-header-active-hover-label-text-color:  $verde-primario !important;
+  --mat-tab-header-active-focus-indicator-color:   $verde-primario !important;
+  --mat-tab-header-active-hover-indicator-color:   $verde-primario !important;
 }
-
+ 
+mat-mdc-dialog-container .mdc-dialog__title{
+  color: $verde-primario !important;
+}
 .mat-mdc-raised-button.mat-primary {
-  --mdc-protected-button-container-color: #1E90A0;;
+  --mdc-protected-button-container-color: #$verde-primario;;
 }
-
+ 
+.mat-mdc-select{
+  color: #025050 !important;
+}
+ 
+ 
+ 

@@ -8,6 +8,10 @@ const routes: Routes = [
      pathMatch: 'full'
    },
    {
+    path: 'home',
+    loadChildren: () => import('./modules/home/home.module').then(h=>h.HomeModule)
+  },
+   {
      path: 'usuario',
      loadChildren: () => import('./modules/usuario/usuario.module').then(u=>u.UsuarioModule)
    }

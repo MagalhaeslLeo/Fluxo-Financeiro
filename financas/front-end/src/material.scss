@@ -1,0 +1,46 @@
+//Estilos que modificam o visual dos componentes do material
+ 
+ 
+//Dimensiona os campos do tamanho total disponivel(col)
+mat-form-field {
+    width: 100%;
+  }
+   
+   
+  //Reduz o tamanho da matinput
+  // .mat-mdc-form-field-infix {
+  //   min-height: 20px;
+  //   padding-top: 5px !important;
+  //   padding-bottom: 5px !important;
+  // }
+   
+  //Reduz o tamanho e posicaoda msg de erro exibida abaixo da mat-formfield
+  .mat-mdc-form-field-subscript-wrapper{
+    font-size: 60%;
+    top:-5px !important;
+  }
+   
+  //Posiciona o label interno da matinput
+  .mat-mdc-form-field .mat-mdc-floating-label.mdc-floating-label{
+    top:15px
+  }
+   
+  //Posiciona o lable superior da matinput
+  .mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    top:24px
+  }
+   
+   
+  tr.mat-mdc-row:hover {
+    background: rgb(252, 252, 252);
+   
+  }
+   
+  //Espaçamento entre colunas de mattable
+  .mdc-data-table__cell, .mdc-data-table__header-cell {
+    padding: 0 5px 0 5px !important;
+  }
+  //Altura da linha da mattable
+  .mat-mdc-table .mdc-data-table__row {
+    height: 35px;
+  }

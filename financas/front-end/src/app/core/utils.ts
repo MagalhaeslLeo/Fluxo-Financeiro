@@ -84,6 +84,48 @@ export class Utils {
         return valor;
     }
     
+    formatarSomenteLetras(event: Event): string {
+        const inputElement = event.target as HTMLInputElement;
+        const texto = inputElement.value.replace(/[^a-zA-Z]/g, "");
+        
+        return texto;
+    }
+
+    aplicaValidacaoEmailEvento(event: Event): string {
+        const inputElement = event.target as HTMLInputElement;
+        let email = inputElement.value;
+   
+        // Expressão regular para validar o formato do e-mail
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+   
+        // Verifica se o e-mail está no formato correto
+        if (emailPattern.test(email)) {
+            // Se for válido, retorna o próprio e-mail
+            return email;
+        } else {
+            // Caso contrário, você pode retornar uma mensagem ou o valor original
+            return ''; // Ou qualquer outra ação desejada (como limpar ou mostrar um erro)
+        }
+    }
+ 
+    aplicaValidacaoEmailRetorno(valorRetornado: string): string {
+       
+        let email = valorRetornado;
+   
+        // Expressão regular para validar o formato do e-mail
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+   
+        // Verifica se o e-mail está no formato correto
+        if (emailPattern.test(email)) {
+            // Se for válido, retorna o próprio e-mail
+            return email;
+        } else {
+            // Caso contrário, você pode retornar uma mensagem ou o valor original
+            return ''; // Ou qualquer outra ação desejada (como limpar ou mostrar um erro)
+        }
+    }
+
+
     verificarArray(valor: any){
       const array = Array.isArray(valor) ? valor : [valor];
         return array;
