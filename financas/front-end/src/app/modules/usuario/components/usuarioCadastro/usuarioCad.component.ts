@@ -196,8 +196,9 @@ export class UsuarioCadComponent implements OnInit {
                  this._registros = result;
                  this.utils.exibirSucesso("Registro salvo com sucesso.");
                  this.form.markAsPristine();
-                 //this.cdr.detectChanges();
-                 this.route.navigate(["usuario", "cad", result.id]);
+                 this.cdr.detectChanges();
+                 //this.route.navigate(["usuario", "cad", result.id]);
+                 this.route.navigate(["usuario", "lista"]);
  
             });
  
