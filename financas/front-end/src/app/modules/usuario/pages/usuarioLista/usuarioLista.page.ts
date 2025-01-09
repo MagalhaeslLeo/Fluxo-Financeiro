@@ -26,6 +26,8 @@ export class UsuarioListaPage {
 
   resultadoFiltro: any[] = [];
   result: any;
+  isLoading: boolean = true;
+
 
   //Atributo que contem o registro a ser exibido pelo formulario.
   private _registros: any | undefined;
@@ -109,10 +111,12 @@ export class UsuarioListaPage {
 
   atualizarRegistros() {
 
+    this.isLoading = true;
+
 
      this.service.ObterUsuariosComPerfil().subscribe(result => {
 
-  
+      
        // Atributo que contem o registro a ser exibido pelo formulario.
        this._registros = result;
        this.usuarioFiltro = result;
@@ -126,6 +130,8 @@ export class UsuarioListaPage {
        this.tabControl.registros = result;
 
        this.resultadoFiltro = result;
+
+       this.isLoading = false;
      });
   }
 

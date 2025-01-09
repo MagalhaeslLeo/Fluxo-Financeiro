@@ -1,3 +1,8 @@
+<div *ngIf="isLoading" class="spinner-container">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading">
 <div class="row header-page">
   <div class="col text-center">
       <h1 class="mt-4 titulo-tabela-h1"> Relação de Usuários </h1>
@@ -53,6 +58,8 @@
   </form>
 </div>
 
+
 <tabelaCrud [tabControl]="tabControl" (atualizar)="atualizarRegistros()" (inserir)="inserir()"
   (alterar)="alterar($event)" (excluir)="excluir($event)">
 </tabelaCrud>
+</div>
