@@ -68,10 +68,15 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<INegocioUsuario, NegocioUsuario>();
 
 builder.Services.AddScoped<INegocioPerfil, NegocioPerfil>();
-
+builder.Services.AddScoped<INegocioDespesa, NegocioDespesa>();
+builder.Services.AddScoped<INegocioReceita, NegocioReceita>();
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 
 builder.Services.AddScoped<IRepositorioPerfil, RepositorioPerfil>();
+
+builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesa>();
+
+builder.Services.AddScoped<IRepositorioReceita, RepositorioReceita>();
 
 #endregion
 

@@ -37,9 +37,17 @@ namespace financas_api.Controllers
 
         public async Task<IActionResult> ObterPorId([FromQuery] int pIdPerfil)
         {
-            var lPerfil = await perfilNegocio.ObterPorId(pIdPerfil);
+            try
+            {
+                var lPerfil = await perfilNegocio.ObterPorId(pIdPerfil);
 
-            return Ok(lPerfil);
+                return Ok(lPerfil);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
         }
 
         [HttpPost]
