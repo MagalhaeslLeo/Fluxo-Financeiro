@@ -1,11 +1,6 @@
 ﻿using financas_dominio.Entidade;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace financas_repositorio.Contexto
 {
@@ -16,7 +11,8 @@ namespace financas_repositorio.Contexto
         public DbSet<Usuario> Usuarios { get; set; }
 
         public DbSet<Perfil> Perfis { get; set; }
-
+        public DbSet<Despesa> Despesas { get; set; }
+        public DbSet<Receita> Receitas { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -9,5 +9,10 @@ namespace financas_dominio.Entidade
         public string Senha { get; set; }
         public Perfil Perfil { get; set; }
         public int IdPerfil { get; set; }
+
+
+        public ICollection<Despesa> Despesas { get; set; }
+        public ICollection<Receita> Receitas { get; set; }
+
     }
 }

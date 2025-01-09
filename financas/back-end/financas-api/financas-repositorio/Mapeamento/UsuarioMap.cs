@@ -13,18 +13,15 @@ namespace financas_repositorio.Mapeamento
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-			try
-			{
+
 				builder.ToTable("Usuario");
 				builder.HasQueryFilter(u => !u.Deletado);
 				builder.HasKey(u => u.Id);
 				builder.Property(u => u.DataCriacao);
 				builder.HasOne(u => u.Perfil).WithMany(p => p.Usuarios).HasForeignKey(u => u.IdPerfil);
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.Message, ex);
-			}
+                builder.HasMany(u => u.Despesas).WithOne(p => p.Usuario).HasForeignKey(u => u.IdUsuario);
+                builder.HasMany(u => u.Receitas).WithOne(p => p.Usuario).HasForeignKey(u => u.IdUsuario);
+
         }
     }
 }
