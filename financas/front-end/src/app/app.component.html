@@ -11,12 +11,8 @@
       </button>
 
       <mat-menu #miniMenu="matMenu" class="btn-menu">
-        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="Despesa">
-          <span>Teste 01</span>
-        </button>
-
-        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="Receita">
-          <span>Teste 02</span>
+        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="ControleFinanceiro">
+          <span>Controle Financeiro</span>
         </button>
 
         <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="menuControleAcesso">
@@ -24,15 +20,12 @@
         </button>
 
       </mat-menu>
-      <mat-menu class="btn-menu" #Despesa="matMenu">
+      <mat-menu class="btn-menu" #ControleFinanceiro="matMenu">
 
         <button mat-menu-item [routerLink]="['/','despesa','lista']">
           <span>Despesa</span>
         </button>
 
-      </mat-menu>
-
-      <mat-menu class="btn-menu" #Receita="matMenu">
         <button mat-menu-item [routerLink]="['/','receita','lista']">
           <span>Receita</span>
         </button>

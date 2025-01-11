@@ -1,0 +1,103 @@
+<div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div *ngIf="!isLoading">
+  <div class="row header-page">
+    <div class="col text-center">
+        <h1 class="mt-4 titulo-tabela-h1"> Lista de despesa </h1>
+    </div>
+  </div>
+  
+  <div class="container-fluid">
+  
+    <h2 id="titulo-filtro">Filtros</h2>
+  
+    <form [formGroup]="formFiltro">
+      <div class="row filtro-select" >
+        <div class="col-3 processo">
+          <mat-form-field class="custom-select">
+            <mat-label> Descrição da Despesa </mat-label>
+            <input formControlName="descricaoDespesa" type="text" matInput [matAutocomplete]="autoResp">
+            <mat-autocomplete autoActiveFirstOption #autoResp="matAutocomplete" [displayWith]="obterDescricaoDespesa"
+              (optionSelected)="aplicarFiltro()">
+              <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+              <mat-option *ngFor="let item of descricaoDespesaFiltro" [value]="item">
+                {{item?.descricao}}
+              </mat-option>
+            </mat-autocomplete>
+            <span class="dropdown-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z"></path>
+              </svg>
+            </span>
+          </mat-form-field>
+        </div>
+  
+        <div class="col-3  processo">
+          <mat-form-field class="custom-select">
+            <mat-label> Tipo de pagamento </mat-label>
+            <input formControlName="tipoPagamento" type="text" matInput [matAutocomplete]="autoResp1">
+            <mat-autocomplete autoActiveFirstOption #autoResp1="matAutocomplete" [displayWith]="obterTipoPagamento"
+              (optionSelected)="aplicarFiltro()">
+              <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+              <mat-option *ngFor="let item of tipoPagamentoFiltro" [value]="item">
+                {{item?.tipoPagamento}}
+              </mat-option>
+            </mat-autocomplete>
+            <span class="dropdown-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z"></path>
+              </svg>
+            </span>
+          </mat-form-field>
+        </div>
+        
+        <div class="col-3  processo">
+          <mat-form-field class="custom-select">
+            <mat-label> Despesa mensal </mat-label>
+            <input formControlName="despesaMensal" type="text" matInput [matAutocomplete]="autoResp2">
+            <mat-autocomplete autoActiveFirstOption #autoResp2="matAutocomplete" [displayWith]="obterDespesaMensal"
+              (optionSelected)="aplicarFiltro()">
+              <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+              <mat-option *ngFor="let item of despesaMensalFiltro" [value]="item">
+                {{item?.despesaMensal}}
+              </mat-option>
+            </mat-autocomplete>
+            <span class="dropdown-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z"></path>
+              </svg>
+            </span>
+          </mat-form-field>
+        </div>
+        
+        <div class="col-3  processo">
+          <mat-form-field class="custom-select">
+            <mat-label> Despesa anual </mat-label>
+            <input formControlName="despesaAnual" type="text" matInput [matAutocomplete]="autoResp3">
+            <mat-autocomplete autoActiveFirstOption #autoResp3="matAutocomplete" [displayWith]="obterDespesaAnual"
+              (optionSelected)="aplicarFiltro()">
+              <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+              <mat-option *ngFor="let item of despesaAnualFiltro" [value]="item">
+                {{item?.despesaAnual}}
+              </mat-option>
+            </mat-autocomplete>
+            <span class="dropdown-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z"></path>
+              </svg>
+            </span>
+          </mat-form-field>
+        </div>
+  
+      </div>
+  
+    </form>
+  </div>
+  
+  
+  <tabelaCrud [tabControl]="tabControl" (atualizar)="atualizarRegistros()" (inserir)="inserir()"
+    (alterar)="alterar($event)" (excluir)="excluir($event)">
+  </tabelaCrud>
+  </div>
