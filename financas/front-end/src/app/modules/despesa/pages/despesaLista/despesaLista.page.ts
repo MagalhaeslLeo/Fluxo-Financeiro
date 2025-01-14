@@ -172,13 +172,13 @@ export class DespesaListaPage {
   //Acao a ser executada quando o usuário solicita a inclusão de um novo registro
   inserir() {
     // Navega para a rela de cadastro no modo de inclusão(sem id)
-    this.router.navigate(['despesa', 'cad']);
+    this.router.navigate(['despesa', 'det']);
   }
 
   // Acao a ser executada quando o usuario solicita alteracao do registro selecionado
   alterar(pRegistro: any) {
     // Navega para a tela de cadastro no modo de alteracao(com id)
-    this.router.navigate(['despesa', 'cad', pRegistro.id]);
+    this.router.navigate(['despesa', 'det', pRegistro.id]);
   }
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado

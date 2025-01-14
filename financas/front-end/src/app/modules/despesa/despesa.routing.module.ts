@@ -1,6 +1,7 @@
 import { Component, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { DespesaListaPage } from "./pages/despesaLista/despesaLista.page";
+import { DespesaDetPage } from "./pages/despesaDet/despesaDet.page";
 
 
 const routes : Routes = [
@@ -9,15 +10,15 @@ const routes : Routes = [
         component: DespesaListaPage
     },
 
-    // {
-    //     path: "det",
-    //     //component: DespesaDetPage
-    // },
+     {
+         path: "det",
+         component: DespesaDetPage
+     },
 
-    // {
-    //     path: "det/:idRegistro",
-    //     //component: DespesaDetPage
-    // }
+     {
+         path: "det/:idRegistro",
+         component: DespesaDetPage
+     }
 
 ]
 

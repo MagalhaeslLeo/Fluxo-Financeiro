@@ -17,12 +17,16 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatTabsModule} from '@angular/material/tabs';
 import { DespesaListaPage } from "./pages/despesaLista/despesaLista.page";
 import { DespesaRoutingModule } from "./despesa.routing.module";
+import { DespesaCadComponent } from "./components/despesaCad/despesaCad.component";
+import { DespesaDetPage } from "./pages/despesaDet/despesaDet.page";
 
 
 
 @NgModule({
 declarations: [
-    DespesaListaPage
+    DespesaListaPage,
+    DespesaCadComponent,
+    DespesaDetPage
 ],
 imports:[
     CommonModule,
