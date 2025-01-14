@@ -1,0 +1,81 @@
+<div id="receita">
+    <form [formGroup]="form">
+        <div>
+            <div>
+                <div class="container border  bg-white p-3">
+
+                    <div class="container border rounded p-3 mb-3">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <mat-form-field>
+                                    <mat-label>Descrição da receita</mat-label>
+                                    <input type="text" formControlName="descricaoReceita" matInput>
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['descricaoReceita']"
+                                            [mensagens]="msgValidacao['descricaoReceita']">
+                                        </validacao-campo>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+
+                            <div class="col-4">
+                                <mat-form-field>
+                                    <mat-label>Fonte de renda</mat-label>
+
+                                    <mat-select formControlName="fonteRenda">
+                                        <mat-option *ngFor="let item of listaFonteRendaFiltro" [value]="item.id">
+                                            {{item.fonteRenda}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-form-field>
+                                    <mat-label>Valor da receita</mat-label>
+                                    <input type="text" formControlName="valorReceita" matInput>
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['valorReceita']"
+                                            [mensagens]="msgValidacao['valorReceita']">
+                                        </validacao-campo>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-form-field class="processo">
+                                    <mat-label>Data de criação</mat-label>
+                                    <input matInput [matDatepicker]="dp1" formControlName="dataCriacao">
+                                    <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp1></mat-datepicker>
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['dataCriacao']"
+                                            [mensagens]="msgValidacao['dataCriacao']">
+                                        </validacao-campo>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <rodape-cad [cadForm]="form" [registro]="registro" (confirmar)="confirmar()"
+                                (cancelarRoute)="cancelar()" [isRoute]="true">
+                            </rodape-cad>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

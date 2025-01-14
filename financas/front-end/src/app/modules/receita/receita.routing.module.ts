@@ -1,6 +1,7 @@
 import { Component, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ReceitaListaPage } from "./pages/receitaLista/receitaLista.page";
+import { ReceitaDetPage } from "./pages/receitaDet/receitaDet.page";
 
 
 const routes : Routes = [
@@ -9,15 +10,15 @@ const routes : Routes = [
         component: ReceitaListaPage
     },
 
-    // {
-    //     path: "det",
-    //     //component: ReceitaDetPage
-    // },
+     {
+         path: "det",
+         component: ReceitaDetPage
+     },
 
-    // {
-    //     path: "det/:idRegistro",
-    //     //component: ReceitaDetPage
-    // }
+     {
+         path: "det/:idRegistro",
+         component: ReceitaDetPage
+     }
 
 ]
 

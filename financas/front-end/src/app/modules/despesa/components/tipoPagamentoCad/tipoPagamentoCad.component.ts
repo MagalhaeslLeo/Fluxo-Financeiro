@@ -2,20 +2,20 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
-import { ReceitaService } from "src/app/services/receita.service";
+import { DespesaService } from "src/app/services/despesa.service";
 import { PerfilService } from "src/app/services/perfil.service";
 
 @Component({
-    selector: "receitaCadComponent",
-    templateUrl: './receitaCad.component.html',
-    styleUrls: ['./receitaCad.component.scss'],
+    selector: "tipoPagamentoCadComponent",
+    templateUrl: './tipoPagamentoCad.component.html',
+    styleUrls: ['./tipoPagamentoCad.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ReceitaCadComponent implements OnInit {
+export class TipoPagamentoCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
-    listaFonteRendaFiltro: any[] = [];
+    listaCartaoFiltro: any[] = [];
     result: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
@@ -30,7 +30,7 @@ export class ReceitaCadComponent implements OnInit {
         protected route: Router,
         protected utils: Utils,
         protected cdr: ChangeDetectorRef,
-        protected service: ReceitaService,
+        protected service: DespesaService,
         protected servicePerfil: PerfilService
     ) {
         this.form = this.criarForm();
@@ -42,10 +42,8 @@ export class ReceitaCadComponent implements OnInit {
         return this.formBuilder.group(
             {
                 id: [null, []],
-                descricaoReceita: [null, Validators.required],
-                fonteRenda: [null, Validators.required],
-                valorReceita: [null, Validators.required],
-                dataCriacao: [null, Validators.required]
+                tipoPagamento: [null, Validators.required],
+                cartao: [null, Validators.required]
             },
             { updateOn: "change" }
         );
@@ -53,25 +51,13 @@ export class ReceitaCadComponent implements OnInit {
 
     private criarMensagensValidacao(): {[key:string]: any}{
         return {
-            'descricaoReceita': [
+            'tipoPagamento':[
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
                 }
             ],
-            'valorReceita': [
-                {
-                    type: 'required',
-                    msg: 'Preenchimento obrigatório'
-                }
-            ],
-            'dataCriacao':[
-                {
-                    type: 'required',
-                    msg: 'Data inválida'
-                }
-            ],
-            'fonteRenda':[
+            'cartao': [
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
@@ -93,7 +79,7 @@ export class ReceitaCadComponent implements OnInit {
  
                  //Atualiza o atributo que contem os registros
                 this._registros = result;
-                this.carregarComboFonteRenda();       
+                this.carregarComboTipoPagamento();       
                //Preenche o form com os dados do regsitro
                 this.preencherFormCompleto(this._registros);
 
@@ -104,7 +90,7 @@ export class ReceitaCadComponent implements OnInit {
  
             //Nao recebeu ID, então considera uma inserção e Cria o registro vazio ou com dados default.
             this._registros = {};
-            this.carregarComboFonteRenda();
+            this.carregarComboTipoPagamento();
             //Preenche o form com os dados do registro
             this.preencherForm(this._registros);
  
@@ -117,10 +103,8 @@ export class ReceitaCadComponent implements OnInit {
 
     public preencherFormCompleto(pRegistro: any): void{
         this.form.controls["id"].setValue(pRegistro.id);
-        this.form.controls["descricaoReceita"].setValue(pRegistro.descricaoReceita);
-        this.form.controls["fonteRenda"].setValue(pRegistro.fonteRenda);
-        this.form.controls["valorReceita"].setValue(pRegistro.valorReceita);
-        this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
+        this.form.controls["tipoPagamento"].setValue(pRegistro.tipoPagamento);
+        this.form.controls["cartao"].setValue(pRegistro.cartao);
     }
 
     formatarSomenteLetras(nomeCampo: string, event:any): void{
@@ -137,14 +121,12 @@ export class ReceitaCadComponent implements OnInit {
     confirmar() {
  
        
-        const objReceita = {
+        const objTipoPagamento = {
  
-            Id: this.form.controls['id'].value ?? 0,  
-            DescricaoReceita: this.form.controls['descricaoReceita'].value,              
-            FonteRenda: this.form.controls['fonteRenda'].value,
-            ValorReceita: this.form.controls['valorReceita'].value,            
-            DataCriacao: this.form.controls['dataCriacao'].value,
-            Deletado: false
+            Id: this.form.controls['id'].value ?? 0,           
+            TipoPagamento: this.form.controls['tipoPagamento'].value,
+            Cartao: this.form.controls['cartao'].value ,
+            Deletado: false,
  
         }
  
@@ -152,14 +134,14 @@ export class ReceitaCadComponent implements OnInit {
         if (this.utils.validarForm(this.form)) {
  
             //Chama o service para a persistencia, passando os dados do FORM como parametro
-             this.service.PersistirReceita(objReceita).subscribe((result) => {
+             this.service.PersistirDespesa(objTipoPagamento).subscribe((result) => {
                  this.result = result;
                  this._registros = result;
                  this.utils.exibirSucesso("Registro salvo com sucesso.");
                  this.form.markAsPristine();
                  this.cdr.detectChanges();
                  //this.route.navigate(["usuario", "cad", result.id]);
-                 this.route.navigate(["receita", "lista"]);
+                 this.route.navigate(["despesa", "lista"]);
  
             });
  
@@ -169,12 +151,12 @@ export class ReceitaCadComponent implements OnInit {
         }
     }
     cancelar(): void{
-        this.route.navigate(["receita", "lista"]);
+        this.route.navigate(["despesa", "lista"]);
     }
 
-    carregarComboFonteRenda(){
+    carregarComboTipoPagamento(){
         this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
-            this.listaFonteRendaFiltro = result;
+            this.listaCartaoFiltro = result;
             this.cdr.detectChanges();
         });
     }

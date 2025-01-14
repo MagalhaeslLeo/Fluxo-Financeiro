@@ -20,6 +20,9 @@ export class ReceitaListaPage {
   
   descricaoReceitaFiltro: any[] = [];
   descricaoReceitaFiltroTodos: any[] = [];
+
+  fonteDeRendaFiltro: any[] = [];
+  fonteDeRendaFiltroTodos: any[] = [];
   
   receitaMensalFiltro: any[] = [];
   receitaMensalFiltroTodos: any[] = [];
@@ -48,6 +51,12 @@ export class ReceitaListaPage {
       titulo: 'Valor da receita',
       innerHTML: (registro: any) => `${(registro.valor)}`
     },
+    {
+      atributo: 'fonteDeRenda',
+      titulo: 'Fonte de renda',
+      innerHTML: (registro: any) => `${(registro.fonteDeRenda)}`
+    }
+    ,
     {
       atributo: 'dataCriacao',
       titulo: 'Data da receita',
@@ -78,8 +87,11 @@ export class ReceitaListaPage {
      this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['receita'],
        this.formFiltro.controls['idReceita'], this.aplicarFiltroDescricaoReceita.bind(this), 0);
 
-    this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['receitaMensal'],
-       this.formFiltro.controls['idReceitaMensal'], this.aplicarFiltroReceitaMensal.bind(this), 0);
+    this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['fonteDeRenda'],
+       this.formFiltro.controls['idFonteDeRenda'], this.aplicarFiltroReceitaMensal.bind(this), 0);
+
+       this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['receitaMensal'],
+        this.formFiltro.controls['idReceitaMensal'], this.aplicarFiltroReceitaMensal.bind(this), 0);
        
        this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['receitaAnual'],
        this.formFiltro.controls['idReceitaAnual'], this.aplicarFiltroReceitaAnual.bind(this), 0);
@@ -98,6 +110,9 @@ export class ReceitaListaPage {
       {
         receita: [null, []],
         idReceita: [null, []],
+
+        fonteDeRenda: [null, []],
+        idFonteDeRenda: [null, []],
         
         receitaMensal: [null, []],
         idReceitaMensal: [null, []],
@@ -131,12 +146,12 @@ export class ReceitaListaPage {
        // Atributo que contem o registro a ser exibido pelo formulario.
        this._registros = result;
        this.descricaoReceitaFiltro = result;
-       
+       this.fonteDeRendaFiltro = result;
        this.receitaMensalFiltro = result;
        this.receitaAnualFiltro = result;
        
        this.descricaoReceitaFiltroTodos = this.descricaoReceitaFiltro;
-       
+       this.fonteDeRendaFiltroTodos = this.fonteDeRendaFiltro;
        this.receitaMensalFiltroTodos = this.receitaMensalFiltro;
        this.receitaAnualFiltroTodos = this.receitaAnualFiltro;
        
@@ -155,13 +170,13 @@ export class ReceitaListaPage {
   //Acao a ser executada quando o usuário solicita a inclusão de um novo registro
   inserir() {
     // Navega para a rela de cadastro no modo de inclusão(sem id)
-    this.router.navigate(['receita', 'cad']);
+    this.router.navigate(['receita', 'det']);
   }
 
   // Acao a ser executada quando o usuario solicita alteracao do registro selecionado
   alterar(pRegistro: any) {
     // Navega para a tela de cadastro no modo de alteracao(com id)
-    this.router.navigate(['receita', 'cad', pRegistro.id]);
+    this.router.navigate(['receita', 'det', pRegistro.id]);
   }
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado
@@ -199,6 +214,17 @@ export class ReceitaListaPage {
     });
 
   }
+
+  aplicarFiltroFonteDeRenda(pFonteDeRenda: any): void {
+
+    // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
+    this.fonteDeRendaFiltro = this.fonteDeRendaFiltroTodos.filter(f => {
+      
+      const fonteDeRendaString = `${f.fonteDeRenda}`
+      return fonteDeRendaString.includes(pFonteDeRenda);
+
+    });
+  }
   
   aplicarFiltroReceitaMensal(pReceitaMensal: any): void {
 
@@ -225,6 +251,7 @@ export class ReceitaListaPage {
   aplicarFiltro(): void {
     this.resultadoFiltro = this.registro;
     const lDescricaoReceita = this.formFiltro.controls['descricaoReceita'].value;
+    const lFonteDeRenda = this.formFiltro.controls['fonteDeRenda'].value;
     const lReceitaMensal = this.formFiltro.controls['receitaMensal'].value;
     const lReceitaAnual = this.formFiltro.controls['receitaAnual'].value;
 
@@ -235,6 +262,17 @@ export class ReceitaListaPage {
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
         const registroDescricaoReceitaString = `${f.descricao}`;
         return registroDescricaoReceitaString.includes(descricaoReceitaString);
+      });
+
+    }
+
+    if (lFonteDeRenda.fonteDeRenda && lFonteDeRenda) {
+
+      const fonteDeRendaString = `${lDescricaoReceita.descricao}`;
+
+      this.resultadoFiltro = this.resultadoFiltro.filter(f => {
+        const registroFonteDeRendaString = `${f.fonteDeRenda}`;
+        return registroFonteDeRendaString.includes(fonteDeRendaString);
       });
 
     }
@@ -270,7 +308,11 @@ export class ReceitaListaPage {
    obterReceitaMensal(pReceitaMensal: any): any {
     return pReceitaMensal ? `${pReceitaMensal.receitaMensal}` : '';
   }
-  
+
+  obterFonteDeRenda(pFonteDeRenda: any): any {
+    return pFonteDeRenda ? `${pFonteDeRenda.fonteDeRenda}` : '';
+  }
+
   obterReceitaAnual(pReceitaAnual: any): any {
     return pReceitaAnual ? `${pReceitaAnual.receitaAnual}` : '';
   }

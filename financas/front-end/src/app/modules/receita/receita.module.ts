@@ -17,12 +17,18 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatTabsModule} from '@angular/material/tabs';
 import { ReceitaListaPage } from "./pages/receitaLista/receitaLista.page";
 import { ReceitaRoutingModule } from "./receita.routing.module";
+import { ReceitaDetPage } from "./pages/receitaDet/receitaDet.page";
+import { ReceitaCadComponent } from "./components/receitaCad/receitaCad.component";
+import { FonteRendaCadComponent } from "./components/fonteRendaCad/fonteRendaCad.component";
 
 
 
 @NgModule({
 declarations: [
-    ReceitaListaPage
+    ReceitaListaPage,
+    ReceitaDetPage,
+    ReceitaCadComponent,
+    FonteRendaCadComponent
 ],
 imports:[
     CommonModule,
@@ -41,7 +47,8 @@ imports:[
     MatProgressSpinnerModule,
     MatDividerModule,
     MatTabsModule,
-    ReceitaRoutingModule
+    ReceitaRoutingModule,
+    
 ],
 providers: [
 

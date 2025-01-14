@@ -1,0 +1,55 @@
+<div id="fonteRenda">
+    <form [formGroup]="form">
+        <div>
+            <div>
+                <div class="container border  bg-white p-3">
+
+                    <div class="container border rounded p-3 mb-3">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <mat-label>Fonte de renda</mat-label>
+                                    <input type="text" formControlName="fonteRenda" matInput>
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['fonteRenda']"
+                                            [mensagens]="msgValidacao['fonteRenda']">
+                                        </validacao-campo>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <mat-label>Conta</mat-label>
+
+                                    <mat-select formControlName="conta">
+                                        <mat-option *ngFor="let item of listaContaFiltro" [value]="item.id">
+                                            {{item.conta}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <rodape-cad [cadForm]="form" [registro]="registro" (confirmar)="confirmar()"
+                                (cancelarRoute)="cancelar()" [isRoute]="true">
+                            </rodape-cad>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

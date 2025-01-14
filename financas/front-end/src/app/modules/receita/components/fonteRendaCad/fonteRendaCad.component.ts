@@ -6,16 +6,16 @@ import { ReceitaService } from "src/app/services/receita.service";
 import { PerfilService } from "src/app/services/perfil.service";
 
 @Component({
-    selector: "receitaCadComponent",
-    templateUrl: './receitaCad.component.html',
-    styleUrls: ['./receitaCad.component.scss'],
+    selector: "fonteRendaCadComponent",
+    templateUrl: './fonteRendaCad.component.html',
+    styleUrls: ['./fonteRendaCad.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ReceitaCadComponent implements OnInit {
+export class FonteRendaCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
-    listaFonteRendaFiltro: any[] = [];
+    listaContaFiltro: any[] = [];
     result: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
@@ -42,10 +42,8 @@ export class ReceitaCadComponent implements OnInit {
         return this.formBuilder.group(
             {
                 id: [null, []],
-                descricaoReceita: [null, Validators.required],
                 fonteRenda: [null, Validators.required],
-                valorReceita: [null, Validators.required],
-                dataCriacao: [null, Validators.required]
+                conta: [null, Validators.required]
             },
             { updateOn: "change" }
         );
@@ -53,25 +51,13 @@ export class ReceitaCadComponent implements OnInit {
 
     private criarMensagensValidacao(): {[key:string]: any}{
         return {
-            'descricaoReceita': [
-                {
-                    type: 'required',
-                    msg: 'Preenchimento obrigatório'
-                }
-            ],
-            'valorReceita': [
-                {
-                    type: 'required',
-                    msg: 'Preenchimento obrigatório'
-                }
-            ],
-            'dataCriacao':[
-                {
-                    type: 'required',
-                    msg: 'Data inválida'
-                }
-            ],
             'fonteRenda':[
+                {
+                    type: 'required',
+                    msg: 'Preenchimento obrigatório'
+                }
+            ],
+            'conta': [
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
@@ -117,10 +103,8 @@ export class ReceitaCadComponent implements OnInit {
 
     public preencherFormCompleto(pRegistro: any): void{
         this.form.controls["id"].setValue(pRegistro.id);
-        this.form.controls["descricaoReceita"].setValue(pRegistro.descricaoReceita);
         this.form.controls["fonteRenda"].setValue(pRegistro.fonteRenda);
-        this.form.controls["valorReceita"].setValue(pRegistro.valorReceita);
-        this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
+        this.form.controls["conta"].setValue(pRegistro.conta);
     }
 
     formatarSomenteLetras(nomeCampo: string, event:any): void{
@@ -137,14 +121,12 @@ export class ReceitaCadComponent implements OnInit {
     confirmar() {
  
        
-        const objReceita = {
+        const objFonteRenda = {
  
-            Id: this.form.controls['id'].value ?? 0,  
-            DescricaoReceita: this.form.controls['descricaoReceita'].value,              
+            Id: this.form.controls['id'].value ?? 0,           
             FonteRenda: this.form.controls['fonteRenda'].value,
-            ValorReceita: this.form.controls['valorReceita'].value,            
-            DataCriacao: this.form.controls['dataCriacao'].value,
-            Deletado: false
+            Conta: this.form.controls['conta'].value ,
+            Deletado: false,
  
         }
  
@@ -152,7 +134,7 @@ export class ReceitaCadComponent implements OnInit {
         if (this.utils.validarForm(this.form)) {
  
             //Chama o service para a persistencia, passando os dados do FORM como parametro
-             this.service.PersistirReceita(objReceita).subscribe((result) => {
+             this.service.PersistirReceita(objFonteRenda).subscribe((result) => {
                  this.result = result;
                  this._registros = result;
                  this.utils.exibirSucesso("Registro salvo com sucesso.");
@@ -174,7 +156,7 @@ export class ReceitaCadComponent implements OnInit {
 
     carregarComboFonteRenda(){
         this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
-            this.listaFonteRendaFiltro = result;
+            this.listaContaFiltro = result;
             this.cdr.detectChanges();
         });
     }
