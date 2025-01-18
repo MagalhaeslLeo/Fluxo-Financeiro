@@ -26,5 +26,11 @@ ObterTodasDespesas(): Observable<any> {
   ExcluirDespesa(pId: any): Observable<any>{
     return this.service.delete("Despesa/ExcluirDespesa", {pIdDespesa: pId});
   } 
+  ObterTodosTiposPagamentos(): Observable<any> {
+    return this.service.get("Despesa/ObterTodosTiposPagamentos");
+  }
+  ObterCartoesPorUsuario(pId:any):Observable<any>{
+    return this.service.get("Despesa/ObterCartoesPorUsuario", {pId: pId});
+  }
   
 }

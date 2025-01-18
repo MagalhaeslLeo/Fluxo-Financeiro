@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
 import { DespesaService } from "src/app/services/despesa.service";
-import { PerfilService } from "src/app/services/perfil.service";
+
 
 @Component({
     selector: "despesaCadComponent",
@@ -16,7 +16,11 @@ export class DespesaCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
     listaTipoPagamentoFiltro: any[] = [];
+    listaCartoesDisponiveisFiltro: any[] = [];
     result: any;
+
+    @Input() tipoCartaoCredito: boolean = true;
+    IdUsuario: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
 
@@ -30,8 +34,7 @@ export class DespesaCadComponent implements OnInit {
         protected route: Router,
         protected utils: Utils,
         protected cdr: ChangeDetectorRef,
-        protected service: DespesaService,
-        protected servicePerfil: PerfilService
+        protected service: DespesaService
     ) {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
@@ -173,9 +176,21 @@ export class DespesaCadComponent implements OnInit {
     }
 
     carregarComboTipoPagamento(){
-        this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
+        this.service.ObterTodosTiposPagamentos().subscribe(result =>{
             this.listaTipoPagamentoFiltro = result;
             this.cdr.detectChanges();
         });
+    }
+    carregarComboCartoesDisponiveis(){
+        this.listaTipoPagamentoFiltro.forEach(element => {
+            if(element.Id === 3 && element.tipoPagamento === 'Cartão de Crédito'){
+                this.service.ObterCartoesPorUsuario(this.IdUsuario).subscribe(result=>{
+                    this.listaCartoesDisponiveisFiltro = result;
+                    this.tipoCartaoCredito = false;
+                    this.cdr.detectChanges();
+                });
+            }
+        });
+        
     }
 }

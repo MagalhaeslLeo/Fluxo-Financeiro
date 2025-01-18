@@ -28,7 +28,7 @@
                                 <mat-form-field>
                                     <mat-label>Tipo de pagamento</mat-label>
 
-                                    <mat-select formControlName="tipoPagamento">
+                                    <mat-select formControlName="tipoPagamento" (selectionChange)="carregarComboCartoesDisponiveis()">
                                         <mat-option *ngFor="let item of listaTipoPagamentoFiltro" [value]="item.id">
                                             {{item.tipoPagamento}}
                                         </mat-option>
@@ -64,6 +64,22 @@
                             </div>
 
                         </div>
+                        <div class="row" [hidden]="tipoCartaoCredito">
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <mat-label>Cartões Disponíveis</mat-label>
+
+                                    <mat-select formControlName="cartoesDisponiveis">
+                                        <mat-option *ngFor="let item of listaCartoesDisponiveisFiltro"
+                                            [value]="item.id">
+                                            {{item.cartoesDisponiveis}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                </mat-form-field>
+                            </div>
+                        </div>
+
 
                     </div>
 
