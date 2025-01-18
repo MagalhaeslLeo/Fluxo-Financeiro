@@ -9,6 +9,7 @@ namespace financas_dominio.Entidade
 {
     public class Despesa : EntidadeBase
     {
+        public int IdDespesa { get; set; }
         public string Descricao { get; set; }
         public decimal Valor { get; set; }
 

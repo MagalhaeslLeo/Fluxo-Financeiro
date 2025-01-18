@@ -16,7 +16,7 @@ namespace financas_repositorio.Mapeamento
 
                 builder.ToTable("Despesa");
                 builder.HasQueryFilter(u => !u.Deletado);
-                builder.HasKey(u => u.Id);
+                builder.HasKey(u => u.IdDespesa);
                 builder.Property(u => u.DataCriacao);
                 builder.HasOne(u => u.Usuario).WithMany(p => p.Despesas).HasForeignKey(u => u.IdUsuario);
 
