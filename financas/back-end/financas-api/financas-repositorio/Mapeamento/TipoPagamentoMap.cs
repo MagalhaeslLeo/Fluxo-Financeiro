@@ -18,6 +18,7 @@ namespace financas_repositorio.Mapeamento
             builder.HasQueryFilter(u => !u.Deletado);
             builder.HasKey(u => u.IdTipoPagamento);
             builder.Property(u => u.DataCriacao);
+            builder.HasMany(t => t.Despesas).WithOne(t => t.TipoPagamento).HasForeignKey(t => t.IdTipoPagamento);
         }
     }
 }

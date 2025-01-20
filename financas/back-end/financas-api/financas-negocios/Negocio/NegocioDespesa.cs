@@ -63,6 +63,20 @@ namespace financas_negocios.Negocio
             }
         }
 
+        public async Task<IEnumerable<TipoPagamentoVO>> ObterTiposPagamentos()
+        {
+            try
+            {
+                var lTipoPagamento = await repositorio.ObterTiposPagamentos();
+                var tipoPagamentoMap = map.Map<IEnumerable<TipoPagamentoVO>>(lTipoPagamento);
+                return tipoPagamentoMap;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public async Task<IEnumerable<DespesaVO>> ObterTodos()
         {
             try

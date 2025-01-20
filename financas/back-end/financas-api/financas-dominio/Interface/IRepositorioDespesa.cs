@@ -9,6 +9,6 @@ namespace financas_dominio.Interface
 {
     public interface IRepositorioDespesa : IRepositorioBase<Despesa>
     {
-
+        Task<IEnumerable<TipoPagamento>> ObterTiposPagamentos();
     }
 }

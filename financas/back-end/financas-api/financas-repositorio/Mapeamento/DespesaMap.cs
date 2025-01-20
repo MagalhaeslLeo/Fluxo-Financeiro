@@ -14,11 +14,12 @@ namespace financas_repositorio.Mapeamento
         public void Configure(EntityTypeBuilder<Despesa> builder)
         {
 
-                builder.ToTable("Despesa");
-                builder.HasQueryFilter(u => !u.Deletado);
-                builder.HasKey(u => u.IdDespesa);
-                builder.Property(u => u.DataCriacao);
-                builder.HasOne(u => u.Usuario).WithMany(p => p.Despesas).HasForeignKey(u => u.IdUsuario);
+            builder.ToTable("Despesa");
+            builder.HasQueryFilter(u => !u.Deletado);
+            builder.HasKey(u => u.IdDespesa);
+            builder.Property(u => u.DataCriacao);
+            builder.HasOne(d => d.TipoPagamento).WithMany(d => d.Despesas).HasForeignKey(d => d.IdTipoPagamento);
+            builder.HasOne(u => u.Usuario).WithMany(p => p.Despesas).HasForeignKey(u => u.IdUsuario);
 
         }
     }

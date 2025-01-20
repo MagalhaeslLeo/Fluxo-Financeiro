@@ -27,7 +27,7 @@ namespace financas_repositorio.Repositorio
             try
             {
                 var lUsuario = await contexto.Usuarios.Include(u => u.Perfil)
-                .Where(u => !u.Deletado && u.Id == id).FirstOrDefaultAsync();
+                .Where(u => !u.Deletado && u.IdUsuario == id).FirstOrDefaultAsync();
 
                 return lUsuario;
             }

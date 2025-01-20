@@ -1,4 +1,5 @@
-﻿using financas_negocios.Entidade;
+﻿using financas_dominio.Entidade;
+using financas_negocios.Entidade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace financas_negocios.Interface
         Task<DespesaVO> ObterPorId(int Id);
         Task<DespesaVO> Atualizar(DespesaVO despesaVO);
         Task StatusDeletado(int Id);
+        Task<IEnumerable<TipoPagamento>> ObterTiposPagamentos();
 
     }
 }

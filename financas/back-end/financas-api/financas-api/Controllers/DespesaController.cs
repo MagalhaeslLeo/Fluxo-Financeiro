@@ -88,5 +88,14 @@ namespace financas_api.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        [HttpGet]
+        [Route("ObterTiposPagamentos")]
+
+        public async Task<IActionResult> ObterTiposPagamentos()
+        {
+            var lTipoPagamento = await negocio.ObterTiposPagamentos();
+            return Ok(lTipoPagamento);
+        }
     }
 }
