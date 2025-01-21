@@ -18,6 +18,8 @@ namespace financas_repositorio.Mapeamento
             builder.HasQueryFilter(u => !u.Deletado);
             builder.HasKey(u => u.IdFonteRenda);
             builder.Property(u => u.DataCriacao);
+            builder.HasMany(t => t.Receitas).WithOne(t => t.FonteRenda).HasForeignKey(t => t.IdFonteRenda);
+
         }
 
     }

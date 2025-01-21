@@ -70,6 +70,8 @@ builder.Services.AddScoped<INegocioUsuario, NegocioUsuario>();
 builder.Services.AddScoped<INegocioPerfil, NegocioPerfil>();
 builder.Services.AddScoped<INegocioDespesa, NegocioDespesa>();
 builder.Services.AddScoped<INegocioReceita, NegocioReceita>();
+builder.Services.AddScoped<INegocioFonteRenda, NegocioFonteRenda>();
+
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 
 builder.Services.AddScoped<IRepositorioPerfil, RepositorioPerfil>();
@@ -77,6 +79,8 @@ builder.Services.AddScoped<IRepositorioPerfil, RepositorioPerfil>();
 builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesa>();
 
 builder.Services.AddScoped<IRepositorioReceita, RepositorioReceita>();
+
+builder.Services.AddScoped<IRepositorioFonteRenda, RepositorioFonteRenda>();
 
 #endregion
 

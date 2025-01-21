@@ -13,7 +13,7 @@ namespace financas_negocios.Entidade
         public DateTime DataCriacao { get; set; }
         public string Descricao { get; set; }
         public bool Deletado { get; set; }
-        public ICollection<Despesa> Despesas { get; set; }
+        public ICollection<DespesaVO> Despesas { get; set; }
 
     }
 }

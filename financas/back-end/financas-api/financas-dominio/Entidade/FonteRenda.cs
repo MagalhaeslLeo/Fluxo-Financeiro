@@ -11,6 +11,9 @@ namespace financas_dominio.Entidade
     {
         public int IdFonteRenda { get; set; }
         public string Descricao { get; set; }
-        
+
+        public ICollection<Receita> Receitas { get; set; }
+
+
     }
 }
