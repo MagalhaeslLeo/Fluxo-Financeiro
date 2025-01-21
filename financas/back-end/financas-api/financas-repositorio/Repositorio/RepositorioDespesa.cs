@@ -14,6 +14,42 @@ namespace financas_repositorio.Repositorio
     {
         public RepositorioDespesa(DbContexto contexto) : base(contexto){ }
 
+        public async Task<Despesa> AtualizarDespesa(Despesa despesa)
+        {
+            try
+            {
+                var atualizaEntidade = await contexto.Despesas.SingleOrDefaultAsync(e => e.IdDespesa.Equals(despesa.IdDespesa));
+
+                if (atualizaEntidade == null)
+                {
+                    return null;
+                }
+                contexto.Entry(atualizaEntidade).CurrentValues.SetValues(despesa);
+                await contexto.SaveChangesAsync();
+                return despesa;
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public async Task<Despesa> ObterDespesaPorId(int id)
+        {
+            try
+            {
+                return await contexto.Despesas.SingleOrDefaultAsync(e => e.IdDespesa.Equals(id));
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
         public async Task<IEnumerable<TipoPagamento>> ObterTiposPagamentos()
         {
             try
@@ -25,6 +61,5 @@ namespace financas_repositorio.Repositorio
                 throw new Exception(ex.Message, ex);
             }
         }
-
     }
 }

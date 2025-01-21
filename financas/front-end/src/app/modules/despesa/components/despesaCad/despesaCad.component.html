@@ -30,7 +30,7 @@
 
                                     <mat-select formControlName="tipoPagamento" (selectionChange)="carregarComboCartoesDisponiveis()">
                                         <mat-option *ngFor="let item of listaTipoPagamentoFiltro" [value]="item.id">
-                                            {{item.tipoPagamento}}
+                                            {{item.descricao}}
                                         </mat-option>
                                     </mat-select>
 

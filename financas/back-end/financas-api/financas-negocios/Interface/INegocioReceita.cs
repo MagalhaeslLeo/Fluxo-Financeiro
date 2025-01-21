@@ -11,8 +11,8 @@ namespace financas_negocios.Interface
     {
         Task<ReceitaVO> AdicionarSalvar(ReceitaVO receitaVO);
         Task<IEnumerable<ReceitaVO>> ObterTodos();
-        Task<ReceitaVO> ObterPorId(int Id);
-        Task<ReceitaVO> Atualizar(ReceitaVO receitaVO);
+        Task<ReceitaVO> ObterReceitaPorId(int Id);
+        Task<ReceitaVO> AtualizarReceita(ReceitaVO receitaVO);
         Task StatusDeletado(int Id);
 
     }

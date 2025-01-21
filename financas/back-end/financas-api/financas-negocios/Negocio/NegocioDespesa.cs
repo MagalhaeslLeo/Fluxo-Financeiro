@@ -32,12 +32,12 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<DespesaVO> Atualizar(DespesaVO despesaVO)
+        public async Task<DespesaVO> AtualizarDespesa(DespesaVO despesaVO)
         {
             try
             {
                 var despesaMap = map.Map<Despesa>(despesaVO);
-                var despesa = await repositorio.Atualizar(despesaMap);
+                var despesa = await repositorio.AtualizarDespesa(despesaMap);
                 var despesaRetorno = map.Map<DespesaVO>(despesa);
 
                 return despesaRetorno;
@@ -48,11 +48,11 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<DespesaVO> ObterPorId(int Id)
+        public async Task<DespesaVO> ObterDespesaPorId(int Id)
         {
             try
             {
-                var despesa = await repositorio.ObterPorID(Id);
+                var despesa = await repositorio.ObterDespesaPorId(Id);
                 var despesaMap = map.Map<DespesaVO>(despesa);
 
                 return despesaMap;
@@ -96,7 +96,7 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var despesa = await repositorio.ObterPorID(Id);
+                var despesa = await repositorio.ObterDespesaPorId(Id);
 
                 despesa.Deletado = true;
 

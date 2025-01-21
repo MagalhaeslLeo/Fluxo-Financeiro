@@ -56,22 +56,6 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<UsuarioVO> ObterPorID(int Id)
-        {
-            try
-            {
-                var usuario = await repositorio.ObterPorID(Id);
-
-                var usuarioMap = map.Map<UsuarioVO>(usuario);
-
-                return usuarioMap;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-        }
-
         public async Task<UsuarioVO> ObterUsuarioPorID(int Id)
         {
             try
@@ -124,7 +108,7 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var usuario = await repositorio.ObterPorID(Id);
+                var usuario = await repositorio.ObterUsuarioPorID(Id);
 
                 usuario.Deletado = true;
 

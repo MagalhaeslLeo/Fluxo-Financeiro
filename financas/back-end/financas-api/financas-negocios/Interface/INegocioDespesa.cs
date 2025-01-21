@@ -12,10 +12,10 @@ namespace financas_negocios.Interface
     {
         Task<DespesaVO> AdicionarSalvar(DespesaVO despesaVO);
         Task<IEnumerable<DespesaVO>> ObterTodos();
-        Task<DespesaVO> ObterPorId(int Id);
-        Task<DespesaVO> Atualizar(DespesaVO despesaVO);
+        Task<DespesaVO> ObterDespesaPorId(int Id);
+        Task<DespesaVO> AtualizarDespesa(DespesaVO despesaVO);
         Task StatusDeletado(int Id);
-        Task<IEnumerable<TipoPagamento>> ObterTiposPagamentos();
+        Task<IEnumerable<TipoPagamentoVO>> ObterTiposPagamentos();
 
     }
 }

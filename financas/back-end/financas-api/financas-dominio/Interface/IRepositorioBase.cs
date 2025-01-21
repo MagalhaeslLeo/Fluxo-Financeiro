@@ -15,9 +15,8 @@ namespace financas_dominio.Interface
         void Adicionar(T entidade);
         Task<T> AdicionarSalvar(T entidade);
         Task<IEnumerable<T>> ObterTodos();
-        Task<T> ObterPorID(int Id);
-        Task<T> Atualizar(T entidade);
         Task StatusDeletado(T entidade);
+
 
     }
 }

@@ -11,5 +11,8 @@ namespace financas_dominio.Interface
     {
         Task<IEnumerable<Usuario>> ObterUsuariosComPerfil();
         Task<Usuario> ObterUsuarioPorID(int id);
+
+        Task<Usuario> Atualizar(Usuario usuario);
+
     }
 }

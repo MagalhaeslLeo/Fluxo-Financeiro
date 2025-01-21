@@ -17,6 +17,8 @@ namespace financas_negocios.Mapeamento
             CreateMap<PerfilVO, Perfil>().ReverseMap();
             CreateMap<DespesaVO, Despesa>().ReverseMap();
             CreateMap<ReceitaVO, Receita>().ReverseMap();
+            CreateMap<TipoPagamentoVO, TipoPagamento>().ReverseMap();
+
         }
     }
 }

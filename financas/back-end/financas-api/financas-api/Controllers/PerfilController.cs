@@ -39,7 +39,7 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lPerfil = await perfilNegocio.ObterPorId(pIdPerfil);
+                var lPerfil = await perfilNegocio.ObterPerfilPorId(pIdPerfil);
 
                 return Ok(lPerfil);
             }
@@ -61,7 +61,7 @@ namespace financas_api.Controllers
 
                 if(pPerfilVO.Id > 0)
                 {
-                    lPerfil = await perfilNegocio.Atualizar(pPerfilVO);
+                    lPerfil = await perfilNegocio.AtualizarPerfil(pPerfilVO);
                     return Ok(lPerfil);
                 }
 

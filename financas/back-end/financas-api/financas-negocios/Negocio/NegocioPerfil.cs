@@ -39,12 +39,12 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<PerfilVO> Atualizar(PerfilVO perfilVO)
+        public async Task<PerfilVO> AtualizarPerfil(PerfilVO perfilVO)
         {
             try
             {
                 var perfilMap = map.Map<Perfil>(perfilVO);
-                var perfil = await repositorio.Atualizar(perfilMap);
+                var perfil = await repositorio.AtualizarPerfil(perfilMap);
                 var perfilRetorno = map.Map<PerfilVO>(perfil);
 
                 return perfilRetorno;
@@ -55,11 +55,11 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<PerfilVO> ObterPorId(int Id)
+        public async Task<PerfilVO> ObterPerfilPorId(int Id)
         {
             try
             {
-                var perfil = await repositorio.ObterPorID(Id);
+                var perfil = await repositorio.ObterPerfilPorId(Id);
                 var perfilMap = map.Map<PerfilVO>(perfil);
 
                 return perfilMap;
@@ -89,7 +89,7 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var perfil = await repositorio.ObterPorID(Id);
+                var perfil = await repositorio.ObterPerfilPorId(Id);
 
                 perfil.Deletado = true;
 

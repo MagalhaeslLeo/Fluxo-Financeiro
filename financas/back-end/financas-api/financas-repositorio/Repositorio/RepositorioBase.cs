@@ -65,42 +65,6 @@ namespace financas_repositorio.Repositorio
             }
         }
 
-        public async Task<T> Atualizar(T entidade)
-        {
-            try
-            {
-                var atualizaEntidade = await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(entidade.Id));
-
-                if (atualizaEntidade == null)
-                {
-                    return null;
-                }
-                contexto.Entry(atualizaEntidade).CurrentValues.SetValues(entidade);
-                await contexto.SaveChangesAsync();
-            }
-            catch (Exception exception)
-            {
-
-                throw new Exception(exception.Message, exception);
-
-            }
-            return entidade;
-        }
-
-        public async Task<T> ObterPorID(int Id)
-        {
-            try
-            {
-                return await dbSet.SingleOrDefaultAsync(e => e.Id.Equals(Id));
-            }
-            catch (Exception exception)
-            {
-
-                throw new Exception(exception.Message, exception);
-
-            }
-        }
-
         public async Task<IEnumerable<T>> ObterTodos()
         {
             try
@@ -114,7 +78,6 @@ namespace financas_repositorio.Repositorio
 
             }
         }
-
         public async Task StatusDeletado(T entidade)
         {
             try

@@ -10,5 +10,7 @@ namespace financas_dominio.Interface
     public interface IRepositorioDespesa : IRepositorioBase<Despesa>
     {
         Task<IEnumerable<TipoPagamento>> ObterTiposPagamentos();
+        Task<Despesa> ObterDespesaPorId(int id);
+        Task<Despesa> AtualizarDespesa(Despesa despesa);
     }
 }

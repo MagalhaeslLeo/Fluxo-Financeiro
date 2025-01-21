@@ -176,7 +176,7 @@ export class DespesaCadComponent implements OnInit {
     }
 
     carregarComboTipoPagamento(){
-        this.service.ObterTodosTiposPagamentos().subscribe(result =>{
+        this.service.ObterTiposPagamentos().subscribe(result =>{
             this.listaTipoPagamentoFiltro = result;
             this.cdr.detectChanges();
         });

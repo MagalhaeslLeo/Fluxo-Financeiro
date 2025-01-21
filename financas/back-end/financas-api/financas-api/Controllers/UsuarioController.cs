@@ -36,7 +36,7 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lUsuario = await usuarioNegocio.ObterPorID(pIdUsuario);
+                var lUsuario = await usuarioNegocio.ObterUsuarioPorID(pIdUsuario);
 
                 return Ok(lUsuario);
             }

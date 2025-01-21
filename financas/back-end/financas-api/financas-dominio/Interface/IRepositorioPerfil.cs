@@ -9,5 +9,7 @@ namespace financas_dominio.Interface
 {
     public interface IRepositorioPerfil : IRepositorioBase<Perfil>
     {
+        Task<Perfil> ObterPerfilPorId(int id);
+        Task<Perfil> AtualizarPerfil(Perfil perfil);
     }
 }

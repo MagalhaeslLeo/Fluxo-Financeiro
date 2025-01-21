@@ -32,12 +32,12 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<ReceitaVO> Atualizar(ReceitaVO receitaVO)
+        public async Task<ReceitaVO> AtualizarReceita(ReceitaVO receitaVO)
         {
             try
             {
                 var receitaMap = map.Map<Receita>(receitaVO);
-                var receita = await repositorio.Atualizar(receitaMap);
+                var receita = await repositorio.AtualizarReceita(receitaMap);
                 var receitaRetorno = map.Map<ReceitaVO>(receita);
 
                 return receitaRetorno;
@@ -48,11 +48,11 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<ReceitaVO> ObterPorId(int Id)
+        public async Task<ReceitaVO> ObterReceitaPorId(int Id)
         {
             try
             {
-                var receita = await repositorio.ObterPorID(Id);
+                var receita = await repositorio.ObterReceitaPorId(Id);
                 var receitaMap = map.Map<ReceitaVO>(receita);
 
                 return receitaMap;
@@ -82,7 +82,7 @@ namespace financas_negocios.Negocio
         {
             try
             {
-                var receita = await repositorio.ObterPorID(Id);
+                var receita = await repositorio.ObterReceitaPorId(Id);
 
                 receita.Deletado = true;
 

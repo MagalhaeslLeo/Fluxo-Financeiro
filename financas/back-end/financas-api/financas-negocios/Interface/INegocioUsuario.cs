@@ -13,8 +13,6 @@ namespace financas_negocios.Interface
 
         Task<IEnumerable<UsuarioVO>> ObterTodos();
 
-        Task<UsuarioVO> ObterPorID(int Id);
-
         Task<UsuarioVO> Atualizar(UsuarioVO usuarioVO);
 
         Task StatusDeletado(int Id);

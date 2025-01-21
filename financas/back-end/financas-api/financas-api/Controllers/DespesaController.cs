@@ -38,7 +38,7 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lDespesa = await negocio.ObterPorId(pIdDespesa);
+                var lDespesa = await negocio.ObterDespesaPorId(pIdDespesa);
 
                 return Ok(lDespesa);
             }
@@ -60,7 +60,7 @@ namespace financas_api.Controllers
 
                 if (pDespesaVO.Id > 0)
                 {
-                    lDespesa = await negocio.Atualizar(pDespesaVO);
+                    lDespesa = await negocio.AtualizarDespesa(pDespesaVO);
                     return Ok(lDespesa);
                 }
 

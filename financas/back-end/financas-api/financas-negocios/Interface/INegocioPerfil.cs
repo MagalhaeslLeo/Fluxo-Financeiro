@@ -11,8 +11,8 @@ namespace financas_negocios.Interface
     {
         Task<PerfilVO> AdicionarSalvar(PerfilVO perfilVO);
         Task<IEnumerable<PerfilVO>> ObterTodos();
-        Task<PerfilVO> Atualizar(PerfilVO perfilVO);
-        Task<PerfilVO> ObterPorId(int Id);
+        Task<PerfilVO> AtualizarPerfil(PerfilVO perfilVO);
+        Task<PerfilVO> ObterPerfilPorId(int Id);
         Task StatusDeletado(int Id);
     }
 }
