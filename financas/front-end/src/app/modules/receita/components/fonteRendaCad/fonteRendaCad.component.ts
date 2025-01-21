@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
 import { ReceitaService } from "src/app/services/receita.service";
-import { PerfilService } from "src/app/services/perfil.service";
+import { FonteRendaService } from "src/app/services/fonteRenda.service";
 
 @Component({
     selector: "fonteRendaCadComponent",
@@ -15,7 +15,6 @@ import { PerfilService } from "src/app/services/perfil.service";
 export class FonteRendaCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
-    listaContaFiltro: any[] = [];
     result: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
@@ -31,7 +30,7 @@ export class FonteRendaCadComponent implements OnInit {
         protected utils: Utils,
         protected cdr: ChangeDetectorRef,
         protected service: ReceitaService,
-        protected servicePerfil: PerfilService
+        protected serviceFonteRenda: FonteRendaService
     ) {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
@@ -42,8 +41,8 @@ export class FonteRendaCadComponent implements OnInit {
         return this.formBuilder.group(
             {
                 id: [null, []],
-                fonteRenda: [null, Validators.required],
-                conta: [null, Validators.required]
+                descricao: [null, Validators.required],
+                dataCriacao: [null, Validators.required]
             },
             { updateOn: "change" }
         );
@@ -51,16 +50,16 @@ export class FonteRendaCadComponent implements OnInit {
 
     private criarMensagensValidacao(): {[key:string]: any}{
         return {
-            'fonteRenda':[
+            'descricao':[
                 {
                     type: 'required',
                     msg: 'Preenchimento obrigatório'
                 }
             ],
-            'conta': [
+            'dataCriacao':[
                 {
                     type: 'required',
-                    msg: 'Preenchimento obrigatório'
+                    msg: 'Data inválida'
                 }
             ]
         }
@@ -75,11 +74,10 @@ export class FonteRendaCadComponent implements OnInit {
         if (lIdStr) {
  
             // Chama o service para obter o registro a partir do seu ID
-             this.service.ObterPorId(parseInt(lIdStr)).subscribe((result) => {
+             this.serviceFonteRenda.ObterPorId(parseInt(lIdStr)).subscribe((result) => {
  
                  //Atualiza o atributo que contem os registros
-                this._registros = result;
-                this.carregarComboFonteRenda();       
+                this._registros = result;     
                //Preenche o form com os dados do regsitro
                 this.preencherFormCompleto(this._registros);
 
@@ -90,7 +88,6 @@ export class FonteRendaCadComponent implements OnInit {
  
             //Nao recebeu ID, então considera uma inserção e Cria o registro vazio ou com dados default.
             this._registros = {};
-            this.carregarComboFonteRenda();
             //Preenche o form com os dados do registro
             this.preencherForm(this._registros);
  
@@ -103,8 +100,8 @@ export class FonteRendaCadComponent implements OnInit {
 
     public preencherFormCompleto(pRegistro: any): void{
         this.form.controls["id"].setValue(pRegistro.id);
-        this.form.controls["fonteRenda"].setValue(pRegistro.fonteRenda);
-        this.form.controls["conta"].setValue(pRegistro.conta);
+        this.form.controls["descricao"].setValue(pRegistro.descricao);
+        this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
     }
 
     formatarSomenteLetras(nomeCampo: string, event:any): void{
@@ -124,8 +121,8 @@ export class FonteRendaCadComponent implements OnInit {
         const objFonteRenda = {
  
             Id: this.form.controls['id'].value ?? 0,           
-            FonteRenda: this.form.controls['fonteRenda'].value,
-            Conta: this.form.controls['conta'].value ,
+            Descricao: this.form.controls['descricao'].value,
+            DataCriacao: this.form.controls['dataCriacao'].value,
             Deletado: false,
  
         }
@@ -134,14 +131,14 @@ export class FonteRendaCadComponent implements OnInit {
         if (this.utils.validarForm(this.form)) {
  
             //Chama o service para a persistencia, passando os dados do FORM como parametro
-             this.service.PersistirReceita(objFonteRenda).subscribe((result) => {
+             this.serviceFonteRenda.PersistirFonteRenda(objFonteRenda).subscribe((result) => {
                  this.result = result;
                  this._registros = result;
                  this.utils.exibirSucesso("Registro salvo com sucesso.");
                  this.form.markAsPristine();
                  this.cdr.detectChanges();
                  //this.route.navigate(["usuario", "cad", result.id]);
-                 this.route.navigate(["receita", "lista"]);
+                 this.route.navigate(["receita", "listaDet"]);
  
             });
  
@@ -151,13 +148,6 @@ export class FonteRendaCadComponent implements OnInit {
         }
     }
     cancelar(): void{
-        this.route.navigate(["receita", "lista"]);
-    }
-
-    carregarComboFonteRenda(){
-        this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
-            this.listaContaFiltro = result;
-            this.cdr.detectChanges();
-        });
+        this.route.navigate(["receita", "listaDet"]);
     }
 }

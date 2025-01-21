@@ -20,6 +20,8 @@ import { ReceitaRoutingModule } from "./receita.routing.module";
 import { ReceitaDetPage } from "./pages/receitaDet/receitaDet.page";
 import { ReceitaCadComponent } from "./components/receitaCad/receitaCad.component";
 import { FonteRendaCadComponent } from "./components/fonteRendaCad/fonteRendaCad.component";
+import { FonteRendaListaPage } from "./pages/fonteRendaLista/fonteRendaLista.page";
+import { ReceitaListaDetPage } from "./pages/receitaListaDet/receitaListaDet.page";
 
 
 
@@ -27,8 +29,10 @@ import { FonteRendaCadComponent } from "./components/fonteRendaCad/fonteRendaCad
 declarations: [
     ReceitaListaPage,
     ReceitaDetPage,
+    ReceitaListaDetPage,
     ReceitaCadComponent,
-    FonteRendaCadComponent
+    FonteRendaCadComponent,
+    FonteRendaListaPage
 ],
 imports:[
     CommonModule,

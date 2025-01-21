@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
 import { ReceitaService } from "src/app/services/receita.service";
-import { PerfilService } from "src/app/services/perfil.service";
+import { FonteRendaService } from "src/app/services/fonteRenda.service";
 
 @Component({
     selector: "receitaCadComponent",
@@ -31,7 +31,7 @@ export class ReceitaCadComponent implements OnInit {
         protected utils: Utils,
         protected cdr: ChangeDetectorRef,
         protected service: ReceitaService,
-        protected servicePerfil: PerfilService
+        protected serviceFonteRenda: FonteRendaService
     ) {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
@@ -159,7 +159,7 @@ export class ReceitaCadComponent implements OnInit {
                  this.form.markAsPristine();
                  this.cdr.detectChanges();
                  //this.route.navigate(["usuario", "cad", result.id]);
-                 this.route.navigate(["receita", "lista"]);
+                 this.route.navigate(["receita", "listaDet"]);
  
             });
  
@@ -169,11 +169,11 @@ export class ReceitaCadComponent implements OnInit {
         }
     }
     cancelar(): void{
-        this.route.navigate(["receita", "lista"]);
+        this.route.navigate(["receita", "listaDet"]);
     }
 
     carregarComboFonteRenda(){
-        this.servicePerfil.ObterTodosPerfis().subscribe(result =>{
+        this.serviceFonteRenda.ObterTodasFonteRendas().subscribe(result =>{
             this.listaFonteRendaFiltro = result;
             this.cdr.detectChanges();
         });

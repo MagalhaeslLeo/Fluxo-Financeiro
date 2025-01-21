@@ -10,10 +10,10 @@
                             <div class="col-6">
                                 <mat-form-field>
                                     <mat-label>Fonte de renda</mat-label>
-                                    <input type="text" formControlName="fonteRenda" matInput>
+                                    <input type="text" formControlName="descricao" matInput>
                                     <mat-error>
-                                        <validacao-campo [control]="form.controls['fonteRenda']"
-                                            [mensagens]="msgValidacao['fonteRenda']">
+                                        <validacao-campo [control]="form.controls['descricao']"
+                                            [mensagens]="msgValidacao['descricao']">
                                         </validacao-campo>
                                     </mat-error>
                                 </mat-form-field>
@@ -25,15 +25,17 @@
 
 
                             <div class="col-6">
-                                <mat-form-field>
-                                    <mat-label>Conta</mat-label>
+                                <mat-form-field class="processo">
+                                    <mat-label>Data de criação</mat-label>
 
-                                    <mat-select formControlName="conta">
-                                        <mat-option *ngFor="let item of listaContaFiltro" [value]="item.id">
-                                            {{item.conta}}
-                                        </mat-option>
-                                    </mat-select>
-
+                                    <input matInput [matDatepicker]="dp1" formControlName="dataCriacao">
+                                    <mat-datepicker-toggle matIconSuffix [for]="dp1"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp1></mat-datepicker>
+                                        <mat-error>
+                                            <validacao-campo [control]="form.controls['dataCriacao']"
+                                                [mensagens]="msgValidacao['dataCriacao']">
+                                            </validacao-campo>
+                                        </mat-error>
                                 </mat-form-field>
                             </div>
 

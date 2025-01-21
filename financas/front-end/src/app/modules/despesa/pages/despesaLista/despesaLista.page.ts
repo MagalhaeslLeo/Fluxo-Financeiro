@@ -198,7 +198,7 @@ export class DespesaListaPage {
 
   showMsg() {
      this.utils.exibirWarning(
-       "Selecione um usuário para prosseguir"
+       "Selecione uma despesa para prosseguir"
      );
   }
 

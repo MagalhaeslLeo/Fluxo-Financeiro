@@ -8,6 +8,7 @@ import { ElementoOrganizacionalService } from 'src/app/services/elementoOrganiza
 //import { Router } from '@angular/router';
 
 @Component({
+  selector: "receitaListaPage",
   styleUrls: ['./receitaLista.page.scss'],
   templateUrl: './receitaLista.page.html'
 })
@@ -88,7 +89,7 @@ export class ReceitaListaPage {
        this.formFiltro.controls['idReceita'], this.aplicarFiltroDescricaoReceita.bind(this), 0);
 
     this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['fonteDeRenda'],
-       this.formFiltro.controls['idFonteDeRenda'], this.aplicarFiltroReceitaMensal.bind(this), 0);
+       this.formFiltro.controls['idFonteDeRenda'], this.aplicarFiltroFonteDeRenda.bind(this), 0);
 
        this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['receitaMensal'],
         this.formFiltro.controls['idReceitaMensal'], this.aplicarFiltroReceitaMensal.bind(this), 0);
@@ -196,7 +197,7 @@ export class ReceitaListaPage {
 
   showMsg() {
      this.utils.exibirWarning(
-       "Selecione um usuário para prosseguir"
+       "Selecione uma receita para prosseguir"
      );
   }
 
