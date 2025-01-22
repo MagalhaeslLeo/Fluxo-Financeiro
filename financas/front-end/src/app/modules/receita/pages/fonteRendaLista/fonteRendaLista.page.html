@@ -18,7 +18,7 @@
         <div class="col-6 processo">
           <mat-form-field class="custom-select">
             <mat-label> Descrição da fonte de renda </mat-label>
-            <input formControlName="descricaoFonteRenda" type="text" matInput [matAutocomplete]="autoResp">
+            <input formControlName="fonteDeRenda" type="text" matInput [matAutocomplete]="autoResp">
             <mat-autocomplete autoActiveFirstOption #autoResp="matAutocomplete" [displayWith]="obterDescricaoFonteRenda"
               (optionSelected)="aplicarFiltro()">
               <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>

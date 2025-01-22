@@ -18,7 +18,7 @@
         <div class="col-3 processo">
           <mat-form-field class="custom-select">
             <mat-label> Descrição da receita </mat-label>
-            <input formControlName="descricaoReceita" type="text" matInput [matAutocomplete]="autoResp">
+            <input formControlName="receita" type="text" matInput [matAutocomplete]="autoResp">
             <mat-autocomplete autoActiveFirstOption #autoResp="matAutocomplete" [displayWith]="obterDescricaoReceita"
               (optionSelected)="aplicarFiltro()">
               <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
