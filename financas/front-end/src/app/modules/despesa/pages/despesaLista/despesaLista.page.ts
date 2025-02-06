@@ -52,9 +52,9 @@ export class DespesaListaPage {
       innerHTML: (registro: any) => `${(registro.valor)}`
     },
 	{
-      atributo: 'tipoPagamento',
+      atributo: 'tipoPagamentoVO',
       titulo: 'Tipo de pagamento',
-      innerHTML: (registro: any) => `${registro.tipoPagamento}`
+      innerHTML: (registro: any) => `${registro.tipoPagamentoVO.descricao}`
 
     },
 	{
@@ -222,7 +222,7 @@ export class DespesaListaPage {
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.tipoPagamentoFiltro = this.tipoPagamentoFiltroTodos.filter(f => {
       
-      const tipoPagamentoString = `${f.tipoPagamento}`
+      const tipoPagamentoString = `${f.tipoPagamentoVO.descricao}`
       return tipoPagamentoString.includes(pTipoPagamento);
 
     });
@@ -268,11 +268,11 @@ export class DespesaListaPage {
 
     }
 
-    if (lTipoPagamento && lTipoPagamento.tipoPagamento) {
-      const tipoPagamentoString = `${lTipoPagamento.tipoPagamento}`;
+    if (lTipoPagamento && lTipoPagamento.tipoPagamentoVO) {
+      const tipoPagamentoString = `${lTipoPagamento.tipoPagamentoVO.descricao}`;
 
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
-        const registroTipoPagamentoString = `${(f.tipoPagamento)}`
+        const registroTipoPagamentoString = `${(f.tipoPagamentoVO.descricao)}`
         return registroTipoPagamentoString.includes(tipoPagamentoString);
       });
 
@@ -307,7 +307,7 @@ export class DespesaListaPage {
   }
 
   obterTipoPagamento(pTipoPagamento: any): any {
-    return pTipoPagamento ? `${pTipoPagamento.tipoPagamento}` : '';
+    return pTipoPagamento ? `${pTipoPagamento.tipoPagamentoVO.descricao}` : '';
   }
 
    obterDespesaMensal(pDespesaMensal: any): any {

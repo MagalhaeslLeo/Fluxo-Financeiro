@@ -11,6 +11,7 @@ namespace financas_negocios.Interface
     public interface INegocioDespesa
     {
         Task<DespesaVO> AdicionarSalvar(DespesaVO despesaVO);
+        Task<IEnumerable<DespesaVO>> ObterDespesasComTiposPagamentos();
         Task<IEnumerable<DespesaVO>> ObterTodos();
         Task<DespesaVO> ObterDespesaPorId(int Id);
         Task<DespesaVO> AtualizarDespesa(DespesaVO despesaVO);

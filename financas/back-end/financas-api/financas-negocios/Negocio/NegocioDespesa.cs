@@ -77,6 +77,21 @@ namespace financas_negocios.Negocio
             }
         }
 
+        public async Task<IEnumerable<DespesaVO>> ObterDespesasComTiposPagamentos()
+        {
+            try
+            {
+                var lDespesa = await repositorio.ObterTodasDespesasComTiposPagamentos();
+
+                var despesaMap = map.Map<IEnumerable<DespesaVO>>(lDespesa);
+                return despesaMap;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public async Task<IEnumerable<DespesaVO>> ObterTodos()
         {
             try

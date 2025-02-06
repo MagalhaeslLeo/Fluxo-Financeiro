@@ -42,7 +42,7 @@
               (optionSelected)="aplicarFiltro()">
               <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
               <mat-option *ngFor="let item of tipoPagamentoFiltro" [value]="item">
-                {{item?.tipoPagamento}}
+                {{item?.tipoPagamentoVO.descricao}}
               </mat-option>
             </mat-autocomplete>
             <span class="dropdown-icon">

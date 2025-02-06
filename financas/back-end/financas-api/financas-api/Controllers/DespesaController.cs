@@ -22,7 +22,7 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lDespesa = await negocio.ObterTodos();
+                var lDespesa = await negocio.ObterDespesasComTiposPagamentos();
                 return Ok(lDespesa);
             }
             catch (Exception ex)

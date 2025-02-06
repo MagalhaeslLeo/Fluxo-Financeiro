@@ -36,6 +36,23 @@ namespace financas_repositorio.Repositorio
             }
         }
 
+        public async Task<IEnumerable<Despesa>> ObterTodasDespesasComTiposPagamentos()
+        {
+            try
+            {
+                var listaDespesa = await contexto.Despesas
+                .Include(d => d.TipoPagamento)
+                .ToListAsync();
+                return listaDespesa;
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
         public async Task<Despesa> ObterDespesaPorId(int id)
         {
             try

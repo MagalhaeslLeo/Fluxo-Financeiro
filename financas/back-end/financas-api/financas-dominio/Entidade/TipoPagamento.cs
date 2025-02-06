@@ -11,7 +11,6 @@ namespace financas_dominio.Entidade
     {
         public int IdTipoPagamento { get; set; }
         public string Descricao { get; set; }
-
         public ICollection<Despesa> Despesas { get; set; }
 
     }

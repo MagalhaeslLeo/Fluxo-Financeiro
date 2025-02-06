@@ -18,6 +18,5 @@ namespace financas_dominio.Entidade
         public string Numero { get; set; }
         public string CpfTitular { get; set; }
 
-        //public ICollection<TipoPagamento> TipoPagamentos { get; set; }
     }
 }
