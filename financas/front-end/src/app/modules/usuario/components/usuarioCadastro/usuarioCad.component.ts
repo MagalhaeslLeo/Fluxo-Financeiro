@@ -178,7 +178,7 @@ export class UsuarioCadComponent implements OnInit {
         const objUsuario = {
  
             Id: this.form.controls['id'].value ?? 0,  
-            IdPerfil:this.form.controls['perfilUsuario'].value,
+            IdPerfilVO:this.form.controls['perfilUsuario'].value,
             Senha: this.form.controls['senhaUsuario'].value,              
             Nome: this.form.controls['nomeUsuario'].value,
             Email: this.form.controls['emailUsuario'].value,            

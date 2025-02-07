@@ -14,6 +14,6 @@ namespace financas_negocios.Entidade
         public DateTime DataCriacao { get; set; }
         public bool Deletado { get; set; }
 
-        public ICollection<UsuarioVO> Usuarios { get; set; }
+        public ICollection<UsuarioVO> UsuariosVO { get; set; }
     }
 }
