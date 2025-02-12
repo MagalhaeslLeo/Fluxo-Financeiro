@@ -57,7 +57,7 @@ namespace financas_repositorio.Repositorio
         {
             try
             {
-                return await contexto.Despesas.SingleOrDefaultAsync(e => e.IdDespesa.Equals(id));
+                return await contexto.Despesas.Include(d=>d.TipoPagamento).SingleOrDefaultAsync(e => e.IdDespesa.Equals(id));
             }
             catch (Exception exception)
             {

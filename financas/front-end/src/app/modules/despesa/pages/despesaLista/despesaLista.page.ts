@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
@@ -17,16 +17,16 @@ export class DespesaListaPage {
 
   idElemento: any = 0;
   formFiltro: FormGroup;
-  
+
   descricaoDespesaFiltro: any[] = [];
   descricaoDespesaFiltroTodos: any[] = [];
 
   tipoPagamentoFiltro: any[] = [];
   tipoPagamentoFiltroTodos: any[] = [];
-  
+
   despesaMensalFiltro: any[] = [];
   despesaMensalFiltroTodos: any[] = [];
-  
+
   despesaAnualFiltro: any[] = [];
   despesaAnualFiltroTodos: any[] = [];
 
@@ -46,23 +46,23 @@ export class DespesaListaPage {
       titulo: 'Descrição da Despesa',
       innerHTML: (registro: any) => `${(registro.descricao)}`
     },
-	{
+    {
       atributo: 'valor',
       titulo: 'Valor da despesa',
       innerHTML: (registro: any) => `${(registro.valor)}`
     },
-	{
+    {
       atributo: 'tipoPagamentoVO',
       titulo: 'Tipo de pagamento',
       innerHTML: (registro: any) => `${registro.tipoPagamentoVO.descricao}`
 
     },
-	{
+    {
       atributo: 'dataCriacao',
       titulo: 'Data da despesa',
       innerHTML: (registro: any) => this.utils.formatarData(`${(registro.dataCriacao)}`)
     }
-    
+
   ];
 
   //Componente que controla o comportamento da matTable
@@ -70,9 +70,9 @@ export class DespesaListaPage {
 
   /// FIM = ÁREA - OBJETOS, VARIÁVEIS E CONFIGURAÇÕES ///
 
- 
+
   ///  CONSTRUTOR ///
-  
+
   constructor(
     protected utils: Utils, /// 
     protected router: Router,
@@ -83,18 +83,18 @@ export class DespesaListaPage {
     this.formFiltro = this.criarForm();
     this.atualizarRegistros();
 
-     //Tratamento Auto-Complete
-     this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['despesa'],
-       this.formFiltro.controls['idDespesa'], this.aplicarFiltroDescricaoDespesa.bind(this), 0);
+    //Tratamento Auto-Complete
+    this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['despesa'],
+      this.formFiltro.controls['idDespesa'], this.aplicarFiltroDescricaoDespesa.bind(this), 0);
 
-     this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['tipoPagamento'],
-       this.formFiltro.controls['idTipoPagamento'], this.aplicarFiltroTipoPagamento.bind(this), 0);
+    this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['tipoPagamento'],
+      this.formFiltro.controls['idTipoPagamento'], this.aplicarFiltroTipoPagamento.bind(this), 0);
 
     this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['despesaMensal'],
-       this.formFiltro.controls['idDespesaMensal'], this.aplicarFiltroDespesaMensal.bind(this), 0);
-	   
-	   this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['despesaAnual'],
-       this.formFiltro.controls['idDespesaAnual'], this.aplicarFiltroDespesaAnual.bind(this), 0);
+      this.formFiltro.controls['idDespesaMensal'], this.aplicarFiltroDespesaMensal.bind(this), 0);
+
+    this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['despesaAnual'],
+      this.formFiltro.controls['idDespesaAnual'], this.aplicarFiltroDespesaAnual.bind(this), 0);
   }
 
   /// FIM CONSTRUTOR ///
@@ -110,14 +110,14 @@ export class DespesaListaPage {
       {
         despesa: [null, []],
         idDespesa: [null, []],
-		
+
         tipoPagamento: [null, []],
         idTipoPagamento: [null, []],
-		
-		despesaMensal: [null, []],
+
+        despesaMensal: [null, []],
         idDespesaMensal: [null, []],
-		
-		despesaAnual: [null, []],
+
+        despesaAnual: [null, []],
         idDespesaAnual: [null, []]
 
       },
@@ -140,33 +140,19 @@ export class DespesaListaPage {
     this.isLoading = true;
 
 
-     this.service.ObterTodasDespesas().subscribe(result => {
+    this.service.ObterTodasDespesas().subscribe(result => {
 
-      
-       // Atributo que contem o registro a ser exibido pelo formulario.
-       this._registros = result;
-       this.descricaoDespesaFiltro = result;
-       this.tipoPagamentoFiltro = result;
-	   
-	   this.despesaMensalFiltro = result;
-       this.despesaAnualFiltro = result;
-	   
-       this.tipoPagamentoFiltroTodos = this.tipoPagamentoFiltro;
-       this.descricaoDespesaFiltroTodos = this.descricaoDespesaFiltro;
-	   
-	   this.despesaMensalFiltroTodos = this.despesaMensalFiltro;
-       this.despesaAnualFiltroTodos = this.despesaAnualFiltro;
-	   
-	   
+      // Atributo que contem o registro a ser exibido pelo formulario.
+      this._registros = result;
+      this.carregarCombosFiltros(result);
 
+      // Inicia o controle da matTable indicando as colunas a serem exibidas e a lista de registros  
+      this.tabControl.registros = result;
 
-       // Inicia o controle da matTable indicando as colunas a serem exibidas e a lista de registros  
-       this.tabControl.registros = result;
+      this.resultadoFiltro = result;
 
-       this.resultadoFiltro = result;
-
-       this.isLoading = false;
-     });
+      this.isLoading = false;
+    });
   }
 
   //Acao a ser executada quando o usuário solicita a inclusão de um novo registro
@@ -183,23 +169,71 @@ export class DespesaListaPage {
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado
   excluir(pRegistros: any[]) {
-     this.service.ExcluirDespesa(pRegistros.map(obj => obj.id)).subscribe(result => {
-       this.result = result
-       this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
-       this.atualizarRegistros();
-     });
+    this.service.ExcluirDespesa(pRegistros.map(obj => obj.id)).subscribe(result => {
+      this.result = result
+      this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
+      this.atualizarRegistros();
+    });
   }
 
   /// FIM - ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... /// 
 
- 
- 
+  carregarCombosFiltros(pFiltro: any[]){
+    this.carregarDescricaoDespesa(pFiltro);
+    this.carregarTipoPagamento(pFiltro);
+    this.carregarDespesaMensal(pFiltro);
+    this.carregarDespesaAnual(pFiltro);
+  }
+
+  carregarDescricaoDespesa(pDescricao: any[]){
+    this.descricaoDespesaFiltro = this.utils.removeDuplicados(pDescricao, "descricao");
+
+    this.descricaoDespesaFiltro = this.descricaoDespesaFiltro?.sort((a, b)=>
+      a.descricao.localeCompare(b.descricao, 'pt-BR', {sensitivity: 'base'}));
+    
+    this.descricaoDespesaFiltroTodos = this.descricaoDespesaFiltro;
+  }
+
+  carregarTipoPagamento(pTipoPagamento: any[]){
+    this.tipoPagamentoFiltro = this.utils.removeDuplicados(pTipoPagamento, "tipoPagamentoVO.descricao");
+
+    this.tipoPagamentoFiltro = this.tipoPagamentoFiltro?.sort((a,b)=>
+    a.tipoPagamentoVO.descricao.localeCompare(b.tipoPagamentoVO.descricao, 'pt-BR', {sensitivity: 'base'} ));
+
+    this.tipoPagamentoFiltroTodos = this.tipoPagamentoFiltro;
+  }
+
+  carregarDespesaMensal(pMensal: any[]){
+    const listaDespesa = pMensal;
+    this.despesaMensalFiltro = listaDespesa.map(item =>({
+      ...item, 
+      dataCriacao : new Date(item.dataCriacao).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+    }));
+
+    this.despesaMensalFiltro = this.utils.removeDuplicados(this.despesaMensalFiltro, "dataCriacao");
+
+    this.despesaMensalFiltroTodos = this.despesaMensalFiltro;
+    
+  }
+
+  carregarDespesaAnual(pAnual: any[]){
+    const listaDespesa = pAnual;
+    this.despesaAnualFiltro = listaDespesa.map(item =>({
+      ...item, 
+      dataCriacao : new Date(item.dataCriacao).toLocaleDateString("pt-BR", {year: 'numeric'})
+    }));
+
+    this.despesaAnualFiltro = this.utils.removeDuplicados(this.despesaAnualFiltro, "dataCriacao");
+
+    this.despesaAnualFiltroTodos = this.despesaAnualFiltro;
+  }
+
   /// ÁREA DE REGRAS E PROCESSAMENTOS /// 
 
   showMsg() {
-     this.utils.exibirWarning(
-       "Selecione uma despesa para prosseguir"
-     );
+    this.utils.exibirWarning(
+      "Selecione uma despesa para prosseguir"
+    );
   }
 
   ngOnInit(): void { }
@@ -221,30 +255,30 @@ export class DespesaListaPage {
 
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.tipoPagamentoFiltro = this.tipoPagamentoFiltroTodos.filter(f => {
-      
+
       const tipoPagamentoString = `${f.tipoPagamentoVO.descricao}`
       return tipoPagamentoString.includes(pTipoPagamento);
 
     });
   }
-  
+
   aplicarFiltroDespesaMensal(pDespesaMensal: any): void {
 
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.despesaMensalFiltro = this.despesaMensalFiltroTodos.filter(f => {
-      
-      const despesaMensalString = `${f.despesaMensal}`
+
+      const despesaMensalString = `${f.dataCriacao}`
       return despesaMensalString.includes(pDespesaMensal);
 
     });
   }
-  
+
   aplicarFiltroDespesaAnual(pDespesaAnual: any): void {
 
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.despesaAnualFiltro = this.despesaAnualFiltroTodos.filter(f => {
-      
-      const despesaAnualString = `${f.despesaAnual}`
+
+      const despesaAnualString = `${f.dataCriacao}`
       return despesaAnualString.includes(pDespesaAnual);
 
     });
@@ -254,7 +288,7 @@ export class DespesaListaPage {
     this.resultadoFiltro = this.registro;
     const lDescricaoDespesa = this.formFiltro.controls['descricaoDespesa'].value;
     const lTipoPagamento = this.formFiltro.controls['tipoPagamento'].value;
-	const lDespesaMensal = this.formFiltro.controls['despesaMensal'].value;
+    const lDespesaMensal = this.formFiltro.controls['despesaMensal'].value;
     const lDespesaAnual = this.formFiltro.controls['despesaAnual'].value;
 
     if (lDescricaoDespesa.descricao && lDescricaoDespesa) {
@@ -277,8 +311,8 @@ export class DespesaListaPage {
       });
 
     }
-	
-	if (lDespesaMensal && lDespesaMensal.despesaMensal) {
+
+    if (lDespesaMensal && lDespesaMensal.despesaMensal) {
       const despesaMensalString = `${lDespesaMensal.despesaMensal}`;
 
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
@@ -287,8 +321,8 @@ export class DespesaListaPage {
       });
 
     }
-	
-	if (lDespesaAnual && lDespesaAnual.despesaAnual) {
+
+    if (lDespesaAnual && lDespesaAnual.despesaAnual) {
       const despesaAnualString = `${lDespesaAnual.despesaAnual}`;
 
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
@@ -303,19 +337,19 @@ export class DespesaListaPage {
   }
 
   obterDescricaoDespesa(pDescricaoDespesa: any): any {
-    return pDescricaoDespesa ? `${pDescricaoDespesa.descricao}`  : '';
+    return pDescricaoDespesa ? `${pDescricaoDespesa.descricao}` : '';
   }
 
   obterTipoPagamento(pTipoPagamento: any): any {
     return pTipoPagamento ? `${pTipoPagamento.tipoPagamentoVO.descricao}` : '';
   }
 
-   obterDespesaMensal(pDespesaMensal: any): any {
-    return pDespesaMensal ? `${pDespesaMensal.despesaMensal}` : '';
+  obterDespesaMensal(pDespesaMensal: any): any {
+    return pDespesaMensal ? `${pDespesaMensal.dataCriacao}` : '';
   }
-  
+
   obterDespesaAnual(pDespesaAnual: any): any {
-    return pDespesaAnual ? `${pDespesaAnual.despesaAnual}` : '';
+    return pDespesaAnual ? `${pDespesaAnual.dataCriacao}` : '';
   }
 
   public retiraCaracteresEspeciais(pTermo: any): string {

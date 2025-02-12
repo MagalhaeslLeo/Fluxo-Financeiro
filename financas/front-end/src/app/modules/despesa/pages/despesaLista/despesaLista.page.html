@@ -61,7 +61,7 @@
               (optionSelected)="aplicarFiltro()">
               <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
               <mat-option *ngFor="let item of despesaMensalFiltro" [value]="item">
-                {{item?.despesaMensal}}
+                {{item?.dataCriacao}}
               </mat-option>
             </mat-autocomplete>
             <span class="dropdown-icon">
@@ -80,7 +80,7 @@
               (optionSelected)="aplicarFiltro()">
               <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
               <mat-option *ngFor="let item of despesaAnualFiltro" [value]="item">
-                {{item?.despesaAnual}}
+                {{item?.dataCriacao}}
               </mat-option>
             </mat-autocomplete>
             <span class="dropdown-icon">

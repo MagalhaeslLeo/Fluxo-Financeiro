@@ -422,4 +422,28 @@ export class Utils {
             .join(' ');
     }
 
+    public removeDuplicados(pRegistros: any[], pCampoExtra?: string): any[]{
+
+        //Remove duplicados pelo id
+        const setIds = new Set();
+        const listaSemDuplicados = pRegistros.filter(item =>{
+            if(setIds.has(item.id)) return false;
+            setIds.add(item.id);
+            return true;
+        });
+
+        //Remove duplicados pelo parâmetro extra
+        if(pCampoExtra){
+            const setCampoExtra = new Map();
+        return listaSemDuplicados.filter(item =>{
+            const chaveRegistro = pCampoExtra.split('.').reduce((obj, key)=>obj?.[key], item);
+            if(!setCampoExtra || setCampoExtra.has(chaveRegistro)) return false;
+            setCampoExtra.set(chaveRegistro, item);
+            return true;
+        });
+        }
+        return listaSemDuplicados;
+        
+    }
+
 }

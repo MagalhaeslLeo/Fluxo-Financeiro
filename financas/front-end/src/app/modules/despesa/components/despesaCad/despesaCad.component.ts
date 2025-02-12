@@ -18,6 +18,7 @@ export class DespesaCadComponent implements OnInit {
     listaTipoPagamentoFiltro: any[] = [];
     listaCartoesDisponiveisFiltro: any[] = [];
     result: any;
+    idTipoPagamento: any;
 
     @Input() tipoCartaoCredito: boolean = true;
     IdUsuario: any;
@@ -120,9 +121,9 @@ export class DespesaCadComponent implements OnInit {
 
     public preencherFormCompleto(pRegistro: any): void{
         this.form.controls["id"].setValue(pRegistro.id);
-        this.form.controls["descricaoDespesa"].setValue(pRegistro.descricaoDespesa);
-        this.form.controls["tipoPagamento"].setValue(pRegistro.tipoPagamento);
-        this.form.controls["valorDespesa"].setValue(pRegistro.valorDespesa);
+        this.form.controls["descricaoDespesa"].setValue(pRegistro.descricao);
+        this.idTipoPagamento = pRegistro.tipoPagamentoVO.idTipoPagamentoVO;
+        this.form.controls["valorDespesa"].setValue(pRegistro.valor);
         this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
     }
 
@@ -178,6 +179,8 @@ export class DespesaCadComponent implements OnInit {
     carregarComboTipoPagamento(){
         this.service.ObterTiposPagamentos().subscribe(result =>{
             this.listaTipoPagamentoFiltro = result;
+            this.form.controls["tipoPagamento"].setValue(this.idTipoPagamento);
+
             this.cdr.detectChanges();
         });
     }
