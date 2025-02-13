@@ -159,7 +159,7 @@ export class ReceitaCadComponent implements OnInit {
                  this.form.markAsPristine();
                  this.cdr.detectChanges();
                  //this.route.navigate(["usuario", "cad", result.id]);
-                 this.route.navigate(["receita", "listaDet"]);
+                 this.route.navigate(["receita", "lista"]);
  
             });
  
@@ -169,7 +169,7 @@ export class ReceitaCadComponent implements OnInit {
         }
     }
     cancelar(): void{
-        this.route.navigate(["receita", "listaDet"]);
+        this.route.navigate(["receita", "lista"]);
     }
 
     carregarComboFonteRenda(){
