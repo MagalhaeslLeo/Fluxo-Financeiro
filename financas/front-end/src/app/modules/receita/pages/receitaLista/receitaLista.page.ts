@@ -53,9 +53,9 @@ export class ReceitaListaPage {
       innerHTML: (registro: any) => `${(registro.valor)}`
     },
     {
-      atributo: 'fonteDeRenda',
+      atributo: 'fonteRendaVO',
       titulo: 'Fonte de renda',
-      innerHTML: (registro: any) => `${(registro.fonteDeRenda)}`
+      innerHTML: (registro: any) => `${(registro.fonteRendaVO.descricao)}`
     }
     ,
     {
@@ -221,7 +221,7 @@ export class ReceitaListaPage {
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.fonteDeRendaFiltro = this.fonteDeRendaFiltroTodos.filter(f => {
       
-      const fonteDeRendaString = `${f.fonteDeRenda}`
+      const fonteDeRendaString = `${f.fonteRendaVO.descricao}`
       return fonteDeRendaString.includes(pFonteDeRenda);
 
     });
@@ -232,7 +232,7 @@ export class ReceitaListaPage {
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.receitaMensalFiltro = this.receitaMensalFiltroTodos.filter(f => {
       
-      const receitaMensalString = `${f.receitaMensal}`
+      const receitaMensalString = `${f.dataCriacao}`
       return receitaMensalString.includes(pReceitaMensal);
 
     });
@@ -243,7 +243,7 @@ export class ReceitaListaPage {
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.receitaAnualFiltro = this.receitaAnualFiltroTodos.filter(f => {
       
-      const receitaAnualString = `${f.receitaAnual}`
+      const receitaAnualString = `${f.dataCriacao}`
       return receitaAnualString.includes(pReceitaAnual);
 
     });
@@ -267,12 +267,12 @@ export class ReceitaListaPage {
 
     }
 
-    if (lFonteDeRenda.fonteDeRenda && lFonteDeRenda) {
+    if (lFonteDeRenda.fonteRendaVO && lFonteDeRenda) {
 
-      const fonteDeRendaString = `${lDescricaoReceita.descricao}`;
+      const fonteDeRendaString = `${lFonteDeRenda.fonteRendaVO.descricao}`;
 
       this.resultadoFiltro = this.resultadoFiltro.filter(f => {
-        const registroFonteDeRendaString = `${f.fonteDeRenda}`;
+        const registroFonteDeRendaString = `${f.fonteRendaVO.descricao}`;
         return registroFonteDeRendaString.includes(fonteDeRendaString);
       });
 
@@ -307,15 +307,15 @@ export class ReceitaListaPage {
   }
 
    obterReceitaMensal(pReceitaMensal: any): any {
-    return pReceitaMensal ? `${pReceitaMensal.receitaMensal}` : '';
+    return pReceitaMensal ? `${pReceitaMensal.dataCriacao}` : '';
   }
 
   obterFonteDeRenda(pFonteDeRenda: any): any {
-    return pFonteDeRenda ? `${pFonteDeRenda.fonteDeRenda}` : '';
+    return pFonteDeRenda ? `${pFonteDeRenda.fonteRendaVO.descricao}` : '';
   }
 
   obterReceitaAnual(pReceitaAnual: any): any {
-    return pReceitaAnual ? `${pReceitaAnual.receitaAnual}` : '';
+    return pReceitaAnual ? `${pReceitaAnual.dataCriacao}` : '';
   }
 
   public retiraCaracteresEspeciais(pTermo: any): string {

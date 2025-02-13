@@ -42,7 +42,24 @@ namespace financas_repositorio.Repositorio
         {
             try
             {
-                return await contexto.Receitas.SingleOrDefaultAsync(e => e.IdReceita.Equals(id));
+                return await contexto.Receitas.Include(r=>r.FonteRenda).SingleOrDefaultAsync(e => e.IdReceita.Equals(id));
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public async Task<IEnumerable<Receita>> ObterTodasReceitasComFontesRendas()
+        {
+            try
+            {
+                var listaReceita = await contexto.Receitas
+                .Include(r =>r.FonteRenda)
+                .ToListAsync();
+                return listaReceita;
             }
             catch (Exception exception)
             {

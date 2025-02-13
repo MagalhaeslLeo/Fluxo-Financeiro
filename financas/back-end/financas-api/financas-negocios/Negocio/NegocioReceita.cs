@@ -63,6 +63,21 @@ namespace financas_negocios.Negocio
             }
         }
 
+        public async Task<IEnumerable<ReceitaVO>> ObterReceitasComFontesRendas()
+        {
+            try
+            {
+                var lReceita = await repositorio.ObterTodasReceitasComFontesRendas();
+
+                var receitaMap = map.Map<IEnumerable<ReceitaVO>>(lReceita);
+                return receitaMap;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public async Task<IEnumerable<ReceitaVO>> ObterTodos()
         {
             try

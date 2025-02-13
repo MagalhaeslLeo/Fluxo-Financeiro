@@ -9,6 +9,7 @@ namespace financas_dominio.Interface
 {
     public interface IRepositorioReceita : IRepositorioBase<Receita>
     {
+        Task<IEnumerable<Receita>> ObterTodasReceitasComFontesRendas();
         Task<Receita> ObterReceitaPorId(int id);
         Task<Receita> AtualizarReceita(Receita receita);
     }
