@@ -17,6 +17,7 @@ export class ReceitaCadComponent implements OnInit {
     form: FormGroup;
     listaFonteRendaFiltro: any[] = [];
     result: any;
+    idFonteRenda: any;
     private _registros: any | undefined; 
     public msgValidacao: {[key: string]: any}
 
@@ -117,9 +118,9 @@ export class ReceitaCadComponent implements OnInit {
 
     public preencherFormCompleto(pRegistro: any): void{
         this.form.controls["id"].setValue(pRegistro.id);
-        this.form.controls["descricaoReceita"].setValue(pRegistro.descricaoReceita);
-        this.form.controls["fonteRenda"].setValue(pRegistro.fonteRenda);
-        this.form.controls["valorReceita"].setValue(pRegistro.valorReceita);
+        this.form.controls["descricaoReceita"].setValue(pRegistro.descricao);
+        this.idFonteRenda = pRegistro.fonteRendaVO.id;
+        this.form.controls["valorReceita"].setValue(pRegistro.valor);
         this.form.controls["dataCriacao"].setValue(pRegistro.dataCriacao);
     }
 
@@ -174,7 +175,8 @@ export class ReceitaCadComponent implements OnInit {
 
     carregarComboFonteRenda(){
         this.serviceFonteRenda.ObterTodasFonteRendas().subscribe(result =>{
-            this.listaFonteRendaFiltro = result;
+            this.listaFonteRendaFiltro = result.sort((a:any, b:any)=>
+            a.descricao.localeCompare(b.descricao, 'pt-BR', { sensitivity: 'base' }));
             this.cdr.detectChanges();
         });
     }

@@ -146,15 +146,7 @@ export class ReceitaListaPage {
       
        // Atributo que contem o registro a ser exibido pelo formulario.
        this._registros = result;
-       this.descricaoReceitaFiltro = result;
-       this.fonteDeRendaFiltro = result;
-       this.receitaMensalFiltro = result;
-       this.receitaAnualFiltro = result;
-       
-       this.descricaoReceitaFiltroTodos = this.descricaoReceitaFiltro;
-       this.fonteDeRendaFiltroTodos = this.fonteDeRendaFiltro;
-       this.receitaMensalFiltroTodos = this.receitaMensalFiltro;
-       this.receitaAnualFiltroTodos = this.receitaAnualFiltro;
+       this.carregarCombosFiltros(result);
        
        
 
@@ -191,6 +183,54 @@ export class ReceitaListaPage {
 
   /// FIM - ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... /// 
 
+  carregarCombosFiltros(pFiltro: any[]){
+    this.carregarDescricaoReceita(pFiltro);
+    this.carregarFonteDeRenda(pFiltro);
+    this.carregarReceitaMensal(pFiltro);
+    this.carregarReceitaAnual(pFiltro);
+  }
+
+  carregarDescricaoReceita(pDescricao: any[]){
+    this.descricaoReceitaFiltro = this.utils.removeDuplicados(pDescricao, "descricao");
+
+    this.descricaoReceitaFiltro = this.descricaoReceitaFiltro?.sort((a, b) =>
+      a.descricao.localeCompare(b.descricao, 'pt-BR', {sensitivity: 'base'}));
+
+    this.descricaoReceitaFiltroTodos = this.descricaoReceitaFiltro;
+  }
+
+  carregarFonteDeRenda(pFonteDeRenda: any[]){
+    this.fonteDeRendaFiltro = this.utils.removeDuplicados(pFonteDeRenda, "fonteRendaVO.descricao");
+
+    this.fonteDeRendaFiltro = this.fonteDeRendaFiltro?.sort((a, b) =>
+    a.fonteRendaVO.descricao.localeCompare(b.fonteRendaVO.descricao, 'pt-BR', {sensitivity: 'base'}));
+
+    this.fonteDeRendaFiltroTodos = this.fonteDeRendaFiltro;
+  }
+
+  carregarReceitaMensal(pMensal: any[]){
+    const listaReceita = pMensal;
+    this.receitaMensalFiltro = listaReceita.map(item =>({
+      ...item,
+      dataCriacao : new Date(item.dataCriacao).toLocaleDateString("pt-BR", {month: '2-digit', year:"numeric"})
+    }));
+
+    this.receitaMensalFiltro = this.utils.removeDuplicados(this.receitaMensalFiltro, "dataCriacao");
+
+    this.receitaMensalFiltroTodos = this.receitaMensalFiltro;
+  }
+
+  carregarReceitaAnual(pAnual: any[]){
+    const listaReceita = pAnual;
+    this.receitaAnualFiltro = listaReceita.map(item =>({
+      ...item,
+      dataCriacao : new Date(item.dataCriacao).toLocaleDateString("pt-BR", {year:"numeric"})
+    }));
+
+    this.receitaAnualFiltro = this.utils.removeDuplicados(this.receitaAnualFiltro, "dataCriacao");
+
+    this.receitaAnualFiltroTodos = this.receitaAnualFiltro;
+  }
  
  
   /// ÁREA DE REGRAS E PROCESSAMENTOS /// 
