@@ -176,14 +176,17 @@ export class DespesaCadComponent implements OnInit {
         this.route.navigate(["despesa", "lista"]);
     }
 
-    carregarComboTipoPagamento(){
-        this.service.ObterTiposPagamentos().subscribe(result =>{
-            this.listaTipoPagamentoFiltro = result;
+    carregarComboTipoPagamento() {
+        this.service.ObterTiposPagamentos().subscribe(result => {
+            this.listaTipoPagamentoFiltro = result.sort((a: any, b: any) =>
+                a.descricao.localeCompare(b.descricao, 'pt-BR', { sensitivity: 'base' })
+            );
             this.form.controls["tipoPagamento"].setValue(this.idTipoPagamento);
-
+    
             this.cdr.detectChanges();
         });
     }
+    
     carregarComboCartoesDisponiveis(){
         this.listaTipoPagamentoFiltro.forEach(element => {
             if(element.Id === 3 && element.tipoPagamento === 'Cartão de Crédito'){
