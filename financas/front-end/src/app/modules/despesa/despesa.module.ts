@@ -19,7 +19,6 @@ import { DespesaListaPage } from "./pages/despesaLista/despesaLista.page";
 import { DespesaRoutingModule } from "./despesa.routing.module";
 import { DespesaCadComponent } from "./components/despesaCad/despesaCad.component";
 import { DespesaDetPage } from "./pages/despesaDet/despesaDet.page";
-import { TipoPagamentoCadComponent } from "./components/tipoPagamentoCad/tipoPagamentoCad.component";
 
 
 
@@ -27,7 +26,6 @@ import { TipoPagamentoCadComponent } from "./components/tipoPagamentoCad/tipoPag
 declarations: [
     DespesaListaPage,
     DespesaCadComponent,
-    TipoPagamentoCadComponent,
     DespesaDetPage
 ],
 imports:[

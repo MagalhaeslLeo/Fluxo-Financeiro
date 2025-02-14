@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
 import { Utils } from 'src/app/core/utils';
 import { FonteRendaService } from 'src/app/services/fonteRenda.service';
+import { FonteRendaCadDialog } from '../dialogs/fonteRendaCad.dialog';
 
 @Component({
     selector: "fonteRendaListaPage",
@@ -24,6 +26,7 @@ export class FonteRendaListaPage {
     resultadoFiltro: any[] = [];
     result: any;
     isLoading: boolean = true;
+    idRegistro: any;
 
     //Atributo que contem o registro a ser exibido pelo formulario.
     private _registros: any | undefined;
@@ -50,8 +53,11 @@ export class FonteRendaListaPage {
     constructor(
         protected utils: Utils,
         protected router: Router,
+        protected route: ActivatedRoute,
         protected formBuilder: FormBuilder,
-        protected service: FonteRendaService
+        protected service: FonteRendaService,
+        public dialog: MatDialog,
+        private cdr: ChangeDetectorRef
     ) {
         this.formFiltro = this.criarForm();
         this.atualizarRegistros();
@@ -92,10 +98,9 @@ export class FonteRendaListaPage {
      /// ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... ///
 
   atualizarRegistros() {
+     this.idRegistro = this.route.snapshot.paramMap.get('idRegistro');
 
     this.isLoading = true;
-
-
      this.service.ObterTodasFonteRendas().subscribe(result => {
 
       
@@ -118,14 +123,29 @@ export class FonteRendaListaPage {
 
    //Acao a ser executada quando o usuário solicita a inclusão de um novo registro
    inserir() {
-    // Navega para a rela de cadastro no modo de inclusão(sem id)
-    this.router.navigate(['receita', 'fonteRendCad']);
+      const lDialogCadastro = this.abrirDialogCadastro("");
+      lDialogCadastro.afterClosed().subscribe((confirmado)=>{
+        if(confirmado){
+          this.atualizarRegistros();
+        }
+        else{
+          this.showMsg();
+        }
+      });
   }
 
   // Acao a ser executada quando o usuario solicita alteracao do registro selecionado
   alterar(pRegistro: any) {
-    // Navega para a tela de cadastro no modo de alteracao(com id)
-    this.router.navigate(['receita', 'fonteRendCad', pRegistro.id]);
+    const lDialogCadastro = this.abrirDialogCadastro(pRegistro.id);
+
+    lDialogCadastro.afterClosed().subscribe((confirmado)=>{
+      if(confirmado){
+        this.atualizarRegistros();
+      }
+      else{
+        this.showMsg();
+      }
+    });
   }
 
   // Acao a ser executada quando o usuario solicita exclusão do registro selecionado
@@ -137,6 +157,19 @@ export class FonteRendaListaPage {
      });
   }
 
+  abrirDialogCadastro(pIdRegistro: string): MatDialogRef<FonteRendaCadDialog>{
+    let dialogRef = null;
+    dialogRef = this.dialog.open(FonteRendaCadDialog, {
+      data: {idRegistro: pIdRegistro},
+      autoFocus: true,
+      disableClose: true,
+      hasBackdrop: true,
+      minHeight: '260px',
+      minWidth: '360px'
+    });
+    return dialogRef;
+  }
+
   /// FIM - ÁREA DE FUNCIONALIDADES: BOTÕES, COMBOS, IMPUTS ETC... /// 
 
  
@@ -145,7 +178,7 @@ export class FonteRendaListaPage {
 
   showMsg() {
     this.utils.exibirWarning(
-      "Selecione uma fonte de renda para prosseguir"
+      "Cadastro ou alteração da fonte de renda cancelado"
     );
  }
 

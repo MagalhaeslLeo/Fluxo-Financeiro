@@ -52,14 +52,13 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lFonteRenda = new FonteRendaVO();
-                if(lFonteRenda.Id > 0)
+                if(pFonteRendaVO.Id > 0)
                 {
-                    lFonteRenda = await negocio.AtualizarFonteRenda(pFonteRendaVO);
-                    return Ok(lFonteRenda);
+                    await negocio.AtualizarFonteRenda(pFonteRendaVO);
+                    return Ok();
                 }
-                lFonteRenda = await negocio.AdicionarSalvar(pFonteRendaVO);
-                return Ok(lFonteRenda);
+                await negocio.AdicionarSalvar(pFonteRendaVO);
+                return Ok();
             }
             catch (Exception ex)
             {

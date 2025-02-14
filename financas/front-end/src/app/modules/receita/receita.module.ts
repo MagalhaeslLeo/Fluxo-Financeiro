@@ -19,8 +19,8 @@ import { ReceitaListaPage } from "./pages/receitaLista/receitaLista.page";
 import { ReceitaRoutingModule } from "./receita.routing.module";
 import { ReceitaDetPage } from "./pages/receitaDet/receitaDet.page";
 import { ReceitaCadComponent } from "./components/receitaCad/receitaCad.component";
-import { FonteRendaCadComponent } from "./components/fonteRendaCad/fonteRendaCad.component";
-import { FonteRendaListaPage } from "./pages/fonteRendaLista/fonteRendaLista.page";
+import { FonteRendaCadDialog } from "./components/dialogs/fonteRendaCad.dialog";
+import { FonteRendaListaPage } from "./components/fonteRendaLista/fonteRendaLista.page";
 import { ReceitaListaDetPage } from "./pages/receitaListaDet/receitaListaDet.page";
 
 
@@ -31,7 +31,7 @@ declarations: [
     ReceitaDetPage,
     ReceitaListaDetPage,
     ReceitaCadComponent,
-    FonteRendaCadComponent,
+    FonteRendaCadDialog,
     FonteRendaListaPage
 ],
 imports:[

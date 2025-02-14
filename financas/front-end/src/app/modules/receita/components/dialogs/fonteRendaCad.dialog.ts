@@ -1,18 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
 import { ReceitaService } from "src/app/services/receita.service";
 import { FonteRendaService } from "src/app/services/fonteRenda.service";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
-    selector: "fonteRendaCadComponent",
-    templateUrl: './fonteRendaCad.component.html',
-    styleUrls: ['./fonteRendaCad.component.scss'],
+    selector: "fonteRendaCadDialog",
+    templateUrl: './fonteRendaCad.dialog.html',
+    styleUrls: ['./fonteRendaCad.dialog.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FonteRendaCadComponent implements OnInit {
+export class FonteRendaCadDialog implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
     result: any;
@@ -30,7 +31,9 @@ export class FonteRendaCadComponent implements OnInit {
         protected utils: Utils,
         protected cdr: ChangeDetectorRef,
         protected service: ReceitaService,
-        protected serviceFonteRenda: FonteRendaService
+        protected serviceFonteRenda: FonteRendaService,
+        public dialogRef : MatDialogRef<FonteRendaCadDialog>,
+        @Inject(MAT_DIALOG_DATA) public data : any 
     ) {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
@@ -68,7 +71,7 @@ export class FonteRendaCadComponent implements OnInit {
     atualizarRegistro() {
  
         //Obtem o ID do registro via parametro da rota
-        const lIdStr: any = this.router.snapshot.paramMap.get("idRegistro");
+        const lIdStr: any = this.data.idRegistro;
  
         //Se recebeu o ID é para preencher o form com o registro relacionado
         if (lIdStr) {
@@ -135,10 +138,11 @@ export class FonteRendaCadComponent implements OnInit {
                  this.result = result;
                  this._registros = result;
                  this.utils.exibirSucesso("Registro salvo com sucesso.");
-                 this.form.markAsPristine();
-                 this.cdr.detectChanges();
+                 this.dialogRef.close('true');
+                //  this.form.markAsPristine();
+                //  this.cdr.detectChanges();
                  //this.route.navigate(["usuario", "cad", result.id]);
-                 this.route.navigate(["receita", "det"]);
+                 //this.route.navigate(["receita", "det"]);
  
             });
  
@@ -148,6 +152,7 @@ export class FonteRendaCadComponent implements OnInit {
         }
     }
     cancelar(): void{
-        this.route.navigate(["receita", "det"]);
+        this.dialogRef.close();
+        //this.route.navigate(["receita", "det"]);
     }
 }

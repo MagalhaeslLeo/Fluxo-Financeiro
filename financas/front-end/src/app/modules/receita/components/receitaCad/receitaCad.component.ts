@@ -177,6 +177,8 @@ export class ReceitaCadComponent implements OnInit {
         this.serviceFonteRenda.ObterTodasFonteRendas().subscribe(result =>{
             this.listaFonteRendaFiltro = result.sort((a:any, b:any)=>
             a.descricao.localeCompare(b.descricao, 'pt-BR', { sensitivity: 'base' }));
+            //fonteRenda
+            this.form.controls['fonteRenda'].setValue(this.idFonteRenda);
             this.cdr.detectChanges();
         });
     }

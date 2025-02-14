@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ReceitaListaPage } from "./pages/receitaLista/receitaLista.page";
 import { ReceitaDetPage } from "./pages/receitaDet/receitaDet.page";
 import { ReceitaListaDetPage } from "./pages/receitaListaDet/receitaListaDet.page";
-import { FonteRendaCadComponent } from "./components/fonteRendaCad/fonteRendaCad.component";
+import { FonteRendaCadDialog } from "./components/dialogs/fonteRendaCad.dialog";
 
 
 const routes : Routes = [
@@ -26,8 +26,8 @@ const routes : Routes = [
         component: ReceitaListaDetPage
      },
      {
-        path: "fonteRendCad",
-        component: FonteRendaCadComponent
+        path: "fonteRendaCad",
+        component: FonteRendaCadDialog
      }
 
 ]
