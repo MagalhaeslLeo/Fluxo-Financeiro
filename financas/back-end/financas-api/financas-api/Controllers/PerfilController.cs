@@ -57,16 +57,15 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lPerfil = new PerfilVO();
 
                 if(pPerfilVO.Id > 0)
                 {
-                    lPerfil = await perfilNegocio.AtualizarPerfil(pPerfilVO);
-                    return Ok(lPerfil);
+                    await perfilNegocio.AtualizarPerfil(pPerfilVO);
+                    return Ok();
                 }
 
-                lPerfil = await perfilNegocio.AdicionarSalvar(pPerfilVO);
-                return Ok(lPerfil);
+                await perfilNegocio.AdicionarSalvar(pPerfilVO);
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -56,16 +56,14 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lDespesa = new DespesaVO();
-
                 if (pDespesaVO.Id > 0)
                 {
-                    lDespesa = await negocio.AtualizarDespesa(pDespesaVO);
-                    return Ok(lDespesa);
+                    await negocio.AtualizarDespesa(pDespesaVO);
+                    return Ok();
                 }
 
-                lDespesa = await negocio.AdicionarSalvar(pDespesaVO);
-                return Ok(lDespesa);
+                await negocio.AdicionarSalvar(pDespesaVO);
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -55,16 +55,14 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lReceita = new ReceitaVO();
-
                 if(pReceitaVO.Id > 0)
                 {
-                    lReceita = await negocio.AtualizarReceita(pReceitaVO);
-                    return Ok(lReceita);
+                    await negocio.AtualizarReceita(pReceitaVO);
+                    return Ok();
                 }
 
-                lReceita = await negocio.AdicionarSalvar(pReceitaVO);
-                return Ok(lReceita);
+                await negocio.AdicionarSalvar(pReceitaVO);
+                return Ok();
             }
             catch (Exception ex)
             {

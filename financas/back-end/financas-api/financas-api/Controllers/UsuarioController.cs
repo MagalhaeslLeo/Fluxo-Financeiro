@@ -53,16 +53,14 @@ namespace financas_api.Controllers
         {
             try
             {
-                var lUsuario = new UsuarioVO();
-
                 if (pUsuarioVo.Id > 0)
                 {
-                    lUsuario = await usuarioNegocio.Atualizar(pUsuarioVo);
-                    return Ok(lUsuario);
+                    await usuarioNegocio.Atualizar(pUsuarioVo);
+                    return Ok();
                 }
 
-                lUsuario = await usuarioNegocio.AdicionarSalvar(pUsuarioVo);
-                return Ok(lUsuario);
+                await usuarioNegocio.AdicionarSalvar(pUsuarioVo);
+                return Ok();
             }
             catch (Exception ex)
             {
