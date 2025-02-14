@@ -19,16 +19,42 @@
           <span>Controle Acesso</span>
         </button>
 
+
+
       </mat-menu>
       <mat-menu class="btn-menu" #ControleFinanceiro="matMenu">
-
-        <button mat-menu-item [routerLink]="['/','despesa','lista']">
-          <span>Despesa</span>
+        
+        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="CadastroFinanceiro">
+          <span>Cadastro</span>
         </button>
 
-        <button mat-menu-item [routerLink]="['/','receita','lista']">
-          <span>Receita</span>
+        <button class="btn-menu" mat-menu-item [matMenuTriggerFor]="BalanceteFinanceiro">
+          <span>Prestação de Contas</span>
         </button>
+
+        <mat-menu class="btn-menu" #CadastroFinanceiro="matMenu">
+
+          <button mat-menu-item [routerLink]="['/','despesa','lista']">
+            <span>Despesa</span>
+          </button>
+  
+          <button mat-menu-item [routerLink]="['/','receita','lista']">
+            <span>Receita</span>
+          </button>
+
+        </mat-menu>
+
+        <mat-menu class="btn-menu" #BalanceteFinanceiro="matMenu">
+
+          <button mat-menu-item [routerLink]="['/','balenceteFinanceiro','lista', 'anual']">
+            <span>Balancete Anual</span>
+          </button>
+  
+          <button mat-menu-item [routerLink]="['/','balenceteFinanceiro','lista', 'mensal']">
+            <span>Balancete Mensal</span>
+          </button>
+
+        </mat-menu>
 
       </mat-menu>
 

@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'receita',
     loadChildren: () => import('./modules/receita/receita.module').then(u=>u.ReceitaModule)
+  },
+  {
+    path: 'balanceteFinanceiro',
+    loadChildren: () => import('./modules/balanceteFinanceiro/balanceteFinanceiro.module').then(u=>u.BalanceteFinanceiroModule)
   }
   
 ];
