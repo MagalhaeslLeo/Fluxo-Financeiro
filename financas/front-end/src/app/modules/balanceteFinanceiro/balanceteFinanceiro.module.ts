@@ -16,10 +16,14 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatTabsModule } from "@angular/material/tabs";
 import { BalanceteFinanceiroListaPage } from "./pages/balanceteFinanceiroLista/balanceteFinanceiroLista.page";
+import { BalanceteFinanceiroCadComponent } from "./components/balanceteFinanceiroCad/balanceteFinanceiroCad.component";
+import { BalanceteFinanceiroDetPage } from "./pages/balanceteFinanceiroDet/balanceteFinanceiroDet.page";
 
 @NgModule({
 declarations: [
-    BalanceteFinanceiroListaPage
+    BalanceteFinanceiroListaPage,
+    BalanceteFinanceiroCadComponent,
+    BalanceteFinanceiroDetPage
 ],
 imports: [
     BalanceteFinanceiroRoutingModule,

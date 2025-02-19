@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  
+    <h2 id="titulo-filtro">Filtros</h2>
+    <div id="balancete">
+
+    <form [formGroup]="form">
+      <div class="row filtro-select" >
+        
+        <div class="col-4 processo">
+          <mat-form-field class="custom-select">
+            <mat-label> Período inicial</mat-label>
+            <input formControlName="periodoInicial" type="text" matInput [matAutocomplete]="autoResp2">
+            <mat-autocomplete autoActiveFirstOption #autoResp2="matAutocomplete" [displayWith]="obterPeriodoInicial"
+              (optionSelected)="aplicarFiltro()">
+              <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+              <mat-option *ngFor="let item of periodoInicialFiltro" [value]="item">
+                {{item?.periodoInicial}}
+              </mat-option>
+            </mat-autocomplete>
+            <span class="dropdown-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z"></path>
+              </svg>
+            </span>
+          </mat-form-field>
+        </div>
+        
+        <div class="col-4 processo">
+            <mat-form-field class="custom-select">
+              <mat-label> Período final</mat-label>
+              <input formControlName="periodoFinal" type="text" matInput [matAutocomplete]="autoResp2">
+              <mat-autocomplete autoActiveFirstOption #autoResp2="matAutocomplete" [displayWith]="obterPeriodoFinal"
+                (optionSelected)="aplicarFiltro()">
+                <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+                <mat-option *ngFor="let item of periodoFinalFiltro" [value]="item">
+                  {{item?.periodoFinal}}
+                </mat-option>
+              </mat-autocomplete>
+              <span class="dropdown-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 10l5 5 5-5z"></path>
+                </svg>
+              </span>
+            </mat-form-field>
+          </div>
+
+           <div class="col-4 processo">
+            <button mat-fab extended color="primary">
+                <mat-icon>calculate</mat-icon>
+                Calcular Balancete
+            </button>
+          </div> 
+  
+      </div>
+
+      <div class="container border  bg-white p-3">
+
+        <div class="container border rounded p-3 mb-3">
+
+            <div class="row">
+                <div class="col-4">
+                    <mat-form-field>
+                        <mat-label>Total de Receita (R$)</mat-label>
+                        <input type="text" formControlName="totalReceita" matInput readonly>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <mat-form-field>
+                        <mat-label>Total de Despesa (R$)</mat-label>
+                        <input type="text" formControlName="totalDespesa" matInput readonly>
+                    </mat-form-field>
+                </div>
+
+                    <div class="col-4">
+                        <mat-form-field>
+                            <mat-label>Resultado Geral (R$)</mat-label>
+                            <input type="text" formControlName="resultadoGeral" matInput readonly>
+                        </mat-form-field>
+                    </div>
+    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <rodape-cad [cadForm]="form" [registro]="registro" (confirmar)="confirmar()"
+                        (cancelarRoute)="cancelar()" [isRoute]="true">
+                    </rodape-cad>
+                </div>
+            </div>
+      </div>
+  
+    </form>
+    </div>
+  </div>
