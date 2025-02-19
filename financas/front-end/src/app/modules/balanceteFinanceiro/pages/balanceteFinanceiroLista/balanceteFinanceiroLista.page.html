@@ -1,0 +1,72 @@
+<!-- <div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div> -->
+
+  <!-- <div *ngIf="!isLoading"> -->
+    <div class="row header-page">
+      <div class="col text-center">
+          <h1 class="mt-4 titulo-tabela-h1"> Lista de balancetes </h1>
+      </div>
+    </div>
+    <!-- </div> -->
+
+    <div class="container-fluid">
+  
+        <h2 id="titulo-filtro">Filtros</h2>
+      
+        <form [formGroup]="formFiltro">
+          <div class="row filtro-select" >
+            
+            <div class="col-4 processo">
+              <mat-form-field class="custom-select">
+                <mat-label> Período inicial</mat-label>
+                <input formControlName="periodoInicial" type="text" matInput [matAutocomplete]="autoResp2">
+                <mat-autocomplete autoActiveFirstOption #autoResp2="matAutocomplete" [displayWith]="obterPeriodoInicial"
+                  (optionSelected)="aplicarFiltro()">
+                  <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+                  <mat-option *ngFor="let item of periodoInicialFiltro" [value]="item">
+                    {{item?.periodoInicial}}
+                  </mat-option>
+                </mat-autocomplete>
+                <span class="dropdown-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 10l5 5 5-5z"></path>
+                  </svg>
+                </span>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-4 processo">
+                <mat-form-field class="custom-select">
+                  <mat-label> Período final</mat-label>
+                  <input formControlName="periodoFinal" type="text" matInput [matAutocomplete]="autoResp2">
+                  <mat-autocomplete autoActiveFirstOption #autoResp2="matAutocomplete" [displayWith]="obterPeriodoFinal"
+                    (optionSelected)="aplicarFiltro()">
+                    <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+                    <mat-option *ngFor="let item of periodoFinalFiltro" [value]="item">
+                      {{item?.periodoFinal}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <span class="dropdown-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 10l5 5 5-5z"></path>
+                    </svg>
+                  </span>
+                </mat-form-field>
+              </div>
+
+               <div class="col-4 processo">
+                <button mat-fab extended color="primary">
+                    <mat-icon>filter_alt</mat-icon>
+                    Filtrar
+                </button>
+              </div> 
+      
+          </div>
+      
+        </form>
+      </div>
+      
+      <tabelaCrud [tabControl]="tabControl" (atualizar)="atualizarRegistros()" (inserir)="inserir()"
+    (alterar)="alterar($event)" (excluir)="excluir($event)">
+  </tabelaCrud>
