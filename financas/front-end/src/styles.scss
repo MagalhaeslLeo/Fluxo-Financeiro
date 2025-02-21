@@ -191,4 +191,12 @@ $verde-terciario: #01707e;
   background-color: rgba(255, 255, 255, 0.8); 
   z-index: 1000; 
 }
- 
+
+ .floating-label{
+  position:absolute;
+  top: -11px;
+  left: 14px;
+  background-color: white;
+  padding: 0 5px;
+  color: #6c757d;
+ }

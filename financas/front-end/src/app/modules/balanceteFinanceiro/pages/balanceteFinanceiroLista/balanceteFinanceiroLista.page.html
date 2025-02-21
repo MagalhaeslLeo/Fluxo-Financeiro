@@ -15,9 +15,9 @@
         <h2 id="titulo-filtro">Filtros</h2>
       
         <form [formGroup]="formFiltro">
-          <div class="row filtro-select" >
+          <div class="row">
             
-            <div class="col-4 processo">
+            <div class="col-5 processo">
               <mat-form-field class="custom-select">
                 <mat-label> Período inicial</mat-label>
                 <input formControlName="periodoInicial" type="text" matInput [matAutocomplete]="autoResp2">
@@ -36,7 +36,7 @@
               </mat-form-field>
             </div>
             
-            <div class="col-4 processo">
+            <div class="col-5 processo">
                 <mat-form-field class="custom-select">
                   <mat-label> Período final</mat-label>
                   <input formControlName="periodoFinal" type="text" matInput [matAutocomplete]="autoResp2">
@@ -55,16 +55,25 @@
                 </mat-form-field>
               </div>
 
-               <div class="col-4 processo">
+              <div class="col-md-2 processo">
                 <button mat-fab extended color="primary">
                     <mat-icon>filter_alt</mat-icon>
                     Filtrar
                 </button>
-              </div> 
+              </div>
       
           </div>
       
         </form>
+        <!-- <div class="row mb-3">
+        <div class="col-md-12 processo">
+          <button mat-fab extended color="primary">
+              <mat-icon>filter_alt</mat-icon>
+              Filtrar
+          </button>
+        </div>
+        </div>  -->
+
       </div>
       
       <tabelaCrud [tabControl]="tabControl" (atualizar)="atualizarRegistros()" (inserir)="inserir()"
