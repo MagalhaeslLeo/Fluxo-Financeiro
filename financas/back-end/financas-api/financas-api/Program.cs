@@ -81,6 +81,8 @@ builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesa>();
 builder.Services.AddScoped<IRepositorioReceita, RepositorioReceita>();
 
 builder.Services.AddScoped<IRepositorioFonteRenda, RepositorioFonteRenda>();
+builder.Services.AddScoped<IRepositorioBalanceteContabil, RepositorioBalanceteContabil>();
+
 
 #endregion
 

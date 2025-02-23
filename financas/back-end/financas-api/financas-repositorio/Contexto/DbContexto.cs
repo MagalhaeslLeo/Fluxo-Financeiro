@@ -16,6 +16,9 @@ namespace financas_repositorio.Contexto
         public DbSet<Cartao> Cartoes { get; set; }
         public DbSet<TipoPagamento> TipoPagamentos { get; set; }
         public DbSet<FonteRenda> FonteRendas { get; set; }
+        public DbSet<BalanceteContabil> BalancetesContabeis { get; set; }
+        public DbSet<Periodicidade> Periodicidades { get; set; }
+
 
 
 
