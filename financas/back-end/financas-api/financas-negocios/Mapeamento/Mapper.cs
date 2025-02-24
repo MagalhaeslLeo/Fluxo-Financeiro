@@ -83,6 +83,8 @@ namespace financas_negocios.Mapeamento
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.IdFonteRenda))
             .ForMember(dest => dest.ReceitasVO, opt => opt.MapFrom(src => src.Receitas));
 
+            CreateMap<BalanceteContabilVO, BalanceteContabil>().ReverseMap();
+
         }
     }
 }

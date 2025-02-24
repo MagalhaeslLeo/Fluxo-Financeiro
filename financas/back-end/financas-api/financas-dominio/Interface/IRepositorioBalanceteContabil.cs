@@ -10,5 +10,8 @@ namespace financas_dominio.Interface
     public interface IRepositorioBalanceteContabil : IRepositorioBase<BalanceteContabil>
     {
         Task<IEnumerable<BalanceteContabil>> ObterBalanceteContabilPorPeriodo(string pDescricao, string pInicial, string pFinal);
+        Task<BalanceteContabil> ObterBalanceteContabilPorId(int id);
+
+        Task<BalanceteContabil> AtualizarBalanceteContabil(BalanceteContabil balancete);
     }
 }

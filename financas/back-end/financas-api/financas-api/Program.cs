@@ -71,6 +71,7 @@ builder.Services.AddScoped<INegocioPerfil, NegocioPerfil>();
 builder.Services.AddScoped<INegocioDespesa, NegocioDespesa>();
 builder.Services.AddScoped<INegocioReceita, NegocioReceita>();
 builder.Services.AddScoped<INegocioFonteRenda, NegocioFonteRenda>();
+builder.Services.AddScoped<INegocioBalanceteContabil, NegocioBalanceteContabil>();
 
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 

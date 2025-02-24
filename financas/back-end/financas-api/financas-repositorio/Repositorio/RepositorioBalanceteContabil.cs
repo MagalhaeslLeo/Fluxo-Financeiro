@@ -15,6 +15,41 @@ namespace financas_repositorio.Repositorio
     {
         public RepositorioBalanceteContabil(DbContexto contexto) : base(contexto) { }
 
+        public async Task<BalanceteContabil> AtualizarBalanceteContabil(BalanceteContabil balancete)
+        {
+            try
+            {
+                var atualizaEntidade = await contexto.BalancetesContabeis.SingleOrDefaultAsync(b=>b.IdBalancete.Equals(balancete.IdBalancete));
+                if(atualizaEntidade == null)
+                {
+                    return null;
+                }
+                contexto.Entry(atualizaEntidade).CurrentValues.SetValues(balancete);
+                await contexto.SaveChangesAsync();
+                return balancete;
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public async Task<BalanceteContabil> ObterBalanceteContabilPorId(int id)
+        {
+            try
+            {
+                return await contexto.BalancetesContabeis.SingleOrDefaultAsync(b => b.IdBalancete.Equals(id));
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
         public async Task<IEnumerable<BalanceteContabil>> ObterBalanceteContabilPorPeriodo(string pDescricao, string pInicial, string pFinal)
         {
             try
