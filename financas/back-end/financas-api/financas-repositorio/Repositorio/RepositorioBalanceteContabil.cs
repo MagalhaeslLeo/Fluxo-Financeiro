@@ -1,10 +1,10 @@
 ﻿using financas_dominio.Entidade;
 using financas_dominio.Interface;
 using financas_repositorio.Contexto;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +55,8 @@ namespace financas_repositorio.Repositorio
             try
             {
                 var query = @"
-                            SELECT 
+                            SELECT
+                            bc.DataCriacao, bc.IdDespesa, bc.IdReceita, bc.IdPeriodicidade, bc.Deletado, 
                             bc.IdBalancete, bc.TotalDespesa, bc.TotalReceita, bc.ResultadoGeral,
                             bc.PeriodoInicial, bc.PeriodoFinal
                             from BalanceteContabil as bc
