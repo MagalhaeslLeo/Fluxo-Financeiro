@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
 import { Utils } from 'src/app/core/utils';
+import { BalanceteFinanceiroService } from 'src/app/services/balanceteFinancerio.service';
 
 @Component({
     styleUrls: ['./balanceteFinanceiroLista.page.scss'],
@@ -20,7 +21,9 @@ export class BalanceteFinanceiroListaPage{
 
     resultadoFiltro: any[] = [];
     result: any;
-    // isLoading: boolean = true;
+    isLoading: boolean = true;
+    periodo: any;
+    tipo: any;
 
     private _registros: any | undefined;
 
@@ -47,10 +50,18 @@ export class BalanceteFinanceiroListaPage{
     constructor(
         protected utils: Utils,
         protected router: Router,
-        protected formBuilder: FormBuilder
+        protected route: ActivatedRoute,
+        protected formBuilder: FormBuilder,
+        protected service: BalanceteFinanceiroService
     ){
         this.formFiltro = this.criarForm();
-        // this.atualizarRegistros();
+
+        this.route.paramMap.subscribe(params=>{
+            this.periodo = params.get('periodo') || 'anual';
+            this.tipo = params.get('tipo') || 'BCOT';
+            this.atualizarRegistros();
+        });
+        
 
         this.utils.tratarAutoCompleteEntidade(this.formFiltro.controls['periodoInicial'],
         this.formFiltro.controls['idPeriodoInicial'], this.aplicarFiltroPeriodoInicial.bind(this), 0);
@@ -77,18 +88,19 @@ export class BalanceteFinanceiroListaPage{
 
      atualizarRegistros(){
 
-        //  this.isLoading = true;
+          this.isLoading = true;
 
-        //  this.service.ObterTodosBalancetes().subscribe(result => {
-        //      this._registros = result;
-        //      this.carregarCombosFiltros(result);
+          this.service.ObterBalanceteContabilPorPeriodo(this.periodo).subscribe(result => {
+              this._registros = result;
 
-        //      this.tabControl.registros = result;
+              this.carregarCombosFiltros(result, this.periodo);
 
-        //      this.resultadoFiltro = result;
+              this.tabControl.registros = [];
 
-        //      this.isLoading = false;
-        //  });
+              this.resultadoFiltro = result;
+
+              this.isLoading = false;
+          });
      }
 
     inserir(){
@@ -99,38 +111,56 @@ export class BalanceteFinanceiroListaPage{
         this.router.navigate(['balanceteFinanceiro', 'det', pRegistro.id]);
     }
      excluir(pRegistros: any[]){
-        //  this.service.ExcluirBalancete(pRegistros.map(obj => obj.id)).subscribe(result=>{
-        //      this.result = result;
-        //      this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
-        //      this.atualizarRegistros();
-        //  });
+          this.service.ExcluirBalancete(pRegistros.map(obj => obj.id)).subscribe(result=>{
+              this.result = result;
+              this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
+              this.atualizarRegistros();
+          });
      }
 
 
-    carregarCombosFiltros(pFiltro: any[]){
-        this.carregarPeriodoInicial(pFiltro);
-        this.carregarPeriodoFinal(pFiltro);
+    carregarCombosFiltros(pFiltro: any[], pPeriodo: any){
+        this.carregarPeriodoInicial(pFiltro, pPeriodo);
+        this.carregarPeriodoFinal(pFiltro, pPeriodo);
     }
 
-    carregarPeriodoInicial(pInicial: any[]){
+    carregarPeriodoInicial(pInicial: any[], pPeriodo: any){
         const listaPeriodo = pInicial;
-
-        this.periodoInicialFiltro = listaPeriodo.map(item => ({
-            ...item,
-            periodoInicial: new Date(item.periodoInicial).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-        }));
+        if(pPeriodo === 'mensal'){
+            this.periodoInicialFiltro = listaPeriodo.map(item => ({
+                ...item,
+                periodoInicial: new Date(item.periodoInicial+ 'T00:00:00' ).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+            }));
+        }
+        else{
+             this.periodoInicialFiltro = listaPeriodo.map(item => ({
+                 ...item,
+                 periodoInicial: new Date(item.periodoInicial + 'T00:00:00').toLocaleDateString("pt-BR", {year: 'numeric'})
+             }));
+            // this.periodoInicialFiltro = listaPeriodo;
+        }
+       
 
         this.periodoInicialFiltro = this.utils.removeDuplicados(this.periodoInicialFiltro, "periodoInicial");
         this.periodoInicialFiltroTodos = this.periodoInicialFiltro;
     }
 
-    carregarPeriodoFinal(pFinal: any[]){
+    carregarPeriodoFinal(pFinal: any[], pPeriodo: any){
         const listaPeriodo = pFinal;
-
-        this.periodoFinalFiltro = listaPeriodo.map(item => ({
-            ...item,
-            periodoFinal: new Date(item.periodoFinal).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-        }));
+        if(pPeriodo === 'mensal'){
+            this.periodoFinalFiltro = listaPeriodo.map(item => ({
+                ...item,
+                periodoFinal: new Date(item.periodoFinal + 'T00:00:00').toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+            }));
+        }
+        else{
+             this.periodoFinalFiltro = listaPeriodo.map(item => ({
+                 ...item,
+                 periodoFinal: new Date(item.periodoFinal+ 'T00:00:00' ).toLocaleDateString("pt-BR", {year: 'numeric'})
+             }));
+            // this.periodoFinalFiltro = listaPeriodo;
+        }
+        
 
         this.periodoFinalFiltro = this.utils.removeDuplicados(this.periodoFinalFiltro, "periodoFinal");
         this.periodoFinalFiltroTodos = this.periodoFinalFiltro;
@@ -162,29 +192,33 @@ export class BalanceteFinanceiroListaPage{
     }
 
     aplicarFiltro() : void{
-        this.resultadoFiltro = this.registro;
-        const lPeriodoInicial = this.formFiltro.controls['periodoInicial'].value;
-        const lPeriodoFinal = this.formFiltro.controls['periodoFinal'].value;
+        this.resultadoFiltro = [];
+        const comboPeriodoInicial = this.formFiltro.controls['periodoInicial'].value;
+        const comboPeriodoFinal = this.formFiltro.controls['periodoFinal'].value;
 
-        if(lPeriodoInicial && lPeriodoInicial.periodoInicial){
-            const periodoInicialString = `${lPeriodoInicial.periodoInicial}`;
+        if(comboPeriodoInicial){
+            const periodoInicialString = comboPeriodoInicial.periodoInicial ?? comboPeriodoInicial;
 
-            this.resultadoFiltro = this.resultadoFiltro.filter(f =>{
+            this.resultadoFiltro = this.registro.filter(f =>{
                 const registroPeriodoInicialString = `${f.periodoInicial}`
                 return registroPeriodoInicialString.includes(periodoInicialString);
             });
         }
 
-        if(lPeriodoFinal && lPeriodoFinal.periodoFinal){
-            const periodoFinalString = `${lPeriodoFinal.periodoFinal}`;
+        if(comboPeriodoFinal){
+            const periodoFinalString = comboPeriodoFinal.periodoFinal ?? comboPeriodoFinal;
 
             this.resultadoFiltro = this.resultadoFiltro.filter(f =>{
                 const registroPeriodoFinalString = `${f.periodoFinal}`
                 return registroPeriodoFinalString.includes(periodoFinalString);
             });
         }
-
-        this.tabControl.registros = this.resultadoFiltro;
+        if(comboPeriodoInicial && comboPeriodoFinal){
+            this.tabControl.registros = this.resultadoFiltro;
+        }
+        else{
+            this.tabControl.registros = [];
+        }
     }
 
     obterPeriodoInicial(pPeriodoInicial: any): any{

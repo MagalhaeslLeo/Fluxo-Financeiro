@@ -5,17 +5,17 @@ import { BalanceteFinanceiroDetPage } from "./pages/balanceteFinanceiroDet/balan
 
 const routes: Routes = [
 {
-    path: "lista",
+    path: ":periodo/:tipo/lista",
     component: BalanceteFinanceiroListaPage,
 },
  {
-     path: "det",
+     path: ":periodo/:tipo/det",
      component: BalanceteFinanceiroDetPage,
- }
-//  {
-//      path: "det/:tipo/:idRegistro",
-//      //component: BalanceteFinanceiroDetPage,
-//  }
+ },
+{
+      path: ":periodo/:tipo/det/:idRegistro",
+      component: BalanceteFinanceiroDetPage,
+}
 ];
 @NgModule({
     imports: [RouterModule.forChild(routes)],

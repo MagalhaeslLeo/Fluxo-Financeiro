@@ -25,8 +25,8 @@ export class BalanceteFinanceiroService {
     return this.service.delete("BalanceteContabil/ExcluirBalancete", {pIdBalancete: pId});
   } 
 
-  ObterBalanceteContabilPorPeriodo(pDescricao:string, pInicial: string, pFinal: string):Observable<any>{
-    return this.service.get("BalanceteContabil/ObterBalanceteContabilPorPeriodo", {pDescricao: pDescricao, pInicial: pInicial, pFinal: pFinal});
+  ObterBalanceteContabilPorPeriodo(pPeriodicidade:string):Observable<any>{
+    return this.service.get("BalanceteContabil/ObterBalanceteContabilPorPeriodo", {pPeriodicidade: pPeriodicidade});
   }
   
 }

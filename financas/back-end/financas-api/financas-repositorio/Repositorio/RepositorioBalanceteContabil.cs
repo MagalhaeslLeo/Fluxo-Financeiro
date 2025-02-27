@@ -50,7 +50,7 @@ namespace financas_repositorio.Repositorio
             }
         }
 
-        public async Task<IEnumerable<BalanceteContabil>> ObterBalanceteContabilPorPeriodo(string pDescricao, string pInicial, string pFinal)
+        public async Task<IEnumerable<BalanceteContabil>> ObterBalanceteContabilPorPeriodo(string pPeriodicidade)
         {
             try
             {
@@ -58,20 +58,18 @@ namespace financas_repositorio.Repositorio
                             SELECT
                             bc.DataCriacao, bc.IdDespesa, bc.IdReceita, bc.IdPeriodicidade, bc.Deletado, 
                             bc.IdBalancete, bc.TotalDespesa, bc.TotalReceita, bc.ResultadoGeral,
-                            bc.PeriodoInicial, bc.PeriodoFinal
+                            bc.PeriodoInicial, bc.PeriodoFinal, pd.Descricao as PeriodicidadeDescricao, dp.Descricao as DespesaDescricao, rt.Descricao as ReceitaDescricao
                             from BalanceteContabil as bc
-                            join Despesa as dp on bc.IdDespesa = dp.IdDespesa
-                            join Receita as rt on bc.IdReceita = rt.IdReceita
-                            join Periodicidade as pd on bc.IdPeriodicidade = pd.IdPeriodicidade
-                            where pd.Descricao = @descricao 
-                            and bc.PeriodoInicial between @periodoInicial and @periodoFinal
-                            and bc.PeriodoFinal between @periodoInicial and @periodoFinal
+                            left join Despesa as dp on bc.IdDespesa = dp.IdDespesa
+                            left join Receita as rt on bc.IdReceita = rt.IdReceita
+                            left join Periodicidade as pd on bc.IdPeriodicidade = pd.IdPeriodicidade
+                            where pd.Descricao = @periodicidade 
                 ";
 
                 return await contexto.BalancetesContabeis.FromSqlRaw(query, 
-                    new SqlParameter("@descricao", pDescricao),
-                    new SqlParameter("@periodoInicial", pInicial),
-                    new SqlParameter("@periodoFinal", pFinal)
+                    new SqlParameter("@periodicidade", pPeriodicidade)
+                    //new SqlParameter("@periodoInicial", pInicial),
+                    //new SqlParameter("@periodoFinal", pFinal)
                     ).ToListAsync();
 
             }

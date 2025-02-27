@@ -68,11 +68,11 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task<IEnumerable<BalanceteContabilVO>> ObterBalanceteContabilPorPeriodo(string pDescricao, string pInicial, string pFinal)
+        public async Task<IEnumerable<BalanceteContabilVO>> ObterBalanceteContabilPorPeriodo(string pPeriodicidade)
         {
             try
             {
-                var balancete = await repositorio.ObterBalanceteContabilPorPeriodo(pDescricao, pInicial, pFinal);
+                var balancete = await repositorio.ObterBalanceteContabilPorPeriodo(pPeriodicidade);
 
                 var balanceteRetorno = map.Map<IEnumerable<BalanceteContabilVO>>(balancete);
                 return balanceteRetorno;

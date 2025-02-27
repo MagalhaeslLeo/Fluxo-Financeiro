@@ -17,11 +17,11 @@ namespace financas_api.Controllers
         }
         [HttpGet]
         [Route("ObterBalanceteContabilPorPeriodo")]
-        public async Task<IActionResult> ObterBalanceteContabilPorPeriodo(string pDescricao, string pInicial, string pFinal)
+        public async Task<IActionResult> ObterBalanceteContabilPorPeriodo(string pPeriodicidade)
         {
             try
             {
-                var lBalancete = await negocio.ObterBalanceteContabilPorPeriodo(pDescricao, pInicial, pFinal);
+                var lBalancete = await negocio.ObterBalanceteContabilPorPeriodo(pPeriodicidade);
                 return Ok(lBalancete);
             }
             catch (Exception ex)

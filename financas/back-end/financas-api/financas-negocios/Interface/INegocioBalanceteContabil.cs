@@ -9,6 +9,6 @@ namespace financas_negocios.Interface
         Task<BalanceteContabilVO> ObterBalanceteContabilPorId(int id);
         Task<BalanceteContabilVO> AtualizarBalanceteContabil(BalanceteContabilVO balanceteVO);
         Task StatusDeletado(int id);
-        Task<IEnumerable<BalanceteContabilVO>> ObterBalanceteContabilPorPeriodo(string pDescricao, string pInicial, string pFinal);
+        Task<IEnumerable<BalanceteContabilVO>> ObterBalanceteContabilPorPeriodo(string pPeriodicidade);
     }
 }
