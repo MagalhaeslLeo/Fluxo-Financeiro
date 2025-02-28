@@ -28,5 +28,7 @@ export class BalanceteFinanceiroService {
   ObterBalanceteContabilPorPeriodo(pPeriodicidade:string):Observable<any>{
     return this.service.get("BalanceteContabil/ObterBalanceteContabilPorPeriodo", {pPeriodicidade: pPeriodicidade});
   }
-  
+  CalcularBalanceteContabilAnual(pInicial:string, pFinal: string):Observable<any>{
+    return this.service.get("BalanceteContabil/CalcularBalanceteContabilAnual", {pInicial: pInicial, pFinal : pFinal});
+  }
 }

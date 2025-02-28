@@ -166,6 +166,10 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
             return pPeriodoFinal ? `${pPeriodoFinal.periodoFinal}` : '';
         }
 
+        calcularBalancete(){
+            
+        }
+
         public retiraCaracteresEspeciais(pTermo: any): string {
             return String(pTermo)
               .trim()

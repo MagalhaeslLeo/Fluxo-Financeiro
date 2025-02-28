@@ -79,6 +79,22 @@ namespace financas_api.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
+        [HttpGet]
+        [Route("CalcularBalanceteContabilAnual")]
+        public async Task<IActionResult> CalcularBalanceteContabilAnual(string pInicial, string pFinal)
+        {
+            try
+            {
+                var calculo = await negocio.CalcularBalanceteContabilAnual(pInicial, pFinal);
+                return Ok(calculo);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+
         [HttpDelete]
         [Route("ExcluirBalancete")]
         public async Task<IActionResult> ExcluirBalancete(int pIdBalancete)

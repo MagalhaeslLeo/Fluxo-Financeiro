@@ -19,8 +19,8 @@ namespace financas_repositorio.Repositorio
         {
             try
             {
-                var atualizaEntidade = await contexto.BalancetesContabeis.SingleOrDefaultAsync(b=>b.IdBalancete.Equals(balancete.IdBalancete));
-                if(atualizaEntidade == null)
+                var atualizaEntidade = await contexto.BalancetesContabeis.SingleOrDefaultAsync(b => b.IdBalancete.Equals(balancete.IdBalancete));
+                if (atualizaEntidade == null)
                 {
                     return null;
                 }
@@ -66,12 +66,69 @@ namespace financas_repositorio.Repositorio
                             where pd.Descricao = @periodicidade 
                 ";
 
-                return await contexto.BalancetesContabeis.FromSqlRaw(query, 
+                return await contexto.BalancetesContabeis.FromSqlRaw(query,
                     new SqlParameter("@periodicidade", pPeriodicidade)
-                    //new SqlParameter("@periodoInicial", pInicial),
-                    //new SqlParameter("@periodoFinal", pFinal)
                     ).ToListAsync();
 
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+        public async Task <ResultadoCalculoBalancete> CalcularBalanceteContabilAnual(string pInicial, string pFinal)
+        {
+            try
+            {
+                var query = @"
+                            create table #TempBalancete(
+                            ValorReceita decimal (18,2),
+                            ValorDespesa decimal (18,2)
+                                                       )
+                            -- Soma todas as receitas
+                            insert into #TempBalancete(ValorReceita, ValorDespesa)
+                            select
+
+                            sum(isnull(rta.Valor, 0))as receita,
+                            0 as despesa
+
+                            from Receita rta
+                            where year(rta.DataCriacao) between @periodoInicial and '@periodoFinal
+
+
+                            -- Soma todas as despesas
+                            insert into #TempBalancete(ValorDespesa, ValorReceita)
+                            select
+                            sum(isnull(dpa.Valor, 0))as despesa,
+                            0 as receita
+
+                            from Despesa dpa
+
+                            where year(dpa.DataCriacao) between @periodoInicial and @periodoFinal
+
+
+                            -- Calcula o resultado geral
+                            select
+                            sum(isnull(ValorReceita, 0))as TotalReceitas,
+                            sum(isnull(ValorDespesa, 0))as TotalDespesas,
+                            sum(isnull(ValorReceita, 0)) - sum(isnull(ValorDespesa, 0)) as ResultadoGeral
+
+                            from #TempBalancete
+
+                            drop table #TempBalancete
+                ";
+
+                var parametros = new[]
+                {                    
+                    new SqlParameter("@periodoInicial", pInicial),
+                    new SqlParameter("@periodoFinal", pFinal)
+                };
+                var resultado = await contexto.Set<ResultadoCalculoBalancete>()
+                    .FromSqlRaw(query, parametros)
+                    .FirstOrDefaultAsync();
+                return resultado;
             }
             catch (Exception exception)
             {

@@ -13,5 +13,6 @@ namespace financas_dominio.Interface
         Task<BalanceteContabil> ObterBalanceteContabilPorId(int id);
 
         Task<BalanceteContabil> AtualizarBalanceteContabil(BalanceteContabil balancete);
+        Task<ResultadoCalculoBalancete> CalcularBalanceteContabilAnual(string pInicial, string pFinal);
     }
 }

@@ -104,11 +104,11 @@ export class BalanceteFinanceiroListaPage{
      }
 
     inserir(){
-        this.router.navigate(['balanceteFinanceiro', 'det']);
+        this.router.navigate(['balanceteFinanceiro', this.periodo, this.tipo ,'det']);
     }
 
     alterar(pRegistro: any){
-        this.router.navigate(['balanceteFinanceiro', 'det', pRegistro.id]);
+        this.router.navigate(['balanceteFinanceiro', this.periodo, this.tipo ,'det', pRegistro.id]);
     }
      excluir(pRegistros: any[]){
           this.service.ExcluirBalancete(pRegistros.map(obj => obj.id)).subscribe(result=>{
