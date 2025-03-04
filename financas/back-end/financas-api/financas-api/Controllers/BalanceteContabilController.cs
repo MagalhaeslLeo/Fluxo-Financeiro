@@ -80,12 +80,12 @@ namespace financas_api.Controllers
             }
         }
         [HttpGet]
-        [Route("CalcularBalanceteContabilAnual")]
-        public async Task<IActionResult> CalcularBalanceteContabilAnual(string pInicial, string pFinal)
+        [Route("ResultadoBalanceteContabil")]
+        public async Task<IActionResult> ResultadoBalanceteContabil(string pInicial, string pFinal, string pPeriodicidade)
         {
             try
             {
-                var calculo = await negocio.CalcularBalanceteContabilAnual(pInicial, pFinal);
+                var calculo = await negocio.ResultadoBalanceteContabil(pInicial, pFinal, pPeriodicidade);
                 return Ok(calculo);
             }
             catch (Exception ex)

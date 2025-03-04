@@ -54,11 +54,11 @@ namespace financas_negocios.Negocio
             }
         }
 
-        public async Task <ResultadoCalculoBalanceteVO> CalcularBalanceteContabilAnual(string pInicial, string pFinal)
+        public async Task <ResultadoCalculoBalanceteVO> ResultadoBalanceteContabil(string pInicial, string pFinal, string pPeriodicidade)
         {
             try
             {
-                var resultado = await repositorio.CalcularBalanceteContabilAnual(pInicial, pFinal);
+                var resultado = await repositorio.ResultadoBalanceteContabil(pInicial, pFinal, pPeriodicidade);
                 var resultadoRetorno = map.Map<ResultadoCalculoBalanceteVO>(resultado);
                 return resultadoRetorno;
             }
