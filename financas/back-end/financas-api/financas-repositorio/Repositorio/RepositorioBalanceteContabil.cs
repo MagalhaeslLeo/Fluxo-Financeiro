@@ -169,5 +169,10 @@ namespace financas_repositorio.Repositorio
 
             }
         }
+        //private async Task<IEnumerable<BalanceteContabil>> ObterPeriodos()
+        //{
+        //    var periodos = await ObterTodos();
+        //    return periodos;
+        //}
     }
 }

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } 
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utils } from "src/app/core/utils";
+import { BalanceteFinanceiroService } from "src/app/services/balanceteFinancerio.service";
 
 @Component({
     selector: "balanceteFinanceiroCadComponent",
@@ -20,18 +21,27 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
     resultadoFiltro: any[] = [];
 
     result: any;
+    tipo: any;
+    periodo: any;
     private _registros: any | undefined; 
 
     ngOnInit(): void { }
 
     constructor(
             protected formBuilder: FormBuilder,
-            protected router: ActivatedRoute,
-            protected route: Router,
+            protected route: ActivatedRoute,
+            protected router: Router,
             protected utils: Utils,
-            protected cdr: ChangeDetectorRef
+            protected cdr: ChangeDetectorRef,
+            protected service : BalanceteFinanceiroService
         ) {
             this.form = this.criarForm();
+
+            this.route.paramMap.subscribe(params=>{
+                this.periodo = params.get('periodo') || 'anual';
+                this.tipo = params.get('tipo') || 'BCOT';
+            });
+
             this.atualizarRegistro();
 
             this.utils.tratarAutoCompleteEntidade(this.form.controls['periodoInicial'],
@@ -52,7 +62,7 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
                 idPeriodoFinal: [null, []],
 
                 totalDespesa: [null, []],
-                TotalReceita: [null, []],
+                totalReceita: [null, []],
                 resultadoGeral: [null, []]
 
             },
@@ -62,16 +72,18 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
 
         atualizarRegistro() {
  
-            const lIdStr: any = this.router.snapshot.paramMap.get("idRegistro");
+            const lIdStr: any = this.route.snapshot.paramMap.get("idRegistro");
      
             if (lIdStr) {   
-                //  this.service.ObterPorId(parseInt(lIdStr)).subscribe((result) => {
+                  this.service.ObterPorId(parseInt(lIdStr)).subscribe((result) => {
      
-                //     this._registros = result;
-                //     this.preencherFormCompleto(this._registros);
-                //  });
+                     this._registros = result;
+                     this.carregarCombosFiltros(this.periodo);
+                     this.preencherFormCompleto(this._registros);
+                  });
             } else {      
                 this._registros = {};
+                this.carregarCombosFiltros(this.periodo);
                 this.preencherForm(this._registros);
             }
         }
@@ -89,30 +101,48 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
             this.form.controls["resultadoGeral"].setValue(pRegistro.resultadoGeral);
         }
 
-        carregarCombosFiltros(pFiltro: any[]){
-            this.carregarPeriodoInicial(pFiltro);
-            this.carregarPeriodoFinal(pFiltro);
+        carregarCombosFiltros(pPeriodo: any){
+            this.service.ObterBalanceteContabilPorPeriodo(pPeriodo).subscribe(result=>{
+                this.carregarPeriodoInicial(result);
+                this.carregarPeriodoFinal(result);
+            });
         }
     
-        carregarPeriodoInicial(pInicial: any[]){
-            const listaPeriodo = pInicial;
-    
-            this.periodoInicialFiltro = listaPeriodo.map(item => ({
-                ...item,
-                periodoInicial: new Date(item.periodoInicial).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-            }));
+        carregarPeriodoInicial(pPeriodos: any[]){
+            const listaPeriodo = pPeriodos;
+            if(this.periodo === 'mensal'){
+                this.periodoInicialFiltro = listaPeriodo.map(item => ({
+                    ...item,
+                    periodoInicial: new Date(item.periodoInicial+ 'T00:00:00' ).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+                }));
+            }
+            else{
+                 this.periodoInicialFiltro = listaPeriodo.map(item => ({
+                     ...item,
+                     periodoInicial: new Date(item.periodoInicial + 'T00:00:00').toLocaleDateString("pt-BR", {year: 'numeric'})
+                 }));
+            }
+           
     
             this.periodoInicialFiltro = this.utils.removeDuplicados(this.periodoInicialFiltro, "periodoInicial");
             this.periodoInicialFiltroTodos = this.periodoInicialFiltro;
         }
     
-        carregarPeriodoFinal(pFinal: any[]){
-            const listaPeriodo = pFinal;
-    
-            this.periodoFinalFiltro = listaPeriodo.map(item => ({
-                ...item,
-                periodoFinal: new Date(item.periodoFinal).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-            }));
+        carregarPeriodoFinal(pPeriodos: any[]){
+            const listaPeriodo = pPeriodos;
+            if(this.periodo === 'mensal'){
+                this.periodoFinalFiltro = listaPeriodo.map(item => ({
+                    ...item,
+                    periodoFinal: new Date(item.periodoFinal + 'T00:00:00').toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+                }));
+            }
+            else{
+                 this.periodoFinalFiltro = listaPeriodo.map(item => ({
+                     ...item,
+                     periodoFinal: new Date(item.periodoFinal+ 'T00:00:00' ).toLocaleDateString("pt-BR", {year: 'numeric'})
+                 }));
+            }
+            
     
             this.periodoFinalFiltro = this.utils.removeDuplicados(this.periodoFinalFiltro, "periodoFinal");
             this.periodoFinalFiltroTodos = this.periodoFinalFiltro;
@@ -167,7 +197,16 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
         }
 
         calcularBalancete(){
-            
+            const pInicial = this.form.controls["periodoInicial"].value;
+            const pFinal = this.form.controls["periodoFinal"].value;
+
+            this.service.ResultadoBalanceteContabil(pInicial.periodoInicial ?? pInicial,
+                pFinal.periodoFinal ?? pFinal,
+                this.periodo).subscribe((result)=>{
+                    this.form.controls["totalDespesa"].setValue(result.totalDespesas);
+                    this.form.controls["totalReceita"].setValue(result.totalReceitas);
+                    this.form.controls["resultadoGeral"].setValue(result.resultadoGeral);
+            });
         }
 
         public retiraCaracteresEspeciais(pTermo: any): string {
@@ -189,31 +228,35 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
             return this._registros;
         }
 
-        confirmar() {
- 
-       
+        prepararDadosPersistir(){
+            const pInicial = this.form.controls["periodoInicial"].value;
+            const pFinal = this.form.controls["periodoFinal"].value;
+
             const objBalancete = {
-     
                 Id: this.form.controls['id'].value ?? 0,  
-                PeriodoInicial: this.form.controls['periodoInicial'].value,              
-                PeriodoFinal: this.form.controls['periodoFinal'].value,              
+                PeriodoInicial: pInicial.periodoInicial ?? pInicial,              
+                PeriodoFinal: pFinal.periodoFinal ?? pFinal,              
                 TotalDespesa: this.form.controls['totalDespesa'].value,            
                 TotalReceita: this.form.controls['totalReceita'].value,
                 ResultadoGeral: this.form.controls['resultadoGeral'].value,              
-                Deletado: false,
-     
-            }
+                Deletado: false,  
+            };
+
+            return objBalancete;
+
+        }
+
+        confirmar() {
             if (this.utils.validarForm(this.form)) {
- 
-                //Chama o service para a persistencia, passando os dados do FORM como parametro
-                //  this.service.PersistirBalancete(objBalancete).subscribe((result) => {
-                //      this.result = result;
-                //      this._registros = result;
-                //      this.utils.exibirSucesso("Registro salvo com sucesso.");
-                //      this.form.markAsPristine();
-                //      this.cdr.detectChanges();
-                //      this.route.navigate(["balanceteFinanceiro", "lista"]);
-                //  });
+                const objectPersistir = this.prepararDadosPersistir();
+                  this.service.PersistirBalancete(objectPersistir).subscribe((result) => {
+                      this.result = result;
+                      this._registros = result;
+                      this.utils.exibirSucesso("Registro salvo com sucesso.");
+                      this.form.markAsPristine();
+                      this.cdr.detectChanges();
+                      this.router.navigate(["balanceteFinanceiro", this.periodo, this.tipo, "lista"]);
+                  });
 
                 } else {
                     //Exibe a mensagem indicando que há campos inválidos no form
@@ -221,7 +264,7 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
                 }
         }
         cancelar(): void{
-            this.route.navigate(["balanceteFinanceiro", "lista"]);
+            this.router.navigate(["balanceteFinanceiro", this.periodo, this.tipo, "lista"]);
         }
 
 }
