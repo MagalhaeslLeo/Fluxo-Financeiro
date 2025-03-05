@@ -20,6 +20,6 @@ namespace financas_dominio.Entidade
 
         public int IdUsuario { get; set; }
         public Usuario Usuario { get; set; }
-        public ICollection<BalanceteContabil> Balancetes { get; set; } = new List<BalanceteContabil>();
+
     }
 }

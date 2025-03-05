@@ -50,35 +50,41 @@ namespace financas_repositorio.Repositorio
 
             }
         }
-
         public async Task<IEnumerable<BalanceteContabil>> ObterBalanceteContabilPorPeriodo(string pPeriodicidade)
         {
             try
             {
-                var query = @"
-                            SELECT
-                            bc.DataCriacao, bc.IdDespesa, bc.IdReceita, bc.IdPeriodicidade, bc.Deletado, 
-                            bc.IdBalancete, bc.TotalDespesa, bc.TotalReceita, bc.ResultadoGeral,
-                            bc.PeriodoInicial, bc.PeriodoFinal, pd.Descricao as PeriodicidadeDescricao, dp.Descricao as DespesaDescricao, rt.Descricao as ReceitaDescricao
-                            from BalanceteContabil as bc
-                            left join Despesa as dp on bc.IdDespesa = dp.IdDespesa
-                            left join Receita as rt on bc.IdReceita = rt.IdReceita
-                            left join Periodicidade as pd on bc.IdPeriodicidade = pd.IdPeriodicidade
-                            where pd.Descricao = @periodicidade 
-                ";
+                var balancetesContabeis = await contexto.BalancetesContabeis
+                    .Include(bc => bc.Periodicidade)
+                    .Where(bc => bc.Periodicidade.Descricao == pPeriodicidade)
+                    .ToListAsync();
 
-                return await contexto.BalancetesContabeis.FromSqlRaw(query,
-                    new SqlParameter("@periodicidade", pPeriodicidade)
-                    ).ToListAsync();
-
+                return balancetesContabeis;
             }
             catch (Exception exception)
             {
-
                 throw new Exception(exception.Message, exception);
-
             }
         }
+
+        //public async Task<IEnumerable<BalanceteContabil>> ObterBalanceteContabilPorPeriodo(string pPeriodicidade)
+        //{
+        //    try
+        //    {
+        //        IQueryable<BalanceteContabil> query = contexto.BalancetesContabeis;
+        //        query = query.Include(b=>b.Periodicidade).Where(p => p.Periodicidade.Descricao == pPeriodicidade);
+        //        var lista = await query.ToListAsync();
+
+        //        return lista;
+
+        //    }
+        //    catch (Exception exception)
+        //    {
+
+        //        throw new Exception(exception.Message, exception);
+
+        //    }
+        //}
         public async Task <ResultadoCalculoBalancete> ResultadoBalanceteContabil(string pInicial, string pFinal, string pPeriodicidade)
         {
             try
