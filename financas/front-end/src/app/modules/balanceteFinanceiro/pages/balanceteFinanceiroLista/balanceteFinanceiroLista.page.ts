@@ -108,10 +108,10 @@ export class BalanceteFinanceiroListaPage{
     }
 
     alterar(pRegistro: any){
-        this.router.navigate(['balanceteFinanceiro', this.periodo, this.tipo ,'det', pRegistro.id]);
+        this.router.navigate(['balanceteFinanceiro', this.periodo, this.tipo ,'det', pRegistro.idBalancete]);
     }
      excluir(pRegistros: any[]){
-          this.service.ExcluirBalancete(pRegistros.map(obj => obj.id)).subscribe(result=>{
+          this.service.ExcluirBalancete(pRegistros.map(obj => obj.idBalancete)).subscribe(result=>{
               this.result = result;
               this.utils.exibirSucesso(pRegistros.length > 1 ? 'Registros excluídos com sucesso.' : 'Registros excluídos com sucesso.');
               this.atualizarRegistros();
@@ -127,10 +127,14 @@ export class BalanceteFinanceiroListaPage{
     carregarPeriodoInicial(pInicial: any[], pPeriodo: any){
         const listaPeriodo = pInicial;
         if(pPeriodo === 'mensal'){
-            this.periodoInicialFiltro = listaPeriodo.map(item => ({
-                ...item,
-                periodoInicial: new Date(item.periodoInicial+ 'T00:00:00' ).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-            }));
+            this.periodoInicialFiltro = listaPeriodo.map(item => { 
+                const [mes, ano] = item.periodoInicial.split('/');
+                const periodoInicialDate = new Date(Number(ano), Number(mes)-1,1);
+                return {
+                    ...item,
+                    periodoInicial: periodoInicialDate.toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+                };
+            });
         }
         else{
              this.periodoInicialFiltro = listaPeriodo.map(item => ({
@@ -141,17 +145,21 @@ export class BalanceteFinanceiroListaPage{
         }
        
 
-        this.periodoInicialFiltro = this.utils.removeDuplicados(this.periodoInicialFiltro, "periodoInicial");
+        this.periodoInicialFiltro = this.removeDuplicadosBalancete(this.periodoInicialFiltro, "periodoInicial");
         this.periodoInicialFiltroTodos = this.periodoInicialFiltro;
     }
 
     carregarPeriodoFinal(pFinal: any[], pPeriodo: any){
         const listaPeriodo = pFinal;
         if(pPeriodo === 'mensal'){
-            this.periodoFinalFiltro = listaPeriodo.map(item => ({
-                ...item,
-                periodoFinal: new Date(item.periodoFinal + 'T00:00:00').toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-            }));
+            this.periodoFinalFiltro = listaPeriodo.map(item => { 
+                const [mes, ano] = item.periodoFinal.split('/');
+                const periodoFinalDate = new Date(Number(ano), Number(mes)-1,1);
+                return {
+                    ...item,
+                    periodoFinal: periodoFinalDate.toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+                };
+            });
         }
         else{
              this.periodoFinalFiltro = listaPeriodo.map(item => ({
@@ -162,7 +170,7 @@ export class BalanceteFinanceiroListaPage{
         }
         
 
-        this.periodoFinalFiltro = this.utils.removeDuplicados(this.periodoFinalFiltro, "periodoFinal");
+        this.periodoFinalFiltro = this.removeDuplicadosBalancete(this.periodoFinalFiltro, "periodoFinal");
         this.periodoFinalFiltroTodos = this.periodoFinalFiltro;
     }
 
@@ -227,6 +235,30 @@ export class BalanceteFinanceiroListaPage{
 
     obterPeriodoFinal(pPeriodoFinal: any): any{
         return pPeriodoFinal ? `${pPeriodoFinal.periodoFinal}` : '';
+    }
+
+    public removeDuplicadosBalancete(pRegistros: any[], pCampoExtra?: string): any[]{
+
+        //Remove duplicados pelo id
+        const setIds = new Set();
+        const listaSemDuplicados = pRegistros.filter(item =>{
+            if(setIds.has(item.idBalancete)) return false;
+            setIds.add(item.idBalancete);
+            return true;
+        });
+
+        //Remove duplicados pelo parâmetro extra
+        if(pCampoExtra){
+            const setCampoExtra = new Map();
+        return listaSemDuplicados.filter(item =>{
+            const chaveRegistro = pCampoExtra.split('.').reduce((obj, key)=>obj?.[key], item);
+            if(!setCampoExtra || setCampoExtra.has(chaveRegistro)) return false;
+            setCampoExtra.set(chaveRegistro, item);
+            return true;
+        });
+        }
+        return listaSemDuplicados;
+        
     }
 
     public retiraCaracteresEspeciais(pTermo: any): string {

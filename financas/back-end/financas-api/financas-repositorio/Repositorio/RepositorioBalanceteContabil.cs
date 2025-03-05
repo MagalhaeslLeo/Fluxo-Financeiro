@@ -125,8 +125,8 @@ namespace financas_repositorio.Repositorio
                 }
                 else if(pPeriodicidade.ToLower() == "mensal")
                 {
-                    periodoInicial = DateTime.ParseExact(pInicial, "yyyy", CultureInfo.InvariantCulture);
-                    periodoFinal = DateTime.ParseExact(pFinal, "yyyy", CultureInfo.InvariantCulture);
+                    periodoInicial = DateTime.ParseExact(pInicial, "MM/yyyy", CultureInfo.InvariantCulture);
+                    periodoFinal = DateTime.ParseExact(pFinal, "MM/yyyy", CultureInfo.InvariantCulture);
 
                     query = query.Where(r => r.DataCriacao.Year >= periodoInicial.Year && r.DataCriacao.Year <= periodoFinal.Year &&
                     r.DataCriacao.Month >= periodoInicial.Month && r.DataCriacao.Month <= periodoFinal.Month);
@@ -158,8 +158,8 @@ namespace financas_repositorio.Repositorio
                 }
                 else if (pPeriodicidade.ToLower() == "mensal")
                 {
-                    periodoInicial = DateTime.ParseExact(pInicial, "yyyy", CultureInfo.InvariantCulture);
-                    periodoFinal = DateTime.ParseExact(pFinal, "yyyy", CultureInfo.InvariantCulture);
+                    periodoInicial = DateTime.ParseExact(pInicial, "MM/yyyy", CultureInfo.InvariantCulture);
+                    periodoFinal = DateTime.ParseExact(pFinal, "MM/yyyy", CultureInfo.InvariantCulture);
 
                     query = query.Where(d => d.DataCriacao.Year >= periodoInicial.Year && d.DataCriacao.Year <= periodoFinal.Year &&
                     d.DataCriacao.Month >= periodoInicial.Month && d.DataCriacao.Month <= periodoFinal.Month);

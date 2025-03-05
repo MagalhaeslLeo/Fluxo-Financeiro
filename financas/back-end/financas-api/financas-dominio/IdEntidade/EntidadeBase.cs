@@ -8,7 +8,7 @@ namespace financas_dominio.IdEntidade
 {
     public class EntidadeBase
     {
-        public DateTime DataCriacao { get; set; }
+        public DateTime DataCriacao { get; set; } = DateTime.Now;
         public bool Deletado { get; set; }
     }
 }

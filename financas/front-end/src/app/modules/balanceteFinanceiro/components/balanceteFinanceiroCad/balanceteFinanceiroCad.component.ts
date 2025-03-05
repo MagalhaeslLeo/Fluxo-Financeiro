@@ -111,40 +111,48 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
         carregarPeriodoInicial(pPeriodos: any[]){
             const listaPeriodo = pPeriodos;
             if(this.periodo === 'mensal'){
-                this.periodoInicialFiltro = listaPeriodo.map(item => ({
-                    ...item,
-                    periodoInicial: new Date(item.periodoInicial+ 'T00:00:00' ).toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-                }));
-            }
-            else{
-                 this.periodoInicialFiltro = listaPeriodo.map(item => ({
-                     ...item,
-                     periodoInicial: new Date(item.periodoInicial + 'T00:00:00').toLocaleDateString("pt-BR", {year: 'numeric'})
-                 }));
-            }
+                 this.periodoInicialFiltro = listaPeriodo.map(item => { 
+                     const [mes, ano] = item.periodoInicial.split('/');
+                     const periodoInicialDate = new Date(Number(ano), Number(mes)-1,1);
+                     return {
+                         ...item,
+                         periodoInicial: periodoInicialDate.toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+                     };
+                 });
+             }
+             else{
+                  this.periodoInicialFiltro = listaPeriodo.map(item => ({
+                      ...item,
+                      periodoInicial: new Date(item.periodoInicial + 'T00:00:00').toLocaleDateString("pt-BR", {year: 'numeric'})
+                  }));
+                }
            
     
-            this.periodoInicialFiltro = this.utils.removeDuplicados(this.periodoInicialFiltro, "periodoInicial");
+            this.periodoInicialFiltro = this.removeDuplicadosBalancete(this.periodoInicialFiltro, "periodoInicial");
             this.periodoInicialFiltroTodos = this.periodoInicialFiltro;
         }
     
         carregarPeriodoFinal(pPeriodos: any[]){
             const listaPeriodo = pPeriodos;
             if(this.periodo === 'mensal'){
-                this.periodoFinalFiltro = listaPeriodo.map(item => ({
-                    ...item,
-                    periodoFinal: new Date(item.periodoFinal + 'T00:00:00').toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
-                }));
-            }
-            else{
-                 this.periodoFinalFiltro = listaPeriodo.map(item => ({
-                     ...item,
-                     periodoFinal: new Date(item.periodoFinal+ 'T00:00:00' ).toLocaleDateString("pt-BR", {year: 'numeric'})
-                 }));
-            }
+                 this.periodoFinalFiltro = listaPeriodo.map(item => { 
+                     const [mes, ano] = item.periodoFinal.split('/');
+                     const periodoFinalDate = new Date(Number(ano), Number(mes)-1,1);
+                     return {
+                         ...item,
+                         periodoFinal: periodoFinalDate.toLocaleDateString("pt-BR", {month: '2-digit', year: 'numeric'})
+                     };
+                 });
+             }
+             else{
+                  this.periodoFinalFiltro = listaPeriodo.map(item => ({
+                      ...item,
+                      periodoFinal: new Date(item.periodoFinal+ 'T00:00:00' ).toLocaleDateString("pt-BR", {year: 'numeric'})
+                  }));
+             }
             
     
-            this.periodoFinalFiltro = this.utils.removeDuplicados(this.periodoFinalFiltro, "periodoFinal");
+            this.periodoFinalFiltro = this.removeDuplicadosBalancete(this.periodoFinalFiltro, "periodoFinal");
             this.periodoFinalFiltroTodos = this.periodoFinalFiltro;
         }
 
@@ -189,11 +197,11 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
         }
     
         obterPeriodoInicial(pPeriodoInicial: any): any{
-            return pPeriodoInicial ? `${pPeriodoInicial.periodoInicial}` : '';
+            return pPeriodoInicial?.periodoInicial ?? pPeriodoInicial ?? '';
         }
     
         obterPeriodoFinal(pPeriodoFinal: any): any{
-            return pPeriodoFinal ? `${pPeriodoFinal.periodoFinal}` : '';
+            return pPeriodoFinal?.periodoFinal ?? pPeriodoFinal ?? '';
         }
 
         calcularBalancete(){
@@ -231,11 +239,14 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
         prepararDadosPersistir(){
             const pInicial = this.form.controls["periodoInicial"].value;
             const pFinal = this.form.controls["periodoFinal"].value;
+            const idPeriodicidade = this.periodo == 'anual' ? 1 : 2;
+
 
             const objBalancete = {
-                Id: this.form.controls['id'].value ?? 0,  
+                IdBalancete: this.form.controls['id'].value ?? 0,  
                 PeriodoInicial: pInicial.periodoInicial ?? pInicial,              
-                PeriodoFinal: pFinal.periodoFinal ?? pFinal,              
+                PeriodoFinal: pFinal.periodoFinal ?? pFinal,
+                IdPeriodicidade: idPeriodicidade,              
                 TotalDespesa: this.form.controls['totalDespesa'].value,            
                 TotalReceita: this.form.controls['totalReceita'].value,
                 ResultadoGeral: this.form.controls['resultadoGeral'].value,              
@@ -262,6 +273,30 @@ export class BalanceteFinanceiroCadComponent implements OnInit{
                     //Exibe a mensagem indicando que há campos inválidos no form
                     this.utils.exibirWarning('Há pendências no preenchimento no formulário.');
                 }
+        }
+
+        public removeDuplicadosBalancete(pRegistros: any[], pCampoExtra?: string): any[]{
+
+            //Remove duplicados pelo id
+            const setIds = new Set();
+            const listaSemDuplicados = pRegistros.filter(item =>{
+                if(setIds.has(item.idBalancete)) return false;
+                setIds.add(item.idBalancete);
+                return true;
+            });
+    
+            //Remove duplicados pelo parâmetro extra
+            if(pCampoExtra){
+                const setCampoExtra = new Map();
+            return listaSemDuplicados.filter(item =>{
+                const chaveRegistro = pCampoExtra.split('.').reduce((obj, key)=>obj?.[key], item);
+                if(!setCampoExtra || setCampoExtra.has(chaveRegistro)) return false;
+                setCampoExtra.set(chaveRegistro, item);
+                return true;
+            });
+            }
+            return listaSemDuplicados;
+            
         }
         cancelar(): void{
             this.router.navigate(["balanceteFinanceiro", this.periodo, this.tipo, "lista"]);
