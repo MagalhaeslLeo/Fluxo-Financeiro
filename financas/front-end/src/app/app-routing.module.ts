@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'balanceteFinanceiro',
     loadChildren: () => import('./modules/balanceteFinanceiro/balanceteFinanceiro.module').then(u=>u.BalanceteFinanceiroModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./modules/login/login.module').then(l=>l.LoginModule)
   }
   
 ];
