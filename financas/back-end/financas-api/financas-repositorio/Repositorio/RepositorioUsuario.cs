@@ -58,6 +58,24 @@ namespace financas_repositorio.Repositorio
 
             }
         }
+
+        public async Task<Usuario> ObterUsuarioPorEmailSenha(string email, string senha)
+        {
+            try
+            {
+                var usuario = await contexto.Usuarios
+                .Include(u =>u.Perfil)
+                .FirstOrDefaultAsync(u => u.Email == email && u.Senha == senha && !u.Deletado);
+
+                return usuario;
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
     }
 }
 

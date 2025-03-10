@@ -21,5 +21,7 @@ namespace financas_negocios.Interface
 
         Task<UsuarioVO> ObterUsuarioPorID(int Id);
 
+        Task<UsuarioVO> ObterUsuarioPorEmailSenha(string email, string senha);
+
     }
 }

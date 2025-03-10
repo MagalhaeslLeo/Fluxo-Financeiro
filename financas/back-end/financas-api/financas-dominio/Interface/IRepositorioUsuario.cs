@@ -14,5 +14,7 @@ namespace financas_dominio.Interface
 
         Task<Usuario> Atualizar(Usuario usuario);
 
+        Task<Usuario> ObterUsuarioPorEmailSenha(string email, string senha);
+
     }
 }

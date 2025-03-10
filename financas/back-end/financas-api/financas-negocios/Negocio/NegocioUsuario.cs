@@ -119,5 +119,21 @@ namespace financas_negocios.Negocio
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task<UsuarioVO> ObterUsuarioPorEmailSenha(string email, string senha)
+        {
+            try
+            {
+                var usuario = await repositorio.ObterUsuarioPorEmailSenha(email, senha);
+
+                var usuarioRetorno = map.Map<UsuarioVO>(usuario);
+
+                return usuarioRetorno;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }
