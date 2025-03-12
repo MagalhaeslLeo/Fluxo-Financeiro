@@ -66,6 +66,7 @@ builder.Services.AddCors(options =>
 #region [Área de configuracao dos serviços] 
 
 builder.Services.AddScoped<INegocioUsuario, NegocioUsuario>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<INegocioPerfil, NegocioPerfil>();
 builder.Services.AddScoped<INegocioDespesa, NegocioDespesa>();
