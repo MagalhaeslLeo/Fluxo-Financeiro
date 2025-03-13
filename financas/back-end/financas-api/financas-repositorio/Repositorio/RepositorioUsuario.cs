@@ -1,13 +1,22 @@
 ﻿using financas_dominio.Entidade;
 using financas_dominio.Interface;
 using financas_repositorio.Contexto;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace financas_repositorio.Repositorio
 {
-    public class RepositorioUsuario : RepositorioBase<Usuario>, IRepositorioUsuario
+    public class RepositorioUsuario : IRepositorioUsuario
     {
-        public RepositorioUsuario(DbContexto contexto) : base(contexto) { }
+        private readonly SignInManager<Usuario> gerenciadorLogin;
+
+        private readonly DbContexto contexto;
+
+        public RepositorioUsuario(DbContexto contexto, SignInManager<Usuario> gerenciadorLogin)
+        {
+            this.contexto = contexto;
+            this.gerenciadorLogin = gerenciadorLogin;            
+        }
 
         public async Task<IEnumerable<Usuario>> ObterUsuariosComPerfil()
         {
@@ -74,6 +83,103 @@ namespace financas_repositorio.Repositorio
 
                 throw new Exception(exception.Message, exception);
 
+            }
+        }
+
+        public IQueryable<Usuario> Queryable()
+        {
+            try
+            {
+                return contexto.Usuarios.AsQueryable();
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public async Task Commit()
+        {
+            try
+            {
+                await contexto.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public void Adicionar(Usuario entidade)
+        {
+            try
+            {
+                contexto.Usuarios.Add(entidade);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message, exception);
+            }
+        }
+
+        public async Task<Usuario> AdicionarSalvar(Usuario entidade)
+        {
+            try
+            {
+                contexto.Usuarios.Add(entidade);
+                await contexto.SaveChangesAsync();
+                return entidade;
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public async Task<IEnumerable<Usuario>> ObterTodos()
+        {
+            try
+            {
+                return await contexto.Usuarios.ToListAsync();
+
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+
+        public async Task StatusDeletado(Usuario entidade)
+        {
+            try
+            {
+                await contexto.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+
+                throw new Exception(exception.Message, exception);
+
+            }
+        }
+        public async Task LogarUsuario(Usuario usuario, bool lembrar)
+        {
+            try
+            {
+                await gerenciadorLogin.SignInAsync(usuario, false);
+            }
+            catch (Exception expection)
+            {
+
+                throw new Exception(expection.Message, expection);
             }
         }
     }

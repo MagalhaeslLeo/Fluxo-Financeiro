@@ -1,4 +1,5 @@
-﻿using financas_negocios.Entidade;
+﻿using financas_dominio.Entidade;
+using financas_negocios.Entidade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace financas_negocios.Interface
         Task<UsuarioVO> ObterUsuarioPorID(int Id);
 
         Task<UsuarioVO> ObterUsuarioPorEmailSenha(string email, string senha);
+        Task LogarUsuario(UsuarioVO usuario, bool lembrar);
 
     }
 }

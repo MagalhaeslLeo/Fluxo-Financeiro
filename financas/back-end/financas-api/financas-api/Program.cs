@@ -1,9 +1,12 @@
-﻿using financas_dominio.Interface;
+﻿using financas_dominio.Entidade;
+using financas_dominio.Interface;
 using financas_negocios.Interface;
 using financas_negocios.Negocio;
 using financas_repositorio.Contexto;
 using financas_repositorio.Repositorio;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +67,16 @@ builder.Services.AddCors(options =>
 
 
 #region [Área de configuracao dos serviços] 
+builder.Services.AddDataProtection();
+
+builder.Services.AddIdentityCore<Usuario>()
+.AddEntityFrameworkStores<DbContexto>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddHttpContextAccessor();
+
+
+builder.Services.AddScoped<SignInManager<Usuario>>();
 
 builder.Services.AddScoped<INegocioUsuario, NegocioUsuario>();
 builder.Services.AddScoped<IAuthService, AuthService>();

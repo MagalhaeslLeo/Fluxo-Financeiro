@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace financas_dominio.Interface
 {
-    public interface IRepositorioUsuario : IRepositorioBase<Usuario>
+    public interface IRepositorioUsuario
     {
         Task<IEnumerable<Usuario>> ObterUsuariosComPerfil();
         Task<Usuario> ObterUsuarioPorID(int id);
@@ -15,6 +15,13 @@ namespace financas_dominio.Interface
         Task<Usuario> Atualizar(Usuario usuario);
 
         Task<Usuario> ObterUsuarioPorEmailSenha(string email, string senha);
+        IQueryable<Usuario> Queryable();
+        Task Commit();
+        void Adicionar(Usuario entidade);
+        Task<Usuario> AdicionarSalvar(Usuario entidade);
+        Task<IEnumerable<Usuario>> ObterTodos();
+        Task StatusDeletado(Usuario entidade);
+        Task LogarUsuario(Usuario usuario, bool lembrar);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using financas_negocios.Interface;
+﻿using financas_negocios.Entidade;
+using financas_negocios.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +18,25 @@ namespace financas_api.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] string email, string senha)
+        public async Task<IActionResult> Login(string email, string senha)
         {
-            var usuario = await negocio.ObterUsuarioPorEmailSenha(email, senha);
-
-            if (usuario != null)
+            try
             {
-                var token = service.GeradorJwtToken(email, senha);
-                return Ok(new { Token = token });
+                var usuario = await negocio.ObterUsuarioPorEmailSenha(email, senha);
+
+                if (usuario != null)
+                {
+                    var token = service.GeradorJwtToken(email, senha);
+                    await negocio.LogarUsuario(usuario, false);
+                    return Ok(new { Token = token });
+                }
+                return Unauthorized("Usuário ou senha inválidos");
             }
-            return Unauthorized("Usuário ou senha inválidos");
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
         }
     }
 }

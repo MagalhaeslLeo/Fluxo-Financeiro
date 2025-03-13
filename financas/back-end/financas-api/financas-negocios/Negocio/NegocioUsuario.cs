@@ -135,5 +135,20 @@ namespace financas_negocios.Negocio
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task LogarUsuario(UsuarioVO usuario, bool lembrar)
+        {
+            try
+            {
+                var usuarioVO = map.Map<Usuario>(usuario);
+
+                await repositorio.LogarUsuario(usuarioVO, false);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }
