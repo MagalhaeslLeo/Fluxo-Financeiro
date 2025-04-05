@@ -16,7 +16,8 @@ export class DespesaCadComponent implements OnInit {
     ///Área de atributos objetos e variáveis
     form: FormGroup;
     listaTipoPagamentoFiltro: any[] = [];
-    listaCartoesDisponiveisFiltro: any[] = [];
+    listaTipoPagamentoFiltroTodos: any[] = [];
+    // listaCartoesDisponiveisFiltro: any[] = [];
     result: any;
     idTipoPagamento: any;
 
@@ -40,6 +41,8 @@ export class DespesaCadComponent implements OnInit {
         this.form = this.criarForm();
         this.msgValidacao = this.criarMensagensValidacao();
         this.atualizarRegistro();
+        this.utils.tratarAutoCompleteEntidade(this.form.controls['tipoPagamento'],
+            this.form.controls['idTipoPagamento'], this.aplicarFiltroTipoPagamento.bind(this), 0);
     }
 
     private criarForm(): FormGroup {
@@ -47,6 +50,7 @@ export class DespesaCadComponent implements OnInit {
             {
                 id: [null, []],
                 descricaoDespesa: [null, Validators.required],
+                idTipoPagamento: [null, []],
                 tipoPagamento: [null, Validators.required],
                 valorDespesa: [null, Validators.required],
                 dataCriacao: [null, Validators.required]
@@ -139,16 +143,27 @@ export class DespesaCadComponent implements OnInit {
 
 
     confirmar() {
- 
-       
+
         const objDespesa = {
  
             Id: this.form.controls['id'].value ?? 0,  
-            DescricaoDespesa: this.form.controls['descricaoDespesa'].value,              
-            TipoPagamento: this.form.controls['tipoPagamento'].value,
-            ValorDespesa: this.form.controls['valorDespesa'].value,            
-            DataCriacao: this.form.controls['dataCriacao'].value,
-            Deletado: false,
+            Descricao: this.form.controls['descricaoDespesa'].value,              
+            // TipoPagamentoVO: null,
+            Valor: this.form.controls['valorDespesa'].value,
+            IdTipoPagamentoVO: this.form.controls['tipoPagamento'].value,
+            // UsuarioVO: null,
+            IdUsuarioVO: 14,            
+            DataCriacao: this.form.controls['dataCriacao'].value
+
+            // public int Id { get; set; }
+            // public DateTime DataCriacao { get; set; }
+            // public string Descricao { get; set; }
+            // public decimal Valor { get; set; }
+    
+            // public int IdTipoPagamentoVO { get; set; }
+            // public TipoPagamentoVO TipoPagamentoVO { get; set; }
+            // public int IdUsuarioVO { get; set; }
+            // public UsuarioVO UsuarioVO { get; set; }
  
         }
  
@@ -176,27 +191,59 @@ export class DespesaCadComponent implements OnInit {
         this.route.navigate(["despesa", "lista"]);
     }
 
+    obterTipoPagamento(pEntidade: any): any{
+        return pEntidade ? `${pEntidade?.descricao}` : undefined;
+    }
+
+    aplicarFiltroTipoPagamento(pTipoPagamento: any): void {
+        const tipo = pTipoPagamento.trim();
+        if(tipo.length >= 3)
+        {
+        // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
+        this.listaTipoPagamentoFiltro = this.listaTipoPagamentoFiltroTodos.filter(f => {
+    
+          const tipoPagamentoString = `${f.descricao}`;
+    
+          return tipoPagamentoString
+          .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .includes(tipo.normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+          );
+    
+        });
+        }
+        else{
+          this.listaTipoPagamentoFiltro = this.listaTipoPagamentoFiltroTodos;
+        }
+    
+        this.cdr.detectChanges();
+    
+      }
+
     carregarComboTipoPagamento() {
         this.service.ObterTiposPagamentos().subscribe(result => {
             this.listaTipoPagamentoFiltro = result.sort((a: any, b: any) =>
                 a.descricao.localeCompare(b.descricao, 'pt-BR', { sensitivity: 'base' })
             );
             this.form.controls["tipoPagamento"].setValue(this.idTipoPagamento);
-    
+            this.listaTipoPagamentoFiltroTodos = this.listaTipoPagamentoFiltro;
             this.cdr.detectChanges();
         });
     }
     
-    carregarComboCartoesDisponiveis(){
-        this.listaTipoPagamentoFiltro.forEach(element => {
-            if(element.Id === 3 && element.tipoPagamento === 'Cartão de Crédito'){
-                this.service.ObterCartoesPorUsuario(this.IdUsuario).subscribe(result=>{
-                    this.listaCartoesDisponiveisFiltro = result;
-                    this.tipoCartaoCredito = false;
-                    this.cdr.detectChanges();
-                });
-            }
-        });
+    // carregarComboCartoesDisponiveis(){
+    //     this.listaTipoPagamentoFiltro.forEach(element => {
+    //         if(element.Id === 3 && element.tipoPagamento === 'Cartão de Crédito'){
+    //             this.service.ObterCartoesPorUsuario(this.IdUsuario).subscribe(result=>{
+    //                 this.listaCartoesDisponiveisFiltro = result;
+    //                 this.tipoCartaoCredito = false;
+    //                 this.cdr.detectChanges();
+    //             });
+    //         }
+    //     });
         
-    }
+    // }
 }

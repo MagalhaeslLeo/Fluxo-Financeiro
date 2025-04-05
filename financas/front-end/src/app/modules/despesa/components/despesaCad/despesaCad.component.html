@@ -26,16 +26,57 @@
 
 
                             <div class="col-4">
-                                <mat-form-field>
-                                    <mat-label>Tipo de pagamento</mat-label>
 
-                                    <mat-select formControlName="tipoPagamento" (selectionChange)="carregarComboCartoesDisponiveis()">
+                                <mat-form-field class="custom-select">
+                                    <mat-label> Tipo de pagamento </mat-label>
+                                    <input formControlName="tipoPagamento" type="text" matInput [matAutocomplete]="autoResp">
+                                    <mat-autocomplete autoActiveFirstOption #autoResp="matAutocomplete"  [displayWith]="obterTipoPagamento" 
+                                    >
+                                      <!-- -->
+                                      <!-- (optionSelected)="aplicarFiltro()" -->
+                                      <mat-option>&lt;&lt;Selecione&gt;&gt;</mat-option>
+                                      <mat-option *ngFor="let item of listaTipoPagamentoFiltro" [value]="item">
+                                        {{item?.descricao}}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                    <span class="dropdown-icon">
+                                      <svg viewBox="0 0 24 24">
+                                        <path d="M7 10l5 5 5-5z"></path>
+                                      </svg>
+                                    </span>
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['tipoPagamento']"
+                                            [mensagens]="msgValidacao['tipoPagamento']">
+                                        </validacao-campo>
+                                    </mat-error>
+                                  </mat-form-field>
+                                <!-- <mat-form-field>
+
+                                    <mat-label>Tipo de pagamento</mat-label>
+                                    <input matInput [matAutocomplete]="autoResp01"
+                                    type="text" formControlName="tipoPagamento">
+                                    
+                                    <mat-autocomplete autoActiveFirstOption #autoResp01="matAutocomplete">
+                                     [displayWith]="obterTipoPagamento"> 
+                                    <mat-option>&lt;&lt;Selecione&lt;&lt;</mat-option>
                                         <mat-option *ngFor="let item of listaTipoPagamentoFiltro" [value]="item.idTipoPagamentoVO">
                                             {{item.descricao}}
                                         </mat-option>
-                                    </mat-select>
+                                    </mat-autocomplete>
 
-                                </mat-form-field>
+                                    <span class="dropdown-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M7 10l5 5 5-5z"></path>
+                                        </svg>
+                                    </span>
+     
+                                    <mat-error>
+                                        <validacao-campo [control]="form.controls['tipoPagamento']"
+                                            [mensagens]="msgValidacao['tipoPagamento']">
+                                        </validacao-campo>
+                                    </mat-error>
+
+                                </mat-form-field> -->
                             </div>
 
                             <div class="col-4">
@@ -65,7 +106,7 @@
                             </div>
 
                         </div>
-                        <div class="row" [hidden]="tipoCartaoCredito">
+                        <!-- <div class="row" [hidden]="tipoCartaoCredito">
                             <div class="col-6">
                                 <mat-form-field>
                                     <mat-label>Cartões Disponíveis</mat-label>
@@ -79,7 +120,7 @@
 
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
 
 
                     </div>

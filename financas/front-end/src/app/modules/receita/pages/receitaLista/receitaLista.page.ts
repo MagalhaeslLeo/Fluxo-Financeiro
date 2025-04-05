@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
@@ -79,7 +79,8 @@ export class ReceitaListaPage {
     protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
-    protected service: ReceitaService
+    protected service: ReceitaService,
+    private cdr: ChangeDetectorRef
   ) {
     this.formFiltro = this.criarForm();
     this.atualizarRegistros();
@@ -245,26 +246,53 @@ export class ReceitaListaPage {
 
 
   aplicarFiltroDescricaoReceita(pDescricaoReceita: any): void {
-
-    // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do ppa digitado pelo usuário
-    this.descricaoReceitaFiltro = this.descricaoReceitaFiltroTodos.filter(f => {
+    if(pDescricaoReceita.trim() >= 3){
+      // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do ppa digitado pelo usuário
+      this.descricaoReceitaFiltro = this.descricaoReceitaFiltroTodos.filter(f => {
 
       const receitaString = `${f.descricao}`;
-      return receitaString.includes(pDescricaoReceita);
 
-    });
+      return receitaString
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .includes(
+          pDescricaoReceita
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase());
+
+      });
+    }
+    else{
+      this.descricaoReceitaFiltro = this.descricaoReceitaFiltroTodos;
+    }
+    
+    this.cdr.detectChanges();
 
   }
 
   aplicarFiltroFonteDeRenda(pFonteDeRenda: any): void {
-
-    // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
-    this.fonteDeRendaFiltro = this.fonteDeRendaFiltroTodos.filter(f => {
+    if(pFonteDeRenda.trim() >= 3)
+    {
+      // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
+      this.fonteDeRendaFiltro = this.fonteDeRendaFiltroTodos.filter(f => {
       
       const fonteDeRendaString = `${f.fonteRendaVO.descricao}`
-      return fonteDeRendaString.includes(pFonteDeRenda);
 
-    });
+      return fonteDeRendaString
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .includes(
+         pFonteDeRenda
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase());
+
+});
+    }
+    
   }
   
   aplicarFiltroReceitaMensal(pReceitaMensal: any): void {

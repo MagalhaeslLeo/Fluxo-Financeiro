@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTabControl } from 'src/app/core/matTabControl';
@@ -78,7 +78,8 @@ export class DespesaListaPage {
     protected router: Router,
     //protected user: User,
     protected formBuilder: FormBuilder,
-    protected service: DespesaService
+    protected service: DespesaService,
+    private cdr : ChangeDetectorRef
   ) {
     this.formFiltro = this.criarForm();
     this.atualizarRegistros();
@@ -240,26 +241,60 @@ export class DespesaListaPage {
 
 
   aplicarFiltroDescricaoDespesa(pDescricaoDespesa: any): void {
+    const descricao = pDescricaoDespesa.trim()
+    if(descricao.length >= 3){
+      // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do ppa digitado pelo usuário
+      this.descricaoDespesaFiltro = this.descricaoDespesaFiltroTodos.filter(f => {
+      
+        const despesaString = `${f.descricao}`;
 
-    // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do ppa digitado pelo usuário
-    this.descricaoDespesaFiltro = this.descricaoDespesaFiltroTodos.filter(f => {
-
-      const despesaString = `${f.descricao}`;
-      return despesaString.includes(pDescricaoDespesa);
-
-    });
+        return despesaString
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .includes(
+          descricao
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+        );
+      
+      });
+    }
+    else{
+      this.descricaoDespesaFiltro = this.descricaoDespesaFiltroTodos;
+    }
+    
+    this.cdr.detectChanges();
 
   }
 
   aplicarFiltroTipoPagamento(pTipoPagamento: any): void {
-
+    const tipo = pTipoPagamento.trim();
+    if(tipo.length >= 3)
+    {
     // Filtra as opções disponíveis, mantendo apenas aquelas que incluem o conteúdo do númeroLDO digitado pelo usuário 
     this.tipoPagamentoFiltro = this.tipoPagamentoFiltroTodos.filter(f => {
 
-      const tipoPagamentoString = `${f.tipoPagamentoVO.descricao}`
-      return tipoPagamentoString.includes(pTipoPagamento);
+      const tipoPagamentoString = `${f.tipoPagamentoVO.descricao}`;
+
+      return tipoPagamentoString
+      .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .includes(tipo.normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+      );
 
     });
+    }
+    else{
+      this.tipoPagamentoFiltro = this.tipoPagamentoFiltroTodos;
+    }
+
+    this.cdr.detectChanges();
+
   }
 
   aplicarFiltroDespesaMensal(pDespesaMensal: any): void {
